@@ -39,7 +39,7 @@ namespace Mischpult
         /// <summary>4.1: zusaetzliche Argumente beim Neustart (z. B. "--abgesichert").</summary>
         public static string RestartArgs;
         public const string Author = "D3r_Jan";
-        public const string Version = "4.2.6";
+        public const string Version = "4.2.7";
         /// <summary>4.1: GitHub-Projekt fuer "online nach Updates suchen" ("Benutzer/Projekt", leer = keins eingebaut).</summary>
         public const string UpdateRepoDefault = "D3rJan-Projekt/Mischpult";
 
@@ -86,6 +86,7 @@ namespace Mischpult
                 if (args[i].Equals("--profil", StringComparison.OrdinalIgnoreCase)) MixerSettings.ProfileArg = MixerSettings.CleanProfileName(args[i + 1]) ?? "";
             if (Win32.IsWindows && !demo) { try { QuitMessage = Win32.RegisterWindowMessage("MISCHPULT_QUIT_7F3A"); } catch { } }
             if (!demo) UI.Update410.CleanLater(UI.Update410.CleanArgOf(args));   // 4.2.4: heruntergeladene EXE nach dem Installieren wegraeumen
+            if (!demo && Win32.IsWindows && args.Any(a => a.Equals("--admin", StringComparison.OrdinalIgnoreCase))) return UI.Installer.RunAdmin(args);   // 4.2.7
             if (!demo && args.Any(a => a.Equals("--uninstall", StringComparison.OrdinalIgnoreCase)))
             {
                 Application.EnableVisualStyles();

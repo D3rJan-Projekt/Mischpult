@@ -340,8 +340,8 @@ namespace Mischpult.UI
             if (_demo) { ShowOsd("Vorige Version", "Vorschau: nichts geändert", -1, Theme.Accent); return; }
             RememberWindow();
             SaveNow();
-            string err = Update410.RestorePrevious();
-            if (err != null) { MessageBox.Show(_settingsWin ?? (IWin32Window)this, "Das hat nicht geklappt: " + err, "Mischpult", MessageBoxButtons.OK, MessageBoxIcon.Warning); return; }
+            string err = Installer.Machine && !Installer.IsElevated ? Installer.RunElevated("--admin restore") : Update410.RestorePrevious();   // 4.2.7
+            if (err != null) { MessageBox.Show(_settingsWin ?? (IWin32Window)this, (err == Installer.Cancelled ? "Abgebrochen – ohne Admin-Rechte lässt sich im Programme-Ordner nichts ändern." : "Das hat nicht geklappt: " + err), "Mischpult", MessageBoxButtons.OK, MessageBoxIcon.Warning); return; }
             _importing = true;
             Program.RestartPath = Installer.InstallExe;
             Program.RestartRequested = true;

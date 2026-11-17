@@ -62,7 +62,9 @@ Windows hat nur einen kleinen Lautstärkemixer. Das **Mischpult** macht daraus e
 
 1. Unter **[Releases](../../releases/latest)** die neueste `Mischpult.exe` herunterladen.
 2. Doppelklick auf die Datei. Es erscheint ein Fenster mit zwei Möglichkeiten:
-   - **Installieren** – Startmenü, Desktop-Verknüpfung und Eintrag unter Windows → Apps, ohne Admin-Rechte.
+   - **Installieren** – Startmenü, Desktop-Verknüpfung und Eintrag unter Windows → Apps. Du wählst, wohin:
+     - **Programme-Ordner** (`C:\Programme\Mischpult`) für alle Benutzer – Windows fragt dafür nach Admin-Rechten, auch bei Updates.
+     - **Nur für mich** – ohne Admin-Abfrage.
    - **Nur ausprobieren** – startet ohne Installation.
 3. Fertig.
 
@@ -152,6 +154,7 @@ dotnet build -c Release -p:FrameworkPathOverride=/usr/lib/mono/4.8-api
 
 | Version | Neu |
 |---|---|
+| **4.2.7** | Installieren wahlweise in den Programme-Ordner (für alle Benutzer) oder nur für dich |
 | **4.2.6** | „Auf GitHub“ und „Fehler melden“ direkt im Pult · die EXE baut GitHub jetzt selbst aus dem Quellcode |
 | **4.2.5** | Updates automatisch installieren – neue Versionen kommen beim Start von selbst |
 | **4.2.4** | Aufräumen nach Installieren und Deinstallieren ohne Hilfsbefehl im Hintergrund – weniger Fehlalarme beim Virenschutz |

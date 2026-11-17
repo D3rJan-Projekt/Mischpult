@@ -35,6 +35,9 @@ namespace Mischpult.UI
         public AskWin410 AddKey(string id, string text, bool primary = false, bool left = false) { _keys.Add(new Key { Id = id, Text = text, Primary = primary, Left = left }); return this; }
         public AskWin410 AddCheck(string id, string text, bool on, Func<bool> visible = null) { Checks.Add(new Check { Id = id, Text = text, On = on, Visible = visible }); return this; }
         public bool IsOn(string id) { var c = Checks.FirstOrDefault(x => x.Id == id); return c != null && c.On && (c.Visible == null || c.Visible()); }
+        /// <summary>4.2.7: Schalter, von denen immer genau einer an ist (wie Auswahlknoepfe).</summary>
+        public AskWin410 Group(params string[] ids) { _groups.Add(ids); return this; }
+        private readonly List<string[]> _groups = new List<string[]>();
         public void SetKeys(params string[] idTextPairs)
         {
             _keys.Clear();
@@ -183,7 +186,9 @@ namespace Mischpult.UI
                 if (kv.Value.Contains(e.Location))
                 {
                     var c = Checks.First(x => x.Id == kv.Key);
-                    c.On = !c.On;
+                    var grp = _groups.FirstOrDefault(gr => gr.Contains(c.Id));
+                    if (grp != null) { foreach (var o in Checks) if (grp.Contains(o.Id)) o.On = o == c; }   // genau einer
+                    else c.On = !c.On;
                     Invalidate();
                     return true;
                 }
@@ -260,7 +265,11 @@ namespace Mischpult.UI
                 if (Update410.OtherRunning() && !Update410.QuitRunning(8000)) return false;
                 bool backup = pre != null && pre.UpdateBackupOn;
                 if (backup) Update410.BackupSettings("vor-update-" + Program.Version);
-                if (Update410.InstallSelf(File.Exists(Installer.DesktopLink), backup) != null) return false;
+                bool desk = File.Exists(Installer.DesktopLink);
+                string err = Installer.Machine && !Installer.IsElevated
+                    ? Installer.RunElevated(Installer.AdminInstallArgs(desk, backup, true))   // 4.2.7: Programme-Ordner – Windows fragt einmal
+                    : Update410.InstallSelf(desk, backup);
+                if (err != null) return false;
                 Update410.StartInstalled(Application.ExecutablePath);   // die geladene Datei raeumt die installierte Version weg
                 return true;
             }
@@ -296,13 +305,20 @@ namespace Mischpult.UI
             {
                 case 0:
                     w.Heading = "Mischpult installieren?";
-                    w.Body = "Das Mischpult kommt in deinen Programme-Ordner, ins Startmenü und unter Windows-Einstellungen → Apps – dort lässt es sich auch wieder entfernen. Keine Admin-Rechte nötig.";
+                    w.Body = "Das Mischpult kommt ins Startmenü und unter Windows-Einstellungen → Apps – dort lässt es sich auch wieder entfernen. Wohin soll es?";
+                    // 4.2.7: Programme-Ordner (fuer alle, Windows fragt nach Admin-Rechten) oder nur fuer mich (ohne)
+                    w.AddCheck("pf", "Programme-Ordner – für alle Benutzer (Windows fragt nach Admin-Rechten)", true);
+                    w.AddCheck("me", "Nur für mich – ohne Admin-Abfrage", false);
+                    w.Group("pf", "me");
                     w.AddCheck("desk", "Verknüpfung auf dem Desktop", true);
                     break;
                 case 1:
                     w.Heading = "Update auf Mischpult " + Program.Version;
                     w.Body = "Installiert ist " + (inst?.Text ?? "eine ältere Version") + ", diese Datei ist " + self.Text + ". Deine Einstellungen bleiben, wie sie sind" +
-                             (backup ? " – vorher wird alles gesichert, und die alte Version wird aufgehoben." : ".");
+                             (backup ? " – vorher wird alles gesichert, und die alte Version wird aufgehoben." : ".") +
+                             (Installer.MachineInstalled ? " Das Mischpult liegt im Programme-Ordner – Windows fragt kurz nach Admin-Rechten." : "");
+                    // 4.2.7: alte Installation "nur fuer mich" – auf Wunsch in den Programme-Ordner umziehen
+                    if (!Installer.MachineInstalled) w.AddCheck("move", "In den Programme-Ordner umziehen (Windows fragt nach Admin-Rechten)", true);
                     if (pre != null && pre.UpdateNewsOn) { w.ListTitle = "Neu seit " + (inst?.Version ?? "deiner Version"); w.List = NewsTitles(inst?.Version); }
                     break;
                 case 2:
@@ -364,17 +380,24 @@ namespace Mischpult.UI
                 w.ShowBusy("Die laufende Version wird beendet …");
                 Update410.QuitRunning(8000);
             }
-            w.ShowBusy(mode == 1 ? "Wird aktualisiert …" : "Wird installiert …");
-            if (mode == 1 && pre != null && pre.UpdateBackupOn) Update410.BackupSettings("vor-update-" + Program.Version);
+            // 4.2.7: Ziel – Programme-Ordner oder nur fuer mich
+            bool machine = mode == 0 ? w.IsOn("pf") : Installer.MachineInstalled || w.IsOn("move");
+            bool backupNow = mode == 1 && pre != null && pre.UpdateBackupOn;
+            w.ShowBusy(machine && !Installer.IsElevated ? "Windows fragt nach Admin-Rechten …" : mode == 1 ? "Wird aktualisiert …" : "Wird installiert …");
+            if (backupNow) Update410.BackupSettings("vor-update-" + Program.Version);
             Never(w, pre);
             bool desk = mode == 0 ? w.IsOn("desk") : File.Exists(Installer.DesktopLink);
-            string err = Update410.InstallSelf(desk, mode == 1 && pre != null && pre.UpdateBackupOn);
+            string err;
+            if (machine && !Installer.IsElevated) err = Installer.RunElevated(Installer.AdminInstallArgs(desk, backupNow, true));
+            else { Installer.Target = machine; err = Update410.InstallSelf(desk, backupNow); }
+            Installer.Target = machine;   // ab hier zeigt InstallExe auf die neue Installation
             if (err == null && pkg != null) err = Package410.Import(pkg);
             if (err != null)
             {
                 w.Busy = null;
-                w.Heading = "Das hat nicht geklappt";
-                w.Body = err + "\n\nTipp: Mischpult über das Symbol unten rechts beenden und nochmal versuchen.";
+                Installer.Target = null;
+                w.Heading = err == Installer.Cancelled ? "Abgebrochen" : "Das hat nicht geklappt";
+                w.Body = err + (err == Installer.Cancelled ? "" : "\n\nTipp: Mischpult über das Symbol unten rechts beenden und nochmal versuchen.");
                 w.Relayout();
                 return false;
             }

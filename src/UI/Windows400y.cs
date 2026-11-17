@@ -371,6 +371,7 @@ namespace Mischpult.UI
 
         internal static readonly string[][] Chronicle =
         {
+            new[] { "4.2.7", "Installieren wahlweise in den Programme-Ordner (für alle Benutzer, Windows fragt nach Admin-Rechten) oder nur für dich wie bisher. Eine vorhandene Installation zieht beim Update auf Wunsch um." },
             new[] { "4.2.6", "GitHub-Links: „Auf GitHub“ und „Fehler melden“ im Über-Fenster (Schalter unter OPTIONEN → Allgemein). Neue Versionen baut GitHub jetzt selbst aus dem öffentlichen Quellcode." },
             new[] { "4.2.5", "Updates automatisch installieren: Schalter unter OPTIONEN → Allgemein – neue Versionen kommen beim Start von selbst, ohne Klick." },
             new[] { "4.2.4", "Aufräumen nach dem Installieren und Deinstallieren ohne Hilfsbefehl im Hintergrund – weniger, was ein Virenscanner fälschlich für verdächtig halten kann. „Online nach Updates suchen“ kennt jetzt das GitHub-Projekt D3rJan-Projekt/Mischpult." },

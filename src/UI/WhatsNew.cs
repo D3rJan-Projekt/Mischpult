@@ -11,7 +11,8 @@ namespace Mischpult.UI
         /// <summary>4.2: Neuheiten (Titel, dann Paare Name/Erklaerung).</summary>
         internal static readonly string[][] Sections42 =
         {
-            new[] { "Aktualisieren & GitHub (4.2.5 – 4.2.6)",
+            new[] { "Installieren, Aktualisieren & GitHub (4.2.5 – 4.2.7)",
+                "Programme-Ordner", "Beim Installieren wählen: Programme-Ordner für alle Benutzer oder nur für dich ohne Admin-Abfrage. Beim Update zieht eine alte Installation auf Wunsch um.",
                 "Updates automatisch installieren", "Findet das Mischpult beim Start eine neue Version auf GitHub, installiert es sie selbst – ohne Klick.",
                 "GitHub-Links", "„Auf GitHub“ und „Fehler melden“ im Über-Fenster – öffnet die Projektseite bzw. ein vorausgefülltes Formular." },
             new[] { "Ducking-Feinschliff (4.2.3)",

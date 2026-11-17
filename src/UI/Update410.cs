@@ -310,12 +310,7 @@ namespace Mischpult.UI
                 try { File.Delete(PrevExe); } catch { }
                 if (moved) try { File.Move(SwapExe, PrevExe); } catch { }
                 var now = Read(Installer.InstallExe);
-                try
-                {
-                    using (var k = Registry.CurrentUser.OpenSubKey(@"Software\Microsoft\Windows\CurrentVersion\Uninstall\Mischpult", true))
-                        if (k != null && now?.Version != null) k.SetValue("DisplayVersion", now.Version);
-                }
-                catch { }
+                Installer.SetDisplayVersion(now?.Version);   // 4.2.7: auch im Programme-Ordner
                 return null;
             }
             catch (Exception ex) { return ex.Message; }

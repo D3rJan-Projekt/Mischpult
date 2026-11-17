@@ -345,16 +345,41 @@ namespace Mischpult.UI
         {
             var m = NewMenu();
             m.ShowImageMargin = false;
-            m.Items.Add(new ToolStripMenuItem("Installieren – mit Desktop-Verknüpfung", null, (s, e) => BeginInvoke(new Action(() => Install400(true)))));
-            m.Items.Add(new ToolStripMenuItem("Installieren – nur Startmenü", null, (s, e) => BeginInvoke(new Action(() => Install400(false)))));
-            m.Items.Add(Hint("Nach " + Installer.InstallDir.Replace(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile), "%UserProfile%") + " – keine Admin-Rechte nötig."));
+            // 4.2.7: Programme-Ordner (fuer alle, Windows fragt nach Admin-Rechten) oder nur fuer mich (ohne)
+            bool fixedPlace = Installer.IsInstalled;   // schon installiert: am selben Ort erneuern
+            if (!fixedPlace || Installer.MachineInstalled)
+            {
+                m.Items.Add(new ToolStripMenuItem("Programme-Ordner – mit Desktop-Verknüpfung", null, (s, e) => BeginInvoke(new Action(() => Install400(true, true)))));
+                m.Items.Add(new ToolStripMenuItem("Programme-Ordner – nur Startmenü", null, (s, e) => BeginInvoke(new Action(() => Install400(false, true)))));
+                m.Items.Add(Hint("Nach " + Installer.MachineDir + " – für alle Benutzer, Windows fragt nach Admin-Rechten."));
+            }
+            if (!fixedPlace) m.Items.Add(new ToolStripSeparator());
+            if (!fixedPlace || !Installer.MachineInstalled)
+            {
+                m.Items.Add(new ToolStripMenuItem("Nur für mich – mit Desktop-Verknüpfung", null, (s, e) => BeginInvoke(new Action(() => Install400(true, false)))));
+                m.Items.Add(new ToolStripMenuItem("Nur für mich – nur Startmenü", null, (s, e) => BeginInvoke(new Action(() => Install400(false, false)))));
+                m.Items.Add(Hint("Nach " + Installer.UserDir.Replace(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile), "%UserProfile%") + " – keine Admin-Rechte nötig."));
+            }
+            if (fixedPlace && !Installer.MachineInstalled)
+            {
+                m.Items.Add(new ToolStripSeparator());
+                m.Items.Add(new ToolStripMenuItem("In den Programme-Ordner umziehen", null, (s, e) => BeginInvoke(new Action(() => Install400(File.Exists(Installer.DesktopLink), true)))));
+                m.Items.Add(Hint("Für alle Benutzer – Windows fragt nach Admin-Rechten. Einstellungen bleiben."));
+            }
             ShowMenuAt(m, at);
         }
 
-        private void Install400(bool desktop)
+        private void Install400(bool desktop, bool machine)
         {
-            string err = Installer.Install(desktop);
-            if (err != null) { MessageBox.Show(_settingsWin ?? (IWin32Window)this, "Installieren hat nicht geklappt: " + err, "Mischpult", MessageBoxButtons.OK, MessageBoxIcon.Warning); return; }
+            string err;
+            if (machine && !Installer.IsElevated)
+            {
+                SaveNow();
+                err = Installer.RunElevated(Installer.AdminInstallArgs(desktop, false, true));   // 4.2.7: Windows fragt einmal
+            }
+            else { Installer.Target = machine; err = Update410.InstallSelf(desktop, false); }
+            Installer.Target = err == null ? machine : (bool?)null;
+            if (err != null) { MessageBox.Show(_settingsWin ?? (IWin32Window)this, (err == Installer.Cancelled ? err : "Installieren hat nicht geklappt: " + err), "Mischpult", MessageBoxButtons.OK, MessageBoxIcon.Warning); return; }
             if (Installer.RunningInstalled)
             {
                 MessageBox.Show(_settingsWin ?? (IWin32Window)this, "Fertig: Verknüpfungen und Windows-Eintrag sind erneuert.", "Mischpult", MessageBoxButtons.OK, MessageBoxIcon.Information);
@@ -371,6 +396,15 @@ namespace Mischpult.UI
 
         private void Uninstall400()
         {
+            if (Installer.Machine && !Installer.IsElevated && !_demo)   // 4.2.7: Programme-Ordner – das Deinstallieren fragt selbst und braucht Admin-Rechte
+            {
+                if (MessageBox.Show(_settingsWin ?? (IWin32Window)this, "Mischpult deinstallieren? Windows fragt dafür nach Admin-Rechten, danach kommen die Fragen zum Deinstallieren. Das Mischpult beendet sich.",
+                        "Mischpult", MessageBoxButtons.OKCancel, MessageBoxIcon.Question) != DialogResult.OK) return;
+                try { Process.Start(new ProcessStartInfo(Installer.InstallExe, "--uninstall") { Verb = "runas", UseShellExecute = true }); }
+                catch (System.ComponentModel.Win32Exception ex) when (ex.NativeErrorCode == 1223) { return; }
+                catch (Exception ex) { MessageBox.Show(this, "Das hat nicht geklappt: " + ex.Message, "Mischpult"); return; }
+                return;   // das Deinstallieren beendet dieses Mischpult selbst
+            }
             bool wipe = false;
             if (_settings.UninstallAskOn && !_demo)   // 4.1: Einstellungen auf Wunsch mit loeschen
             {
@@ -464,7 +498,7 @@ namespace Mischpult.UI
                 () => _settings.SimpleSettings, v => SetSimple400(v));
             p.Button("Mischpult installieren", () => Installer.IsInstalled
                     ? "Installiert unter " + Installer.InstallDir + (Installer.RunningInstalled ? " (läuft gerade)." : ". Diese EXE hier ist eine andere Datei – „Aktualisieren“ kopiert sie dorthin.")
-                    : "Kopiert die EXE in deinen Programme-Ordner, legt eine Verknüpfung ins Startmenü (und auf Wunsch auf den Desktop) und trägt das Mischpult unter Windows-Einstellungen → Apps ein – dort lässt es sich auch wieder entfernen. Keine Admin-Rechte nötig.",
+                    : "Kopiert die EXE in den Programme-Ordner (für alle Benutzer, Windows fragt nach Admin-Rechten) oder nur für dich (ohne Admin-Rechte), legt eine Verknüpfung ins Startmenü (und auf Wunsch auf den Desktop) und trägt das Mischpult unter Windows-Einstellungen → Apps ein – dort lässt es sich auch wieder entfernen.",
                 () => Installer.IsInstalled ? (Installer.RunningInstalled ? "Erneuern …" : "Aktualisieren …") : "Installieren …", r => ShowInstallMenu400(r),
                 () => Installer.IsInstalled ? "installiert" + (Installer.InstalledVersion != null ? " (" + Installer.InstalledVersion + ")" : "") : "nicht installiert")
                 .Enabled = () => Win32.IsWindows && !_demo;
