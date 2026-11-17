@@ -1,0 +1,45 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <!--
+    Mischpult – Windows App-Audio-Mixer
+    Ziel: .NET Framework 4.8 (ist in Windows 10/11 bereits enthalten, keine Installation nötig).
+
+    Bauen unter Windows:   dotnet build -c Release
+    Bauen unter Linux:     Mono installieren (liefert die 4.8-Referenzassemblys), dann
+                           dotnet build -c Release -p:FrameworkPathOverride=/usr/lib/mono/4.8-api
+  -->
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net48</TargetFramework>
+    <LangVersion>latest</LangVersion>
+    <Nullable>disable</Nullable>
+    <AssemblyName>Mischpult</AssemblyName>
+    <RootNamespace>Mischpult</RootNamespace>
+    <ApplicationIcon>assets\app.ico</ApplicationIcon>
+    <ApplicationManifest>assets\app.manifest</ApplicationManifest>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <Prefer32Bit>false</Prefer32Bit>
+    <DebugType>none</DebugType>
+    <GenerateDocumentationFile>false</GenerateDocumentationFile>
+    <Version>4.2.4</Version>
+    <Product>Mischpult</Product>
+    <Company>D3r_Jan</Company>
+    <Authors>D3r_Jan</Authors>
+    <Description>Mischpult – App-Audio-Mixer für Windows, made by D3r_Jan</Description>
+    <Copyright>© 2026 D3r_Jan</Copyright>
+    <AutomaticallyUseReferenceAssemblyPackages Condition="'$(FrameworkPathOverride)' != ''">false</AutomaticallyUseReferenceAssemblyPackages>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Security" />
+    <Reference Include="System.IO.Compression" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="assets\app.ico" LogicalName="Mischpult.app.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <!-- Bauzeit: damit eine neue EXE eine noch laufende alte Version abloesen kann -->
+    <AssemblyMetadata Include="BuildStamp" Value="$([System.DateTime]::UtcNow.ToString('yyyyMMddHHmm'))" />
+  </ItemGroup>
+</Project>
