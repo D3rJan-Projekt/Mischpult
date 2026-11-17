@@ -11,6 +11,8 @@ namespace Mischpult.UI
         /// <summary>4.2: Neuheiten (Titel, dann Paare Name/Erklaerung).</summary>
         internal static readonly string[][] Sections42 =
         {
+            new[] { "Aktualisieren (4.2.5)",
+                "Updates automatisch installieren", "Findet das Mischpult beim Start eine neue Version auf GitHub, installiert es sie selbst – ohne Klick." },
             new[] { "Ducking-Feinschliff (4.2.3)",
                 "Lämpchen bei den Auslösern", "Im Ducking-Fenster leuchtet neben jedem Auslöser ein Punkt, wenn er gerade auslöst.",
                 "Kurze Geräusche ignorieren", "Tippen, Mausklicks und Pieptöne machen die Musik nicht mehr leiser.",
@@ -268,7 +270,7 @@ namespace Mischpult.UI
                     Theme.Str(g, part == 0 ? "Neu in Mischpult " + Program.Version : part == 1 ? "Aus Version 4.1" : "Aus Version 4.0", part == 0 ? big : Theme.Ui(17f, FontStyle.Bold), tb, new RectangleF(x, y, w, Theme.F(34)), Theme.Left);
                     y += Theme.F(part == 0 ? 38 : 32);
                     string sub = part == 0
-                        ? Count42 + " neue Sachen: Ducking-Feinschliff, Optik (Designs, Hintergründe, Wände, Tisch, RGB-Welle, Fensterrand, Startbild) und Extras – jede einzeln an- und ausschaltbar unter OPTIONEN → Automatik („Ducking“), Aussehen („4.2 – Optik“), Allgemein („4.2 – Komfort“) und Fenster & Verbindungen. Alles ist zuerst aus." +
+                        ? Count42 + " neue Sachen: automatische Updates, Ducking-Feinschliff, Optik (Designs, Hintergründe, Wände, Tisch, RGB-Welle, Fensterrand, Startbild) und Extras – jede einzeln an- und ausschaltbar unter OPTIONEN → Allgemein, Automatik („Ducking“), Aussehen („4.2 – Optik“), Allgemein („4.2 – Komfort“) und Fenster & Verbindungen. Alles ist zuerst aus." +
                           (ToggleFor != null ? " Mit dem Schalter rechts schaltest du eine Neuheit gleich hier ein." : "")
                         : part == 1
                         ? Count41 + " Funktionen rund ums Installieren, Aktualisieren und Aufräumen – unter OPTIONEN → Allgemein (Abschnitte „4.1“) und Sichern."

@@ -21,7 +21,7 @@ namespace Mischpult.UI
         internal static readonly string[] Bools410 =
         {
             "DropUpdateOn", "DownloadWatchOn", "UpdateBackupOn", "StartGuardOn", "UninstallAskOn", "OnlineUpdateOn", "PackageOn",
-            "UpdateNewsOn", "SafeStartOn", "RepairOn", "OverviewOn",
+            "UpdateNewsOn", "SafeStartOn", "RepairOn", "OverviewOn", "AutoUpdateOn",
         };
 
         private double _now410;
@@ -75,7 +75,8 @@ namespace Mischpult.UI
             if (_settings.OnlineUpdateOn && !_onlineBusy410 && _onlineAt410 >= 0 && now >= _onlineAt410)
             {
                 _onlineAt410 = now + 6 * 3600;
-                if (DateTime.UtcNow.Ticks - _settings.UpdateLastCheck > TimeSpan.FromHours(20).Ticks) CheckOnline410(false);
+                bool auto = _settings.AutoUpdateOn && now < 180;   // 4.2.5: kurz nach dem Start immer nachsehen und selbst installieren
+                if (auto || DateTime.UtcNow.Ticks - _settings.UpdateLastCheck > TimeSpan.FromHours(20).Ticks) CheckOnline410(false, auto);
             }
         }
 
@@ -160,7 +161,7 @@ namespace Mischpult.UI
         }
 
         /// <summary>Neuere EXE starten – sie zeigt das Update-Fenster und loest diese Version ab.</summary>
-        private void UpdateFromExe410(string path)
+        private void UpdateFromExe410(string path, bool auto = false)
         {
             var e = Update410.Read(path);
             if (e == null || !e.IsMischpult) { ShowOsd("Update", "Das ist keine Mischpult-Datei", -1, Theme.MuteRed); return; }
@@ -169,7 +170,7 @@ namespace Mischpult.UI
             if (_demo) { ShowOsd("Update", "Vorschau: " + e.Text, -1, Theme.Accent); return; }
             RememberWindow();
             SaveNow();
-            try { Process.Start(path, "--update"); }
+            try { Process.Start(path, auto ? "--update --auto-update" : "--update"); }   // 4.2.5: ohne Fenster
             catch (Exception ex) { ShowOsd("Update", "Ließ sich nicht starten: " + ex.Message, -1, Theme.MuteRed); }
         }
 
@@ -243,7 +244,7 @@ namespace Mischpult.UI
         private bool _onlineBusy410;
         private string _onlineStatus410;
 
-        private void CheckOnline410(bool manual)
+        private void CheckOnline410(bool manual, bool auto = false)
         {
             if (_onlineBusy410) return;
             string repo = _settings.UpdateRepoNow;
@@ -275,6 +276,7 @@ namespace Mischpult.UI
                         if (f == null) { _onlineStatus410 = when + (err ?? "nichts gefunden."); if (manual) ShowOsd("Updates", err ?? "Nichts gefunden", -1, Theme.SoloAmber); return; }
                         if (!f.IsNewer) { _onlineStatus410 = when + "du hast die neueste Version (" + Program.Version + ")."; if (manual) ShowOsd("Updates", "Du hast die neueste Version", -1, Theme.LedGreen); return; }
                         _onlineStatus410 = when + "Mischpult " + f.Version + " ist da.";
+                        if (auto && !manual && f.Version != _settings.UpdateSkip && AutoInstallOk425) { AutoInstall425(f); return; }   // 4.2.5
                         if (manual || f.Version != _settings.UpdateSkip) ShowOnlineNotice410(f);
                     }));
                 }
@@ -614,6 +616,8 @@ namespace Mischpult.UI
             p.Toggle("Online nach Updates suchen", () => "Schaut einmal am Tag beim GitHub-Projekt nach einer neuen Version und installiert sie auf Knopfdruck. Ohne diesen Schalter verbindet sich das Mischpult nie mit dem Internet." +
                     (string.IsNullOrEmpty(_settings.UpdateRepoNow) ? " Dafür das Projekt eintragen (darunter)." : ""),
                 () => _settings.OnlineUpdateOn, v => { _settings.OnlineUpdateOn = v; if (v) { _onlineAt410 = _now410 + 3; _settings.UpdateLastCheck = 0; } ScheduleSave(); });
+            p.Toggle("Updates automatisch installieren", "Findet das Mischpult beim Start eine neue Version, lädt und installiert es sie gleich selbst – ohne Klick, deine Einstellungen bleiben. Läuft gerade ein Spiel im Vordergrund, kommt stattdessen der Hinweis. Eine übersprungene Version bleibt übersprungen.",
+                () => _settings.AutoUpdateOn, v => { _settings.AutoUpdateOn = v; ScheduleSave(); }).Visible = () => _settings.OnlineUpdateOn;   // 4.2.5
             p.Button("GitHub-Projekt", () => "Woher die Updates kommen: „Benutzer/Projekt“ (oder die Adresse von GitHub). Dort muss beim neuesten Release eine Mischpult.exe liegen.",
                 () => "Ändern …", r => EditRepo410(), () => string.IsNullOrEmpty(_settings.UpdateRepoNow) ? "keins" : _settings.UpdateRepoNow).Visible = () => _settings.OnlineUpdateOn;
             p.Button("Jetzt nach Updates suchen", () => _onlineStatus410 ?? (_settings.UpdateLastCheck > 0 ? "Zuletzt nachgesehen: " + new DateTime(_settings.UpdateLastCheck, DateTimeKind.Utc).ToLocalTime().ToString("dd.MM.yyyy HH:mm") + " Uhr." : "Noch nicht nachgesehen."),

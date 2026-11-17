@@ -39,7 +39,7 @@ namespace Mischpult
         /// <summary>4.1: zusaetzliche Argumente beim Neustart (z. B. "--abgesichert").</summary>
         public static string RestartArgs;
         public const string Author = "D3r_Jan";
-        public const string Version = "4.2.4";
+        public const string Version = "4.2.5";
         /// <summary>4.1: GitHub-Projekt fuer "online nach Updates suchen" ("Benutzer/Projekt", leer = keins eingebaut).</summary>
         public const string UpdateRepoDefault = "D3rJan-Projekt/Mischpult";
 
@@ -76,6 +76,8 @@ namespace Mischpult
             try { shiftAtStart = (Control.ModifierKeys & Keys.Shift) != 0; } catch { }
             bool safeArg = args.Any(a => a.Equals("--abgesichert", StringComparison.OrdinalIgnoreCase));
             bool forcedUpdate = args.Any(a => a.Equals("--update", StringComparison.OrdinalIgnoreCase));
+            bool autoUpdate = args.Any(a => a.Equals("--auto-update", StringComparison.OrdinalIgnoreCase));   // 4.2.5: ohne Fenster
+            forcedUpdate |= autoUpdate;
 
             string cmd = CommandArg(args);
             string openFile = UI.FileAssoc420.OpenArg(args);   // 4.2: Doppelklick auf eine Mischpult-Datei
@@ -97,6 +99,7 @@ namespace Mischpult
             {
                 MixerSettings pre = null;
                 try { pre = MixerSettings.Load(); } catch { }
+                if (autoUpdate && UI.InstallFlow410.RunAuto(pre)) return 0;   // 4.2.5: geklappt – die installierte Version laeuft schon
                 if (pre != null && (forcedUpdate || !pre.InstallPromptOff))
                 {
                     InitUi();

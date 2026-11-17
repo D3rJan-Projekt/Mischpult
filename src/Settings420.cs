@@ -32,6 +32,8 @@ namespace Mischpult
         [DataMember] public bool DuckFadeOn;         // Uebergang selbst einstellen
         [DataMember] public int DuckDownMs;          //     leiser werden dauert (0 = 100 ms, 1 = sofort)
         [DataMember] public int DuckUpMs;            //     lauter werden dauert (0 = 600 ms)
+        // ---- 4.2.5
+        [DataMember] public bool AutoUpdateOn;       // Updates beim Start automatisch installieren (braucht OnlineUpdateOn)
 
         public static readonly int[] DuckMinTalkValues = { 100, 200, 300, 400, 500, 700, 1000 };
         public static readonly int[] DuckDownValues = { 1, 50, 100, 200, 300, 500, 1000, 2000 };

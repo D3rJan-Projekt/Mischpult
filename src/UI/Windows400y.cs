@@ -369,6 +369,7 @@ namespace Mischpult.UI
 
         internal static readonly string[][] Chronicle =
         {
+            new[] { "4.2.5", "Updates automatisch installieren: Schalter unter OPTIONEN → Allgemein – neue Versionen kommen beim Start von selbst, ohne Klick." },
             new[] { "4.2.4", "Aufräumen nach dem Installieren und Deinstallieren ohne Hilfsbefehl im Hintergrund – weniger, was ein Virenscanner fälschlich für verdächtig halten kann. „Online nach Updates suchen“ kennt jetzt das GitHub-Projekt D3rJan-Projekt/Mischpult." },
             new[] { "4.2.3", "Ducking-Feinschliff: Lämpchen bei den Auslösern, kurze Geräusche ignorieren, Übergang einstellbar, MIKRO auch in den Ducking-Regeln." },
             new[] { "4.2.2", "Ducking: auch dein Mikrofon kann Auslöser sein – Musik wird leiser, wenn du selbst sprichst." },

@@ -247,6 +247,26 @@ namespace Mischpult.UI
         /// Das Fenster beim Start (bzw. nach "--update"). true = das Mischpult startet danach ganz normal aus dieser Datei,
         /// false = fertig (installierte Version gestartet oder abgebrochen).
         /// </summary>
+        /// <summary>
+        /// 4.2.5: "--auto-update" – ohne Fenster aktualisieren. Nur wenn installiert ist und diese Datei neuer ist;
+        /// sonst false (dann kommt das normale Fenster).
+        /// </summary>
+        public static bool RunAuto(MixerSettings pre)
+        {
+            try
+            {
+                if (!Win32.IsWindows || !Installer.IsInstalled || Installer.RunningInstalled || MixerSettings.Portable) return false;
+                if (ModeFor(Update410.Read(Installer.InstallExe), true) != 1) return false;
+                if (Update410.OtherRunning() && !Update410.QuitRunning(8000)) return false;
+                bool backup = pre != null && pre.UpdateBackupOn;
+                if (backup) Update410.BackupSettings("vor-update-" + Program.Version);
+                if (Update410.InstallSelf(File.Exists(Installer.DesktopLink), backup) != null) return false;
+                Update410.StartInstalled(Application.ExecutablePath);   // die geladene Datei raeumt die installierte Version weg
+                return true;
+            }
+            catch { return false; }
+        }
+
         public static bool Run(MixerSettings pre, bool forced)
         {
             var w = Build(pre, forced, out int mode);

@@ -361,7 +361,7 @@ namespace Mischpult.UI
             "MultiOutput", "StreamOn", "StreamMute", "StreamDevice", "StreamDeviceName", "StreamMasterDb", "VoiceOn", "VoiceDevice", "VoiceDeviceName",
             "VoiceGateOn", "VoiceGateDb", "VoiceMuteInPath", "PttMode", "PttKeys", "DuckOn", "DuckAmount", "DuckThreshold", "DuckHold",
             "InstallPromptOff", "DropUpdateOn", "DownloadWatchOn", "DownloadIgnore", "UpdateBackupOn", "StartGuardOn", "UninstallAskOn",
-            "OnlineUpdateOn", "UpdateRepo", "UpdateLastCheck", "UpdateSkip", "PackageOn", "UpdateNewsOn", "SafeStartOn", "RepairOn",
+            "OnlineUpdateOn", "AutoUpdateOn", "UpdateRepo", "UpdateLastCheck", "UpdateSkip", "PackageOn", "UpdateNewsOn", "SafeStartOn", "RepairOn",
             "AutostartDelay", "OverviewOn",
         };
 

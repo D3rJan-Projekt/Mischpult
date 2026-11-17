@@ -4,7 +4,7 @@
 
 **Der App-Mixer für Windows – jede App auf ihrem eigenen Fader, im Look eines echten Studiopults.**
 
-made by **D3r_Jan** · Version 4.2.4 · Windows 10 / 11 · kostenlos
+made by **D3r_Jan** · Version 4.2.5 · Windows 10 / 11 · kostenlos
 
 ### [⬇ Mischpult.exe herunterladen](../../releases/latest)
 
@@ -64,6 +64,8 @@ Windows hat nur einen kleinen Lautstärkemixer. Das **Mischpult** macht daraus e
 3. Fertig.
 
 **Aktualisieren:** Die neue `Mischpult.exe` einfach starten (oder aufs offene Pult ziehen) und **Aktualisieren** klicken. Die alte Version beendet sich von selbst, deine Einstellungen bleiben erhalten.
+
+**Oder automatisch:** Unter OPTIONEN → Allgemein **„Online nach Updates suchen“** einschalten – dann meldet sich das Pult, sobald es hier eine neue Version gibt, und aktualisiert sich mit einem Klick. Mit **„Updates automatisch installieren“** passiert das beim Start sogar ganz von selbst. Beide Schalter sind zuerst aus.
 
 **Deinstallieren:** Windows-Einstellungen → **Apps** → Mischpult → Deinstallieren. Auf Wunsch kommen dabei auch die Einstellungen mit weg.
 
@@ -147,6 +149,7 @@ dotnet build -c Release -p:FrameworkPathOverride=/usr/lib/mono/4.8-api
 
 | Version | Neu |
 |---|---|
+| **4.2.5** | Updates automatisch installieren – neue Versionen kommen beim Start von selbst |
 | **4.2.4** | Aufräumen nach Installieren und Deinstallieren ohne Hilfsbefehl im Hintergrund – weniger Fehlalarme beim Virenschutz |
 | **4.2.3** | Ducking-Feinschliff: Lämpchen, kurze Geräusche ignorieren, Übergang einstellbar, MIKRO in den Ducking-Regeln |
 | **4.2.2** | Ducking mit dem Mikrofon als Auslöser |
