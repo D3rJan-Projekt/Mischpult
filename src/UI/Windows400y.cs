@@ -365,10 +365,13 @@ namespace Mischpult.UI
         private readonly string _about;
         private int _page;
         private float _scroll, _contentH;
-        private RectangleF _tab0, _tab1;
+        private RectangleF _tab0, _tab1, _gh, _bug;
+        /// <summary>4.2.6: GitHub-Links (null = ausgeblendet).</summary>
+        public Action OpenGitHub, ReportBug;
 
         internal static readonly string[][] Chronicle =
         {
+            new[] { "4.2.6", "GitHub-Links: „Auf GitHub“ und „Fehler melden“ im Über-Fenster (Schalter unter OPTIONEN → Allgemein). Neue Versionen baut GitHub jetzt selbst aus dem öffentlichen Quellcode." },
             new[] { "4.2.5", "Updates automatisch installieren: Schalter unter OPTIONEN → Allgemein – neue Versionen kommen beim Start von selbst, ohne Klick." },
             new[] { "4.2.4", "Aufräumen nach dem Installieren und Deinstallieren ohne Hilfsbefehl im Hintergrund – weniger, was ein Virenscanner fälschlich für verdächtig halten kann. „Online nach Updates suchen“ kennt jetzt das GitHub-Projekt D3rJan-Projekt/Mischpult." },
             new[] { "4.2.3", "Ducking-Feinschliff: Lämpchen bei den Auslösern, kurze Geräusche ignorieren, Übergang einstellbar, MIKRO auch in den Ducking-Regeln." },
@@ -394,7 +397,8 @@ namespace Mischpult.UI
 
         public AboutWindow(string about) : base("Über Mischpult", 620, 560) { _about = about; }
 
-        protected override string ContentZone(Point p) => _tab0.Contains(p) ? "t0" : _tab1.Contains(p) ? "t1" : null;
+        protected override string ContentZone(Point p) => _tab0.Contains(p) ? "t0" : _tab1.Contains(p) ? "t1" :
+            OpenGitHub != null && _gh.Contains(p) ? "gh" : ReportBug != null && _bug.Contains(p) ? "bug" : null;
 
         protected override void PaintContent(Graphics g, RectangleF r)
         {
@@ -402,6 +406,11 @@ namespace Mischpult.UI
             _tab1 = new RectangleF(r.X + Theme.F(118), r.Y, Theme.F(140), Theme.F(26));
             Theme.DrawKey(g, _tab0, "ÜBER", _page == 0, Theme.Accent, Hover == "t0");
             Theme.DrawKey(g, _tab1, "VERSIONS-CHRONIK", _page == 1, Theme.Accent, Hover == "t1");
+            // 4.2.6: rechts die GitHub-Links
+            _bug = ReportBug != null ? new RectangleF(r.Right - Theme.F(124), r.Y, Theme.F(124), Theme.F(26)) : RectangleF.Empty;
+            _gh = OpenGitHub != null ? new RectangleF((ReportBug != null ? _bug.X - Theme.F(8) : r.Right) - Theme.F(108), r.Y, Theme.F(108), Theme.F(26)) : RectangleF.Empty;
+            if (OpenGitHub != null) Theme.DrawKey(g, _gh, "AUF GITHUB", false, Theme.Accent, Hover == "gh");
+            if (ReportBug != null) Theme.DrawKey(g, _bug, "FEHLER MELDEN", false, Theme.Accent, Hover == "bug");
             var body = new RectangleF(r.X, r.Y + Theme.F(36), r.Width, r.Height - Theme.F(36));
             var st = g.Save();
             g.SetClip(body, CombineMode.Intersect);
@@ -436,6 +445,8 @@ namespace Mischpult.UI
         {
             if (_tab0.Contains(e.Location)) { _page = 0; _scroll = 0; Invalidate(); return true; }
             if (_tab1.Contains(e.Location)) { _page = 1; _scroll = 0; Invalidate(); return true; }
+            if (OpenGitHub != null && _gh.Contains(e.Location)) { OpenGitHub(); return true; }   // 4.2.6
+            if (ReportBug != null && _bug.Contains(e.Location)) { ReportBug(); return true; }
             return false;
         }
 

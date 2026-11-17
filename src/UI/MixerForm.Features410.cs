@@ -21,7 +21,7 @@ namespace Mischpult.UI
         internal static readonly string[] Bools410 =
         {
             "DropUpdateOn", "DownloadWatchOn", "UpdateBackupOn", "StartGuardOn", "UninstallAskOn", "OnlineUpdateOn", "PackageOn",
-            "UpdateNewsOn", "SafeStartOn", "RepairOn", "OverviewOn", "AutoUpdateOn",
+            "UpdateNewsOn", "SafeStartOn", "RepairOn", "OverviewOn", "AutoUpdateOn", "GitHubLinksOn",
         };
 
         private double _now410;
@@ -618,6 +618,7 @@ namespace Mischpult.UI
                 () => _settings.OnlineUpdateOn, v => { _settings.OnlineUpdateOn = v; if (v) { _onlineAt410 = _now410 + 3; _settings.UpdateLastCheck = 0; } ScheduleSave(); });
             p.Toggle("Updates automatisch installieren", "Findet das Mischpult beim Start eine neue Version, lädt und installiert es sie gleich selbst – ohne Klick, deine Einstellungen bleiben. Läuft gerade ein Spiel im Vordergrund, kommt stattdessen der Hinweis. Eine übersprungene Version bleibt übersprungen.",
                 () => _settings.AutoUpdateOn, v => { _settings.AutoUpdateOn = v; ScheduleSave(); }).Visible = () => _settings.OnlineUpdateOn;   // 4.2.5
+            AddGitHub426(p);   // 4.2.6
             p.Button("GitHub-Projekt", () => "Woher die Updates kommen: „Benutzer/Projekt“ (oder die Adresse von GitHub). Dort muss beim neuesten Release eine Mischpult.exe liegen.",
                 () => "Ändern …", r => EditRepo410(), () => string.IsNullOrEmpty(_settings.UpdateRepoNow) ? "keins" : _settings.UpdateRepoNow).Visible = () => _settings.OnlineUpdateOn;
             p.Button("Jetzt nach Updates suchen", () => _onlineStatus410 ?? (_settings.UpdateLastCheck > 0 ? "Zuletzt nachgesehen: " + new DateTime(_settings.UpdateLastCheck, DateTimeKind.Utc).ToLocalTime().ToString("dd.MM.yyyy HH:mm") + " Uhr." : "Noch nicht nachgesehen."),

@@ -1,0 +1,42 @@
+name: Fehler melden
+description: Etwas im Mischpult funktioniert nicht wie es soll.
+title: "Fehler: "
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Danke fürs Melden! Je genauer die Beschreibung, desto schneller lässt sich der Fehler finden.
+  - type: input
+    id: version
+    attributes:
+      label: Mischpult-Version
+      description: Steht unter OPTIONEN → Allgemein → Über Mischpult.
+      placeholder: z. B. 4.2.6
+    validations:
+      required: true
+  - type: input
+    id: windows
+    attributes:
+      label: Windows-Version
+      placeholder: z. B. Windows 11 (Build 22631)
+  - type: textarea
+    id: was
+    attributes:
+      label: Was ist passiert?
+      description: Was hast du erwartet, und was ist stattdessen passiert?
+    validations:
+      required: true
+  - type: textarea
+    id: schritte
+    attributes:
+      label: So lässt es sich nachstellen
+      placeholder: |
+        1. …
+        2. …
+        3. …
+  - type: textarea
+    id: log
+    attributes:
+      label: Fehlerprotokoll (falls vorhanden)
+      description: Inhalt von Dokumente\Mischpult\Protokolle\fehler.log. Bitte vorher kurz drüberschauen, ob nichts Persönliches drinsteht.
+      render: text

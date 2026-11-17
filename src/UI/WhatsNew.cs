@@ -11,8 +11,9 @@ namespace Mischpult.UI
         /// <summary>4.2: Neuheiten (Titel, dann Paare Name/Erklaerung).</summary>
         internal static readonly string[][] Sections42 =
         {
-            new[] { "Aktualisieren (4.2.5)",
-                "Updates automatisch installieren", "Findet das Mischpult beim Start eine neue Version auf GitHub, installiert es sie selbst – ohne Klick." },
+            new[] { "Aktualisieren & GitHub (4.2.5 – 4.2.6)",
+                "Updates automatisch installieren", "Findet das Mischpult beim Start eine neue Version auf GitHub, installiert es sie selbst – ohne Klick.",
+                "GitHub-Links", "„Auf GitHub“ und „Fehler melden“ im Über-Fenster – öffnet die Projektseite bzw. ein vorausgefülltes Formular." },
             new[] { "Ducking-Feinschliff (4.2.3)",
                 "Lämpchen bei den Auslösern", "Im Ducking-Fenster leuchtet neben jedem Auslöser ein Punkt, wenn er gerade auslöst.",
                 "Kurze Geräusche ignorieren", "Tippen, Mausklicks und Pieptöne machen die Musik nicht mehr leiser.",

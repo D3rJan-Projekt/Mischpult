@@ -1,0 +1,63 @@
+# Baut die Mischpult.exe aus dem Quellcode und legt das Release an,
+# sobald in Mischpult.csproj eine neue <Version> steht.
+name: Release bauen
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "Mischpult.csproj"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Version lesen
+        id: ver
+        shell: pwsh
+        run: |
+          [xml]$p = Get-Content Mischpult.csproj
+          $v = @($p.Project.PropertyGroup | ForEach-Object { $_.Version } | Where-Object { $_ })[0]
+          if (-not $v) { throw "Keine <Version> in Mischpult.csproj gefunden" }
+          "version=$v" >> $env:GITHUB_OUTPUT
+          Write-Host "Version: $v"
+
+      - name: Gibt es das Release schon?
+        id: check
+        shell: pwsh
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh release view "v${{ steps.ver.outputs.version }}" --repo "${{ github.repository }}" *> $null
+          if ($LASTEXITCODE -eq 0) { "exists=true" >> $env:GITHUB_OUTPUT; Write-Host "Release gibt es schon - nichts zu tun." }
+          else { "exists=false" >> $env:GITHUB_OUTPUT }
+          exit 0
+
+      - uses: actions/setup-dotnet@v4
+        if: steps.check.outputs.exists == 'false'
+        with:
+          dotnet-version: 8.0.x
+
+      - name: Bauen
+        if: steps.check.outputs.exists == 'false'
+        run: dotnet build -c Release -nologo
+
+      - name: Release anlegen
+        if: steps.check.outputs.exists == 'false'
+        shell: pwsh
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          $v = "${{ steps.ver.outputs.version }}"
+          $exe = "bin/Release/net48/Mischpult.exe"
+          if (-not (Test-Path $exe)) { throw "Mischpult.exe wurde nicht gebaut" }
+          $notes = ".github/release-notes.md"
+          if (-not (Test-Path $notes)) { Set-Content $notes "Mischpult $v" }
+          (Get-FileHash $exe -Algorithm SHA256).Hash
+          gh release create "v$v" $exe --repo "${{ github.repository }}" --target "${{ github.sha }}" --title "Mischpult $v" --notes-file $notes

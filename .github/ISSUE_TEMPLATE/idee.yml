@@ -1,0 +1,15 @@
+name: Idee vorschlagen
+description: Eine neue Funktion oder Verbesserung für das Mischpult.
+title: "Idee: "
+body:
+  - type: textarea
+    id: idee
+    attributes:
+      label: Was soll das Mischpult können?
+    validations:
+      required: true
+  - type: textarea
+    id: wozu
+    attributes:
+      label: Wofür brauchst du das?
+      description: Ein kurzes Beispiel aus dem Alltag hilft – z. B. „beim Zocken mit Discord“.

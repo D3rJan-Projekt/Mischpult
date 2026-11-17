@@ -473,6 +473,7 @@ namespace Mischpult.UI
         {
             if (_about != null && !_about.IsDisposed) { _about.Activate(); return; }
             var w = new AboutWindow(text) { TopMost = TopMost };
+            if (_settings.GitHubLinksOn && !string.IsNullOrEmpty(_settings.UpdateRepoNow)) { w.OpenGitHub = OpenGitHub426; w.ReportBug = ReportBug426; }   // 4.2.6
             w.FormClosed += (s, e) => { if (_about == w) _about = null; };
             var wa = Screen.FromControl(this).WorkingArea;
             w.Location = new Point(wa.Left + (wa.Width - w.Width) / 2, wa.Top + (wa.Height - w.Height) / 2);

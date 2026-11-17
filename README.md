@@ -4,7 +4,10 @@
 
 **Der App-Mixer für Windows – jede App auf ihrem eigenen Fader, im Look eines echten Studiopults.**
 
-made by **D3r_Jan** · Version 4.2.5 · Windows 10 / 11 · kostenlos
+made by **D3r_Jan** · Windows 10 / 11 · kostenlos
+
+[![Neueste Version](https://img.shields.io/github/v/release/D3rJan-Projekt/Mischpult?label=Version&color=orange)](../../releases/latest)
+[![Downloads](https://img.shields.io/github/downloads/D3rJan-Projekt/Mischpult/total?label=Downloads&color=brightgreen)](../../releases)
 
 ### [⬇ Mischpult.exe herunterladen](../../releases/latest)
 
@@ -149,6 +152,7 @@ dotnet build -c Release -p:FrameworkPathOverride=/usr/lib/mono/4.8-api
 
 | Version | Neu |
 |---|---|
+| **4.2.6** | „Auf GitHub“ und „Fehler melden“ direkt im Pult · die EXE baut GitHub jetzt selbst aus dem Quellcode |
 | **4.2.5** | Updates automatisch installieren – neue Versionen kommen beim Start von selbst |
 | **4.2.4** | Aufräumen nach Installieren und Deinstallieren ohne Hilfsbefehl im Hintergrund – weniger Fehlalarme beim Virenschutz |
 | **4.2.3** | Ducking-Feinschliff: Lämpchen, kurze Geräusche ignorieren, Übergang einstellbar, MIKRO in den Ducking-Regeln |
@@ -160,7 +164,9 @@ dotnet build -c Release -p:FrameworkPathOverride=/usr/lib/mono/4.8-api
 
 ## Fehler gefunden oder eine Idee?
 
-Einfach ein **[Issue](../../issues)** anlegen. Hilfreich sind dabei die Windows-Version und, falls vorhanden, die Datei `Dokumente\Mischpult\Protokolle\fehler.log`.
+Unter **[Issues](../../issues/new/choose)** gibt es zwei kurze Formulare: **Fehler melden** und **Idee vorschlagen**. Noch schneller geht es aus dem Pult: Unter OPTIONEN → Allgemein **„GitHub-Links“** einschalten, dann öffnet **„Fehler melden“** das Formular mit schon eingetragener Version und Windows-Version. Hilfreich ist außerdem die Datei `Dokumente\Mischpult\Protokolle\fehler.log`.
+
+Jede `Mischpult.exe` unter Releases baut GitHub selbst aus dem Quellcode hier im Projekt – nachvollziehbar unter **[Actions](../../actions)**.
 
 ---
 
