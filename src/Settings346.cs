@@ -110,7 +110,7 @@ namespace Mischpult
         public static readonly int[] AlarmFadeValues = { 1, 3, 5, 10, 15 };
         public static readonly int[] AlarmVolumeValues = { 20, 30, 40, 50, 60, 80 };
         public static readonly string[] AlarmDayNames = { "Jeden Tag", "Montag bis Freitag", "Samstag und Sonntag" };
-        public const int DekoKinds = 7;   // 4.0 finale: 4 Diskokugel, 5 Lava-Lampe, 6 Katze
+        public const int DekoKinds = 8;   // 4.0 finale: 4 Diskokugel, 5 Lava-Lampe, 6 Katze; 4.3: 7 Plattenspieler
 
         public int AlarmHourNow => AlarmHour == 0 && AlarmMinute == 0 ? 7 : AlarmHour;
         public int AlarmFadeNow => Array.IndexOf(AlarmFadeValues, AlarmFadeMin) >= 0 ? AlarmFadeMin : 5;

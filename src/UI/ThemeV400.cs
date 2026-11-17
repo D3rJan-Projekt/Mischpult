@@ -13,7 +13,8 @@ namespace Mischpult.UI
         public static bool Carbon => Design == StyleCarbon;
         public static bool Brass => Design == StyleBrass;
         /// <summary>Hoechste Design-Nummer.</summary>
-        public const int LastDesign = StyleCockpit;   // 4.0 finale: 11 Grosskonsole … 14 Weltraum; 4.2: 15 Synthwave, 16 Retro-Game, 17 Cockpit
+        public const int LastDesign = StyleJapan;   // 4.3: 18 Steampunk, 19 Arktis, 20 Japan
+        // 4.0 finale: 11 Grosskonsole … 14 Weltraum; 4.2: 15 Synthwave, 16 Retro-Game, 17 Cockpit
 
         private static void Designs400(int scheme)
         {

@@ -161,7 +161,7 @@ namespace Mischpult.UI
             _top.OptionsClicked += () => ShowSettings();
             _top.OptionsMenu += ShowOptionsMenu;
             _top.DuckClicked += () => ToggleDuck(false);
-            _top.DuckMenu += ShowDuckDialog;
+            _top.DuckMenu += () => { if (_settings.DuckPresetsOn) ShowDuckMenu430(); else ShowDuckDialog(); };   // 4.3: Vorlagen
             _top.ScenesClicked += ShowScenesMenu;
             _top.RecClicked += ToggleRecording;
             _top.RecMenu += ShowRecordMenu;
@@ -710,6 +710,7 @@ namespace Mischpult.UI
                 foreach (var v in _settings.AppVolumes)
                     if (!map.ContainsKey(v.Key)) map[v.Key] = PerApp(v.Key, fallback);
                 if (_adKey != null && !map.ContainsKey(_adKey)) map[_adKey] = PerApp(_adKey, fallback);   // 3.5
+                if (_sysQuiet430 && !map.ContainsKey(AppKeys.System)) map[AppKeys.System] = PerApp(AppKeys.System, fallback);   // 4.3: Windows-Toene stumm beim Zocken
             }
             Backend.SetPolicy(new PolicyTable(map, fallback, eqChannels.ToArray()));
             PushStream();
@@ -728,7 +729,7 @@ namespace Mischpult.UI
         private AppPolicy PerApp(string key, AppPolicy channel)
         {
             float pos = AppPos(key);
-            if (AdMuted(key)) pos = 0f;   // 3.5: Werbung stumm
+            if (AdMuted(key) || SysQuiet430(key)) pos = 0f;   // 3.5: Werbung stumm; 4.3: Windows-Toene beim Zocken
             if (pos >= 0.9995f) return channel;
             float gain = FaderLaw.PosToGain(pos);
             if (_appPolicyCache.TryGetValue(key, out var kv) && ReferenceEquals(kv.Key, channel) && kv.Value.AppGain == Math.Max(0f, Math.Min(1f, gain)))
@@ -1094,6 +1095,7 @@ namespace Mischpult.UI
 
             if (_appMix != null && !_appMix.IsDisposed && _appMix.Visible) _appMix.UpdateLevels(dt);
             UpdateDucking(now, dt);
+            Tick430(now, dt);   // 4.3: wer loest aus, Halte-Taste, Timer, Windows-Toene, Akku
             TickFeatures(now, dt);
             TickFeatures2(now, dt);
             TickFeatures4(dt);
@@ -1305,6 +1307,12 @@ namespace Mischpult.UI
             bool any = false, evaluate = ++_leakTick % 15 == 0;   // ~4x pro Sekunde neu bewerten
             foreach (var trig in _settings.DuckTriggerList)       // 4.2.1: auch mehrere Ausloeser – einer reicht
             {
+                if (trig == MixerSettings.DuckSbId)   // 4.3: Soundboard – loest aus, solange ein Sound spielt
+                {
+                    any = true;
+                    if (AnyPadPlaying) { _duckVoice = true; _duckFrom = trig; _duckFired423[trig] = now; }
+                    continue;
+                }
                 float lvl = DuckLevelDb(trig);
                 if (lvl <= -999f) continue;
                 any = true;
@@ -1321,11 +1329,14 @@ namespace Mischpult.UI
                 voice = TalkGate423(trig, voice, dt);   // 4.2.3: kurze Geraeusche ignorieren
                 if (voice) { _duckVoice = true; _duckFrom = trig; _duckFired423[trig] = now; }
             }
-            if (any && _settings.DuckOn)
+            bool allowed = DuckAllowed430();   // 4.3: nur, wenn ein Spiel laeuft / zu bestimmten Uhrzeiten
+            _duckWaits430 = any && _settings.DuckOn && !allowed && _duckVoice;
+            if (any && _settings.DuckOn && allowed)
             {
                 if (_duckVoice) _duckHoldUntil = now + _settings.DuckHold;
                 if (now < _duckHoldUntil) target = _settings.DuckAmount;
             }
+            if (HoldDuck430) target = Math.Min(target, _settings.DuckAmount);   // 4.3: Taste gedrueckt halten
             DuckRates423(_settings.DuckAmount, out float down, out float up);           // 4.2.3: Uebergang einstellbar
             if (_duckDb > target) _duckDb = Math.Max(target, _duckDb - down * dt);      // schnell leiser
             else if (_duckDb < target) _duckDb = Math.Min(target, _duckDb + up * dt);   // langsam wieder lauter
@@ -1352,6 +1363,7 @@ namespace Mischpult.UI
         /// </summary>
         private float DuckLevelDb(string trig)
         {
+            if (trig == MixerSettings.DuckSbId) return AnyPadPlaying ? 0f : -100f;   // 4.3: Soundboard
             if (trig == MixerSettings.DuckMicId)
             {
                 if (_snap?.Mic == null) return -1000f;
@@ -1362,7 +1374,7 @@ namespace Mischpult.UI
         }
 
         /// <summary>Name eines Ausloesers fuer Anzeigen.</summary>
-        private string DuckTriggerName(string trig) => trig == MixerSettings.DuckMicId ? "MIKRO" : ChannelById(trig)?.Name ?? "?";
+        private string DuckTriggerName(string trig) => trig == MixerSettings.DuckMicId ? "MIKRO" : trig == MixerSettings.DuckSbId ? "SOUNDBOARD" : trig == HoldId430 ? "TASTE" : ChannelById(trig)?.Name ?? "?";
 
         /// <summary>4.2.1: Ausloeser, der zuletzt eine Stimme hatte (fuer die Ducking-Linien).</summary>
         private string _duckFrom;
@@ -2055,6 +2067,7 @@ namespace Mischpult.UI
             AddChannel320Items(m.Items, c);   // 3.2: Breite, Deckel, Ton, im Hintergrund leiser
             AddChannel330Items(m.Items, c);   // 3.3: Symbol, Notiz
             AddChannel340Items(m.Items, c, strip, screen);   // 3.4: EQ A/B, zweite Farbe, duplizieren, zuruecksetzen, Aufkleber
+            AddChannel430Items(m.Items, c);   // 4.3: Timer
             m.Items.Add(new ToolStripMenuItem("Ausblenden (läuft weiter)", null, (s, e) => SetChannelHidden(c, true)));
             if (!c.IsCatchAll && GameChannel != c)
                 m.Items.Add(new ToolStripMenuItem("Als Kanal für Spiele verwenden", null, (s, e) =>

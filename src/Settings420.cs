@@ -62,7 +62,7 @@ namespace Mischpult
         public const string DuckMicId = "@mic";
 
         /// <summary>Gibt es diesen Ausloeser (Kanal oder Mikrofon)?</summary>
-        private bool DuckTriggerExists(string id) => id == DuckMicId || (Channels != null && Channels.Exists(c => c.Id == id));
+        private bool DuckTriggerExists(string id) => id == DuckMicId || id == DuckSbId || (Channels != null && Channels.Exists(c => c.Id == id));   // 4.3: auch das Soundboard
 
         public static readonly string[] FrameGlowModeNames = { "Akzentfarbe", "Pulsiert mit der Musik", "Farbe des lautesten Kanals" };
         public const int ArtSlots = 96;   // Viertelstunden am Tag
@@ -74,12 +74,12 @@ namespace Mischpult
             {
                 // 4.2.2: Kanaele zuerst, das Mikrofon zuletzt (der erste Ausloeser bleibt ein Kanal, wenn es einen gibt)
                 DuckTriggers = DuckTriggers.Where(id => !string.IsNullOrEmpty(id) && DuckTriggerExists(id)).Distinct()
-                    .OrderBy(id => id == DuckMicId ? 1 : 0).ToList();
+                    .OrderBy(id => id == DuckMicId ? 1 : id == DuckSbId ? 2 : 0).ToList();
                 if (DuckTriggers.Count > 0) DuckTrigger = DuckTriggers[0];
                 if (DuckTriggers.Count <= 1) DuckTriggers = null;
             }
             if (DuckTriggers != null && DuckTargets != null) DuckTargets.RemoveAll(id => DuckTriggers.Contains(id));
-            if (DuckTargets != null) DuckTargets.RemoveAll(id => id == DuckMicId);   // das Mikrofon wird nie leiser gemacht
+            if (DuckTargets != null) DuckTargets.RemoveAll(id => id == DuckMicId || id == DuckSbId);   // das Mikrofon wird nie leiser gemacht
             FrameGlowMode = Math.Max(0, Math.Min(FrameGlowModeNames.Length - 1, FrameGlowMode));
             // 4.2.3: Feinschliff – fehlende Werte = Standard
             DuckMinTalkMs = DuckMinTalkMs <= 0 ? 200 : Math.Max(100, Math.Min(1000, DuckMinTalkMs));

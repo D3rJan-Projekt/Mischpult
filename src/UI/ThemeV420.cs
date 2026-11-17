@@ -99,6 +99,7 @@ namespace Mischpult.UI
             if (SynthDesign) SynthEdge(g, r, rad);
             else if (RetroDesign) RetroEdge(g, r);
             else if (CockpitDesign) CockpitDeco(g, r, rad);
+            else PanelDeco430(g, r, rad, tint);   // 4.3
         }
 
         /// <summary>Neon-Kante: oben Pink, unten Cyan, dazu eine Chrom-Linie unter dem Kopf.</summary>
@@ -173,7 +174,7 @@ namespace Mischpult.UI
         // ================================================================ Hintergrund des Designs
 
         /// <summary>Eigener Hintergrund des Designs (Weltraum oder Synthwave).</summary>
-        public static Bitmap MakeDesignBg(int w, int h) => SynthDesign ? MakeSynthBg(w, h) : MakeSpaceBg(w, h);
+        public static Bitmap MakeDesignBg(int w, int h) => SynthDesign ? MakeSynthBg(w, h) : DesignBg430 ? MakeDesignBg430(w, h) : MakeSpaceBg(w, h);
 
         /// <summary>Synthwave: Sonnenuntergang mit gestreifter Sonne, darunter ein Neon-Gitter, das in die Ferne laeuft.</summary>
         public static Bitmap MakeSynthBg(int w, int h)

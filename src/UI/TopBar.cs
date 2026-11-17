@@ -234,6 +234,7 @@ namespace Mischpult.UI
                 float KeysW(int n) => n == 0 ? 0 : gap + n * Theme.F(26) + (n - 1) * mg;
                 _beatFits = BeatShown && fixedW + KeysW(want) + gap + Theme.F(70) <= room;
                 _hearFits = HearText != null && fixedW + KeysW(want) + (_beatFits ? gap + Theme.F(70) : 0) + gap + Theme.F(64) <= room;   // 3.5
+                _batFits = BatteryText != null && fixedW + KeysW(want) + (_beatFits ? gap + Theme.F(70) : 0) + (_hearFits ? gap + Theme.F(64) : 0) + gap + Theme.F(76) <= room;   // 4.3
                 _keysFit = want;
                 while (_keysFit > 0 && fixedW + KeysW(_keysFit) > room) _keysFit--;
             }
@@ -275,6 +276,14 @@ namespace Mischpult.UI
                 DrawHear(g);
             }
             else _hearRect = RectangleF.Empty;
+            if (BatteryText != null && _batFits)   // 4.3: Akku des Kopfhoerers
+            {
+                float aw = Theme.F(76);
+                _batRect = new RectangleF(btnLeft - gap - aw, by, aw, bh);
+                btnLeft = _batRect.X;
+                DrawBattery430(g);
+            }
+            else _batRect = RectangleF.Empty;
 
             DrawBarButton(g, _sceneBtn, "SZENEN  ▾", _hover == "scene");
 
@@ -284,7 +293,8 @@ namespace Mischpult.UI
             DrawBarButton(g, _nightBtn, "     NACHT", _hover == "night");
             Theme.DrawLed(g, _nightBtn.X + Theme.F(16), _nightBtn.Y + bh / 2, Theme.F(4), Color.FromArgb(0x7a, 0xa8, 0xff), NightOn);
 
-            DrawBarButton(g, _duckBtn, "     DUCKING", _hover == "duck");
+            if (DuckText != null) DrawDuckWho430(g);   // 4.3: wer gerade ausloest
+            else DrawBarButton(g, _duckBtn, "     DUCKING", _hover == "duck");
             Theme.DrawLed(g, _duckBtn.X + Theme.F(16), _duckBtn.Y + bh / 2, Theme.F(4),
                 DuckActive ? Theme.SoloAmber : Theme.LedGreen, DuckOn);
 
@@ -731,7 +741,7 @@ namespace Mischpult.UI
             TopKeyAt(p) >= 0 ? "tk" + TopKeyAt(p) :
             _prevBtn.Contains(p) ? "prev" : _playBtn.Contains(p) ? "play" : _nextBtn.Contains(p) ? "next" :
             _lockBtn.Contains(p) ? "lock" : _shotBtn.Contains(p) ? "shot" : _onAirRect.Contains(p) ? "onair" :
-            _beatRect.Contains(p) ? "beat" : _hearRect.Contains(p) ? "hear" :
+            _beatRect.Contains(p) ? "beat" : _hearRect.Contains(p) ? "hear" : _batRect.Contains(p) ? "bat" :
             ClockHit(p) ? "clock" : SongBarHit400(p) ? "nps" : !_npRect.IsEmpty && _npRect.Contains(p) ? "np" : null;
 
         private string TipFor(string h)
@@ -754,7 +764,8 @@ namespace Mischpult.UI
                     }
                 case "rec": return "Aufnahme als WAV starten/stoppen – Rechtsklick: was aufnehmen, Ordner";
                 case "night": return "Nachtmodus: Kompressor auf allen Kanälen\n(leise Stellen lauter, laute leiser)";
-                case "duck": return "Ducking an/aus – Rechtsklick: einstellen";
+                case "duck": return DuckTip ?? "Ducking an/aus – Rechtsklick: einstellen";   // 4.3
+                case "bat": return BatteryTip;
                 case "mini": return "Mini-Ansicht: kleines Fenster, immer im Vordergrund";
                 case "opt": return "Einstellungen öffnen – Rechtsklick: Schnellmenü";
                 case "wmin": return "Minimieren";

@@ -40,8 +40,8 @@ namespace Mischpult
             CoverArt = Math.Max(0, Math.Min(3, CoverArt));
             OnAirMode = Math.Max(0, Math.Min(2, OnAirMode));
             Wear = Math.Max(0, Math.Min(2, Wear));
-            Wall = Math.Max(0, Math.Min(6, Wall));   // 4.2: bis Kacheln
-            LiveBg = Math.Max(0, Math.Min(9, LiveBg));   // 4.2: bis Matrix-Regen   // 3.4.6: 4 Regen, 5 Schnee (4.0: Musik-Hintergrund ist ein eigener Schalter)
+            Wall = Math.Max(0, Math.Min(9, Wall));   // 4.3: bis Serverraum; 4.2: bis Kacheln
+            LiveBg = Math.Max(0, Math.Min(12, LiveBg));   // 4.3: bis Glühwürmchen; 4.2: bis Matrix-Regen   // 3.4.6: 4 Regen, 5 Schnee (4.0: Musik-Hintergrund ist ein eigener Schalter)
             if (Channels != null)
                 foreach (var c in Channels)
                 {

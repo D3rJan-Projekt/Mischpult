@@ -41,7 +41,7 @@ namespace Mischpult.UI
 
         private void TickOptik400(double now, float dt)
         {
-            LoudnessSink.BassOn = _settings.ShakeOn || _settings.MusicBgOn || (_settings.WledOn && _settings.WledMode == 2) || _settings.LightShowOn || (_settings.AnimDecoOn && _settings.DekoOn);   // 4.0 finale: Lichtshow, Deko
+            LoudnessSink.BassOn = _settings.ShakeOn || _settings.MusicBgOn || (_settings.WledOn && _settings.WledMode == 2) || _settings.LightShowOn || (_settings.AnimDecoOn && _settings.DekoOn) || Storm430;   // 4.0 finale: Lichtshow, Deko; 4.3: Gewitter
             TickMotorSound400();
             if (now >= _nextWinTheme) { _nextWinTheme = now + 2.0; TickWinTheme400(false); }
             if (_settings.RadarOn)
@@ -59,12 +59,12 @@ namespace Mischpult.UI
         }
 
         /// <summary>Album-Cover wird gebraucht (Hintergrund, Mini-Player, Widget).</summary>
-        private bool CoverWanted400 => (_settings.CoverBgOn && PultShown) || CoverWantedWindows400;
+        private bool CoverWanted400 => (_settings.CoverBgOn && PultShown) || CoverWantedWindows400 || TurntableShown430;   // 4.3: Plattenspieler
         /// <summary>"Jetzt laeuft" wird gebraucht (Interpret-Lautstaerke, Musik-Tasten, Fenster, OBS …).</summary>
         private bool NowPlayingWanted400 => _settings.ArtistVolOn || _settings.MediaMoreOn || CoverWantedWindows400;
 
         /// <summary>Lautheit muss fuer Radar bzw. Musik-Hintergrund gemessen werden.</summary>
-        private bool NeedsLoudness400 => PultShown && (_settings.RadarOn || _settings.MusicBgOn || _settings.LightShowOn || (_settings.AnimDecoOn && _settings.DekoOn) || (_settings.NeonOn && _settings.NeonPulse));
+        private bool NeedsLoudness400 => PultShown && (_settings.RadarOn || _settings.MusicBgOn || _settings.LightShowOn || (_settings.AnimDecoOn && _settings.DekoOn) || (_settings.NeonOn && _settings.NeonPulse) || Storm430);   // 4.3: Gewitter
 
         // ================================================================ 177 Design folgt Windows
 

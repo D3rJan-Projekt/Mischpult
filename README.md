@@ -31,7 +31,8 @@ Windows hat nur einen kleinen Lautstärkemixer. Das **Mischpult** macht daraus e
 - Apps per Klick auf Kanäle verteilen – Discord, TeamSpeak, Spotify, Browser und Co. werden automatisch sortiert, Spiele landen von selbst im Kanal SPIEL
 - Pro Kanal: Fader, MUTE, SOLO, Balance, FADE-Taste, Lautstärke pro App
 - Gruppen, Mute-Gruppen, Crossfader, eigenes Ausgabegerät pro Kanal
-- **Szenen**: den kompletten Mix auf Knopfdruck laden – auch nach Uhrzeit oder automatisch pro Spiel
+- **Szenen**: den kompletten Mix auf Knopfdruck laden – auch nach Uhrzeit oder automatisch pro Spiel oder App
+- Timer pro Kanal (nur MUSIK nach 30 Minuten ausblenden), Windows-Töne stumm beim Zocken, Akku des Bluetooth-Kopfhörers in der Kopfleiste
 - **Stream-Mix** für OBS und **Sprach-Ausgang** für Discord (mit virtuellem Audiokabel)
 
 **Klang**
@@ -43,6 +44,8 @@ Windows hat nur einen kleinen Lautstärkemixer. Das **Mischpult** macht daraus e
 **Ducking**
 - Musik wird automatisch leiser, sobald im Discord oder TeamSpeak jemand spricht – oder wenn **du selbst** sprichst (MIKRO als Auslöser)
 - Mehrere Auslöser, Lämpchen, die zeigen, wer gerade auslöst, kurze Geräusche (Tippen, Klicks) ignorieren, einstellbarer Übergang
+- **Wer löst aus?** Auf der DUCKING-Taste steht z. B. „MIKRO −15“, am auslösenden Kanal „LÖST AUS“, an den leiseren Kanälen „DUCK“
+- Taste zum Halten, Soundboard als Auslöser, Vorlagen („Zocken“, „Stream“, „Film“), nur wenn ein Spiel läuft oder zu bestimmten Uhrzeiten
 - Eigene Regeln mit eigener Stärke pro Auslöser, z. B. MIKRO −6 dB und TS −15 dB
 
 **Anzeigen**
@@ -50,8 +53,8 @@ Windows hat nur einen kleinen Lautstärkemixer. Das **Mischpult** macht daraus e
 - Spektrum, Wasserfall, Lautheit (LUFS), Stereo-Bild, „Jetzt läuft“ mit Cover
 
 **Optik**
-- **18 Designs** – von Studio-Metall über Vintage, Neon und Holz & Messing bis Synthwave, Retro-Game und Cockpit
-- Bewegte Hintergründe, Wände hinter dem Pult, Pultlampe, RGB-Welle, spiegelnder Tisch – alles einzeln abschaltbar
+- **21 Designs** – von Studio-Metall über Vintage, Neon und Holz & Messing bis Synthwave, Cockpit, Steampunk, Arktis und Japan
+- Bewegte Hintergründe (z. B. Gewitter, das zum Bass blitzt), Wände hinter dem Pult, Deko wie der Plattenspieler mit dem Album-Cover, Pultlampe, RGB-Welle, spiegelnder Tisch – alles einzeln abschaltbar
 
 **Bedienung**
 - Tastenkürzel, die überall funktionieren – auch im Spiel
@@ -112,9 +115,21 @@ Der komplette Quellcode liegt hier im Projekt – jeder kann nachsehen, was das 
 
 ## Bilder
 
-**18 Designs** – umschaltbar unter OPTIONEN → Aussehen → Design
+**21 Designs** – umschaltbar unter OPTIONEN → Aussehen → Design
 
 ![Designs](bilder/designs.png)
+
+**Neu in 4.3: Steampunk, Arktis und Japan**
+
+![Designs aus 4.3](bilder/designs43.png)
+
+**Ducking zeigt, wer auslöst** – auf der DUCKING-Taste „MIKRO −15“, am Kanal „LÖST AUS“ und „DUCK“, dazu der Kanal-Timer (12′) und der Kopfhörer-Akku oben
+
+![Wer löst aus](bilder/ducking43.png)
+
+**Neue Hintergründe, Wände und der Plattenspieler (4.3)**
+
+![Optik 4.3](bilder/optik43.png)
 
 **Optik und Extras aus Version 4.2**
 
@@ -154,6 +169,7 @@ dotnet build -c Release -p:FrameworkPathOverride=/usr/lib/mono/4.8-api
 
 | Version | Neu |
 |---|---|
+| **4.3** | Ducking zeigt, wer auslöst · Halte-Taste, Soundboard als Auslöser, Vorlagen, „nur wenn …“ · Profil pro App, Kanal-Timer, Windows-Töne stumm beim Zocken, Kopfhörer-Akku · Steampunk, Arktis, Japan · Gewitter, Sternenwirbel, Glühwürmchen · Graffiti, Bücherregal, Serverraum · Plattenspieler |
 | **4.2.7** | Installieren wahlweise in den Programme-Ordner (für alle Benutzer) oder nur für dich |
 | **4.2.6** | „Auf GitHub“ und „Fehler melden“ direkt im Pult · die EXE baut GitHub jetzt selbst aus dem Quellcode |
 | **4.2.5** | Updates automatisch installieren – neue Versionen kommen beim Start von selbst |

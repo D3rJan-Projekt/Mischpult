@@ -185,6 +185,26 @@ namespace Mischpult.UI
             InvalidateChrome();
         }
 
+        // ---- 4.3: dieser Kanal loest gerade das Ducking aus; Timer des Kanals
+        private bool _duckSource;
+        private string _timerText;
+        public static readonly Color DuckSourceColor = Color.FromArgb(0xff, 0xd8, 0x4a), TimerColor = Color.FromArgb(0x7c, 0xc4, 0xff);
+
+        public void SetDuckSource(bool on)
+        {
+            if (on == _duckSource) return;
+            _duckSource = on;
+            InvalidateChrome();
+        }
+
+        /// <summary>Restzeit des Kanal-Timers (null = kein Timer), z. B. "12′".</summary>
+        public void SetTimerText(string t)
+        {
+            if (t == _timerText) return;
+            _timerText = t;
+            InvalidateChrome();
+        }
+
         /// <summary>Spiel ist nicht im Vordergrund und laeuft deshalb leiser.</summary>
         public void SetBgQuiet(bool on)
         {
@@ -200,6 +220,8 @@ namespace Mischpult.UI
         {
             float x = PanelRect.X + Theme.F(Narrow ? 4 : 6);
             if (_ducked) x = DrawPill(g, x, "DUCK", Theme.SoloAmber, Theme.F(Narrow ? 30 : 34));
+            if (_duckSource) x = DrawPill(g, x, Narrow ? "AUSL." : "LÖST AUS", DuckSourceColor, Theme.F(Narrow ? 30 : 48));   // 4.3
+            if (_timerText != null) x = DrawPill(g, x, _timerText, TimerColor, Theme.F(Narrow ? 26 : 32));                  // 4.3
             if (_bgQuiet) x = DrawPill(g, x, Narrow ? "LEISE" : "LEISER", Color.FromArgb(0x5a, 0xa9, 0xff), Theme.F(Narrow ? 34 : 40));
             if (CueShown && Config.Cue && !HidFx) x = DrawPill(g, x, "CUE", MixerForm.CueColor, Theme.F(Narrow ? 26 : 28));   // 2.19: vorhoeren
             if (FxShown && Config.FxType > 0 && !HidFx) x = DrawPill(g, x, "FX", MixerForm.FxColor, Theme.F(20));             // 2.19: Hall/Echo

@@ -299,6 +299,9 @@ namespace Mischpult.UI
                     : _settings.LiveBg == 7 ? "Unterwasser: Lichtstrahlen fallen schräg von oben, Blasen steigen auf."
                     : _settings.LiveBg == 8 ? "Kaminfeuer: warmes Flackern von unten, ein paar Funken steigen auf."
                     : _settings.LiveBg == 9 ? "Matrix-Regen: grüne Zeichen fallen in Spalten – bei Musik schneller."
+                    : _settings.LiveBg == 10 ? "Gewitter: dunkle Wolken und Regen – bei Bass-Schlägen in der Musik blitzt es (sonst ab und zu von selbst)."
+                    : _settings.LiveBg == 11 ? "Sternenwirbel: eine Galaxie dreht sich ganz langsam um die Fenstermitte."
+                    : _settings.LiveBg == 12 ? "Glühwürmchen: kleine Lichter schweben umher und leuchten nacheinander auf."
                     : "Bühnennebel: weiche Schwaden ziehen unten vorbei.",
                 Theme.LiveBgNames, () => _settings.LiveBg, i =>
                 {

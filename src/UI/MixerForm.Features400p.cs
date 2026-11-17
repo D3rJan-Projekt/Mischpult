@@ -382,6 +382,7 @@ namespace Mischpult.UI
                 var trig = Sub("Auslöser: " + DuckTriggerName(r.Trigger));
                 // 4.2.3: dein Mikrofon als Ausloeser einer Regel
                 trig.DropDownItems.Add(new ToolStripMenuItem("MIKRO (du sprichst)", null, (s, e) => { r.Trigger = MixerSettings.DuckMicId; RulesChanged400(); }) { Checked = r.Trigger == MixerSettings.DuckMicId });
+                trig.DropDownItems.Add(new ToolStripMenuItem("SOUNDBOARD (ein Sound spielt)", null, (s, e) => { r.Trigger = MixerSettings.DuckSbId; RulesChanged400(); }) { Checked = r.Trigger == MixerSettings.DuckSbId });   // 4.3
                 trig.DropDownItems.Add(new ToolStripSeparator());
                 foreach (var ch in _settings.Channels)
                 {

@@ -22,6 +22,7 @@ namespace Mischpult.UI
         {
             "NewsTogglesOn", "PacksOn", "FileAssocOn", "DeskMirrorOn", "RgbWaveOn", "RgbWaveBeat", "FrameGlowOn", "SplashOn", "CapIconOn", "SoundArtOn",
             "DuckLampsOn", "DuckMinTalkOn", "DuckFadeOn",   // 4.2.3
+            "DuckWhoOn", "DuckHoldKeyOn", "DuckPresetsOn", "DuckWhenOn", "AppProfilesOn", "ChanTimerOn", "SysQuietGameOn", "BatteryOn",   // 4.3
         };
 
         private void ApplyLook420(MixerSettings s, bool demo)
@@ -443,6 +444,8 @@ namespace Mischpult.UI
         /// <summary>Neuheit -> Name des Schalters in den Einstellungen (sonst gleicher Name).</summary>
         internal static readonly Dictionary<string, string> NewsRows420 = new Dictionary<string, string>
         {
+            // 4.3
+            { "Plattenspieler", "Animierte Deko" },
             // 4.2
             { "Leuchtender Fensterrand", "Leuchtender Fensterrand (Windows 11)" }, { "Schalter im Was-ist-neu-Fenster", "Schalter im Fenster „Was ist neu“" },
             // 4.1
@@ -543,6 +546,7 @@ namespace Mischpult.UI
                 if (DemoOn("MICLINES")) { _settings.DuckLinesOn = true; MeterBridge.DuckLinesOn = true; }
             }
             DemoShown423();
+            DemoShown430();
             if (DemoOn("DUCKDLG")) DemoLater(ShowDuckDialog);
         }
     }

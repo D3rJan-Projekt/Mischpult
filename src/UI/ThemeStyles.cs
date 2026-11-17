@@ -13,7 +13,7 @@ namespace Mischpult.UI
         public const int StyleStudio = 0, StyleClassic = 1, StyleModern = 2, StyleNeon = 3, StyleLight = 4;
         /// <summary>Nur als Auswahl (UiStyle): "Vintage" zeichnet wie "Hell", aber in warmen Farben mit Holz und Bakelit.</summary>
         public const int StyleVintage = 5;
-        public static readonly string[] StyleNames = { "Studio (Metall)", "Klassisch (flach)", "Modern", "Neon", "Hell", "Vintage", "Schwarz-Gold", "Broadcast-Blau", "Retro-Hi-Fi", "Carbon", "Holz & Messing", "Großkonsole", "Glas & Licht", "Industrial", "Weltraum", "Synthwave", "Retro-Game", "Cockpit" };
+        public static readonly string[] StyleNames = { "Studio (Metall)", "Klassisch (flach)", "Modern", "Neon", "Hell", "Vintage", "Schwarz-Gold", "Broadcast-Blau", "Retro-Hi-Fi", "Carbon", "Holz & Messing", "Großkonsole", "Glas & Licht", "Industrial", "Weltraum", "Synthwave", "Retro-Game", "Cockpit", "Steampunk", "Arktis", "Japan" };
         public static readonly string[] StyleHints =
         {
             "gebürstetes Metall, Schrauben, Glas",
@@ -34,6 +34,9 @@ namespace Mischpult.UI
             "80er-Neon: violetter Sonnenuntergang, Gitter am Boden, Kanten in Pink und Cyan",
             "Pixel-Look wie alte Spielkonsolen: Nachtblau, Stufen-Ecken, Punktmatrix-Anzeigen",
             "wie im Flugzeug: matt lackiert, weiße Umrandung, Schnellverschlüsse, grüne Anzeigen",
+            "Kupfer und Messing, Nieten, Nixie-Röhren, Zahnräder und Rohre im Hintergrund",
+            "eisblau und hell, Schnee und kleine Eiszapfen auf den Zügen, Glas-Kappen wie Eis",
+            "schwarz-roter Lack, goldene Eckbeschläge, Wellenmuster und Kirschzweig im Hintergrund",
         };
 
         /// <summary>Aktueller Design-Stil (0..4).</summary>
@@ -212,6 +215,15 @@ namespace Mischpult.UI
                 case 2: body = C(0xd7d4ce); top = C(0xf9f8f5); bottom = C(0xe9e6e0); edge = C(0xb8b3ab); break;
                 default: body = C(0xd3d6db); top = C(0xf8f9fa); bottom = C(0xe7e9ed); edge = C(0xb3b8c0); break;
             }
+            LightFrom(body, top, bottom, edge);
+            // Akzent auf hellem Grund etwas kraeftiger, Weiss wird Schiefer (im LCD bleibt die echte Farbe)
+            Accent = accent == 4 ? C(0x3a414c) : Darken(Accent, 0.14f);
+            ValueText = accent == 4 ? C(0x2b3038) : Darken(LcdText, 0.36f);
+        }
+
+        /// <summary>Alle Farben des hellen Stils aus Grund, Zug oben/unten und Kante (4.3: auch fuer Arktis).</summary>
+        private static void LightFrom(Color body, Color top, Color bottom, Color edge)
+        {
             Body = body; WindowTop = top; WindowBottom = body; BarBg = Darken(top, 0.06f);
             PanelTop = top; PanelBottom = bottom; PanelHighlight = Color.White; PanelEdge = edge;
             Text = C(0x1b1e23); TextDim = C(0x4f5761); TextFaint = C(0x7f8792); TextHover = Color.Black;
@@ -237,9 +249,6 @@ namespace Mischpult.UI
             PadTop = Color.White; PadBottom = Darken(MenuBg, 0.06f); PadHoverTop = Color.White; PadHoverBottom = Darken(MenuBg, 0.02f);
             FootBtn = Darken(PopupBg, 0.05f); FootBtnHover = Darken(PopupBg, 0.12f); FootBtnEdge = Darken(PopupBg, 0.25f);
             LcdBg = C(0x1a1d22);
-            // Akzent auf hellem Grund etwas kraeftiger, Weiss wird Schiefer (im LCD bleibt die echte Farbe)
-            Accent = accent == 4 ? C(0x3a414c) : Darken(Accent, 0.14f);
-            ValueText = accent == 4 ? C(0x2b3038) : Darken(LcdText, 0.36f);
         }
 
         // ---------------------------------------------------------------- Zug-Bausteine (alle Stile)
@@ -294,6 +303,8 @@ namespace Mischpult.UI
                 g.Restore(st);
             }
             g.SmoothingMode = sm;
+            if (ArcticDesign) ArcticSnow(g, panel, rad);   // 4.3
+            else if (JapanDesign) { JapanCorner(g, panel, rad, 0); JapanCorner(g, panel, rad, 1); }   // 4.3: Beschlaege ueber der Kante
         }
 
         /// <summary>Fassung um das Namensschild.</summary>

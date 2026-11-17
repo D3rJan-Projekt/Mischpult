@@ -371,6 +371,7 @@ namespace Mischpult.UI
 
         internal static readonly string[][] Chronicle =
         {
+            new[] { "4.3", "Ducking zeigt, wer auslöst (Taste und Kanal), Halte-Taste, Soundboard als Auslöser, Ducking-Vorlagen und „nur wenn ein Spiel läuft / zu bestimmten Uhrzeiten“. Profil pro App, Timer pro Kanal, Windows-Töne stumm beim Zocken, Kopfhörer-Akku. Designs Steampunk, Arktis und Japan, Hintergründe Gewitter, Sternenwirbel und Glühwürmchen, Wände Graffiti, Bücherregal und Serverraum, Plattenspieler als Deko." },
             new[] { "4.2.7", "Installieren wahlweise in den Programme-Ordner (für alle Benutzer, Windows fragt nach Admin-Rechten) oder nur für dich wie bisher. Eine vorhandene Installation zieht beim Update auf Wunsch um." },
             new[] { "4.2.6", "GitHub-Links: „Auf GitHub“ und „Fehler melden“ im Über-Fenster (Schalter unter OPTIONEN → Allgemein). Neue Versionen baut GitHub jetzt selbst aus dem öffentlichen Quellcode." },
             new[] { "4.2.5", "Updates automatisch installieren: Schalter unter OPTIONEN → Allgemein – neue Versionen kommen beim Start von selbst, ohne Klick." },

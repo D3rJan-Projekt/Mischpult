@@ -8,6 +8,33 @@ namespace Mischpult.UI
     /// <summary>4.0: "Was ist neu" – nach einem Update einmal zeigen (abschaltbar), sonst ueber die Einstellungen.</summary>
     internal sealed class WhatsNewWindow : Form
     {
+        /// <summary>4.3: Neuheiten (Titel, dann Paare Name/Erklaerung). Namen wie die Schalter, damit rechts ein Schalter steht.</summary>
+        internal static readonly string[][] Sections43 =
+        {
+            new[] { "Ducking: Wer löst aus?",
+                "DUCKING-Taste zeigt, wer auslöst", "Auf der DUCKING-Taste steht, wer gerade auslöst und wie viel leiser es ist – z. B. „MIKRO −15“. Der auslösende Kanal zeigt „LÖST AUS“, die leiseren Kanäle „DUCK“.",
+                "Taste zum Halten", "Solange du eine Taste gedrückt hältst, wird die Musik leiser – z. B. wenn jemand ins Zimmer kommt.",
+                "Soundboard als Auslöser", "Spielt ein Sound vom Soundboard, wird die Musik leiser. Im Ducking-Fenster „SOUNDBOARD“ anhaken.",
+                "Ducking-Vorlagen", "Ducking-Einstellungen als „Zocken“, „Stream“ oder „Film“ speichern und per Rechtsklick auf DUCKING wechseln.",
+                "Ducking nur, wenn …", "… ein Spiel läuft und/oder zu bestimmten Uhrzeiten – sonst bleibt die Musik in Ruhe." },
+            new[] { "Komfort",
+                "Profil auch für andere Apps", "Szene pro App, nicht nur pro Spiel: startet OBS, kommt „Stream“, bei VLC „Film“.",
+                "Timer für einzelne Kanäle", "Nur MUSIK nach 30 Minuten sanft ausblenden, der Rest läuft weiter – Rechtsklick auf den Kanal → Timer.",
+                "Windows-Töne stumm beim Zocken", "Kein Ping und kein Fehlerton mitten im Spiel – danach sind die Systemklänge wieder da.",
+                "Kopfhörer-Akku in der Kopfleiste", "Der Akkustand deines Bluetooth-Kopfhörers oben im Pult." },
+            new[] { "Optik",
+                "Drei neue Designs", "Steampunk (Kupfer, Messing, Zahnräder), Arktis (eisblau, Schnee auf den Zügen) und Japan (schwarz-roter Lack mit Gold).",
+                "Neue bewegte Hintergründe", "Gewitter (es blitzt zum Bass), Sternenwirbel und Glühwürmchen.",
+                "Neue Wände", "Graffiti, Bücherregal und Serverraum hinter dem Pult.",
+                "Plattenspieler", "Neue Deko: Die Platte dreht sich, solange Musik läuft – das Etikett ist das Album-Cover." },
+        };
+
+        /// <summary>Anzahl der 4.3-Neuheiten.</summary>
+        internal static int Count43
+        {
+            get { int n = 0; foreach (var s in Sections43) n += (s.Length - 1) / 2; return n; }
+        }
+
         /// <summary>4.2: Neuheiten (Titel, dann Paare Name/Erklaerung).</summary>
         internal static readonly string[][] Sections42 =
         {
@@ -265,22 +292,24 @@ namespace Mischpult.UI
                     var name = Theme.UiSemi(11.5f);
                     var desc = Theme.Ui(11f);
                     _hits.Clear();
-                    for (int part = 0; part < 3; part++)
+                    for (int part = 0; part < 4; part++)
                     {
-                    // 4.2 oben, darunter 4.1 und alles aus 4.0
+                    // 4.3 oben, darunter 4.2, 4.1 und alles aus 4.0
                     if (part > 0) y += Theme.F(22);
-                    Theme.Str(g, part == 0 ? "Neu in Mischpult " + Program.Version : part == 1 ? "Aus Version 4.1" : "Aus Version 4.0", part == 0 ? big : Theme.Ui(17f, FontStyle.Bold), tb, new RectangleF(x, y, w, Theme.F(34)), Theme.Left);
+                    Theme.Str(g, part == 0 ? "Neu in Mischpult " + Program.Version : part == 1 ? "Aus Version 4.2" : part == 2 ? "Aus Version 4.1" : "Aus Version 4.0", part == 0 ? big : Theme.Ui(17f, FontStyle.Bold), tb, new RectangleF(x, y, w, Theme.F(34)), Theme.Left);
                     y += Theme.F(part == 0 ? 38 : 32);
                     string sub = part == 0
-                        ? Count42 + " neue Sachen: automatische Updates, Ducking-Feinschliff, Optik (Designs, Hintergründe, Wände, Tisch, RGB-Welle, Fensterrand, Startbild) und Extras – jede einzeln an- und ausschaltbar unter OPTIONEN → Allgemein, Automatik („Ducking“), Aussehen („4.2 – Optik“), Allgemein („4.2 – Komfort“) und Fenster & Verbindungen. Alles ist zuerst aus." +
+                        ? Count43 + " neue Sachen: Ducking (wer löst aus, Halte-Taste, Soundboard, Vorlagen, nur wenn …), Komfort (Profil pro App, Kanal-Timer, Windows-Töne, Kopfhörer-Akku) und Optik (Designs, Hintergründe, Wände, Plattenspieler) – jede einzeln an- und ausschaltbar unter OPTIONEN → Automatik („Ducking“ und „4.3 – Komfort“) und Aussehen („4.3 – Optik“). Alles ist zuerst aus." +
                           (ToggleFor != null ? " Mit dem Schalter rechts schaltest du eine Neuheit gleich hier ein." : "")
                         : part == 1
+                        ? Count42 + " Neuheiten aus 4.2 bis 4.2.7: automatische Updates, Programme-Ordner, Ducking-Feinschliff, Optik und Extras – unter OPTIONEN → Allgemein, Automatik („Ducking“) und Aussehen („4.2 – Optik“)."
+                        : part == 2
                         ? Count41 + " Funktionen rund ums Installieren, Aktualisieren und Aufräumen – unter OPTIONEN → Allgemein (Abschnitte „4.1“) und Sichern."
                         : Count + " Funktionen aus 4.0 – Schau unter OPTIONEN in die Abschnitte „4.0“.";
                     float sh = g.MeasureString(sub, subF, (int)w).Height;
                     Theme.Str(g, sub, subF, db, new RectangleF(x, y, w, sh + 4), Theme.Wrap);
                     y += sh + Theme.F(14);
-                    foreach (var s in part == 0 ? Sections42 : part == 1 ? Sections41 : Sections)
+                    foreach (var s in part == 0 ? Sections43 : part == 1 ? Sections42 : part == 2 ? Sections41 : Sections)
                     {
                         y += Theme.F(8);
                         Theme.Str(g, s[0].ToUpperInvariant(), head, ab, new RectangleF(x, y, w, Theme.F(24)), Theme.Left);

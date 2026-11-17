@@ -319,6 +319,7 @@ namespace Mischpult.UI
             AddLook400(p);          // 4.0: Windows hell/dunkel, Radar, Hintergruende, Drehknoepfe, Nixie, GIF, Motor, Deko, Klicks
             AddLookFinal400(p);     // 4.0 finale: Lichtshow, Neon, Himmel, Umblenden, Song-Fortschritt, Wallpaper, Deko, Motor-Potis, Leuchtspur
             AddLook420(p);          // 4.2: Tisch, RGB-Welle, Fensterrand, Startbild, App-Symbol
+            AddLook430(p);          // 4.3: Hinweis auf die neuen Designs, Hintergruende, Waende und den Plattenspieler
             AddAufbau400(p);        // 4.0: Kanalzug anpassen, zwei Reihen
             AddLookSettings20(p);   // 2.20: Design-Editor, 3D
             AddViewSettings(p);   // 2.18
@@ -647,6 +648,7 @@ namespace Mischpult.UI
                 () => _settings.DuckOn, v => { if (v != _settings.DuckOn) ToggleDuck(false); });
             p.Button("Ducking einstellen", "Auslöser, welche Kanäle leiser werden, wie viel und wie lange.", "Einstellen …", r => ShowDuckDialog());
             AddDuck423(p);          // 4.2.3: Feinschliff
+            AddDuck430(p);          // 4.3: wer loest aus, Halte-Taste, Vorlagen, nur wenn …
             p.Section("Geräte und Zeit");
             p.Button("Headset automatisch umschalten", "Headset einstecken = wird Standardgerät (auch das Mikro), abziehen = zurück auf die Lautsprecher.", "Einstellen …",
                 r => ShowHeadsetDialog(), () => _settings.AutoSwitchOn && _settings.AutoDevice != null ? "an" : "aus");
@@ -655,6 +657,7 @@ namespace Mischpult.UI
             AddSceneXfade320(p);    // 3.2: Szenen weich ueberblenden
             AddBgApps320(p);        // 3.2: Hintergrund-Apps leiser
             AddAutoPause320(p);     // 3.2: Auto-Pause
+            AddAuto430(p);          // 4.3: Profil fuer Apps, Kanal-Timer, Windows-Toene, Akku
             pages.Add(p);
 
             // ------------------------------------------------------------ Mikrofon & Discord

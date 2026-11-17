@@ -348,8 +348,8 @@ namespace Mischpult.UI
 
         private ToolStripMenuItem BuildProfileMenu()
         {
-            var prof = Sub("Profil pro Spiel");
-            prof.DropDownItems.Add(Hint("Startet das Spiel, wird seine Szene geladen."));
+            var prof = Sub(_settings.AppProfilesOn ? "Profil pro Spiel / App" : "Profil pro Spiel");
+            prof.DropDownItems.Add(Hint(_settings.AppProfilesOn ? "Startet das Spiel oder die App, wird ihre Szene geladen." : "Startet das Spiel, wird seine Szene geladen."));
             prof.DropDownItems.Add(new ToolStripSeparator());
 
             var games = new List<string>();
@@ -358,6 +358,15 @@ namespace Mischpult.UI
             if (gc != null) foreach (var k in gc.Apps) if (!games.Contains(k)) games.Add(k);
             foreach (var a in _snap.Apps)
                 if (!games.Contains(a.Key) && GameDetector.IsGame(a.Key, a.Path)) games.Add(a.Key);
+            int gameCount = games.Count;
+            if (_settings.AppProfilesOn)   // 4.3: auch andere Apps (laufende und die in den Kanaelen)
+            {
+                var more = new List<string>();
+                foreach (var a in _snap.Apps) if (a.Key != AppKeys.System) more.Add(a.Key);
+                foreach (var c in _settings.Channels) more.AddRange(c.Apps);
+                foreach (var k in more.Distinct(StringComparer.OrdinalIgnoreCase).OrderBy(k => AppDisplayName(k), StringComparer.CurrentCultureIgnoreCase))
+                    if (!games.Contains(k, StringComparer.OrdinalIgnoreCase) && k != AppKeys.System) games.Add(k);
+            }
 
             if (games.Count == 0)
                 prof.DropDownItems.Add(Hint("Noch kein Spiel bekannt – Spiel einmal starten."));
@@ -365,9 +374,10 @@ namespace Mischpult.UI
                 prof.DropDownItems.Add(Hint("Zuerst eine Szene speichern."));
             else
             {
-                foreach (var key in games)
+                for (int gi = 0; gi < games.Count; gi++)
                 {
-                    string k = key;
+                    string k = games[gi];
+                    if (gi == gameCount && gameCount < games.Count) { if (gi > 0) prof.DropDownItems.Add(new ToolStripSeparator()); prof.DropDownItems.Add(Hint("Andere Apps")); }   // 4.3
                     var known = FindKnown(k);
                     var cur = _settings.GameProfiles.FirstOrDefault(g => g.AppKey == k);
                     var curScene = cur == null ? null : _settings.Scenes.FirstOrDefault(s => s.Id == cur.SceneId);

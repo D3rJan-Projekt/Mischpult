@@ -114,6 +114,7 @@ namespace Mischpult.UI
             Designs400(Math.Max(0, Math.Min(2, scheme)));     // 4.0: Carbon, Holz & Messing
             Designs400c(Math.Max(0, Math.Min(2, scheme)));    // 4.0 finale: Grosskonsole, Glas & Licht, Industrial, Weltraum
             Designs420(Math.Max(0, Math.Min(2, scheme)));     // 4.2: Synthwave, Retro-Game, Cockpit
+            Designs430(Math.Max(0, Math.Min(2, scheme)));     // 4.3: Steampunk, Arktis, Japan
             ApplyCustom();                                    // 2.20: eigene Farben (Design-Editor)
             ApplyAccentOverride();                            // 3.2: Akzent von Windows oder vom Album-Cover
             if (NixieBar) SegOff = NixieOff;                  // 4.0: Nixie-Balken (unbeleuchtete Kathode)
@@ -279,7 +280,7 @@ namespace Mischpult.UI
             {
                 using (var b = new LinearGradientBrush(new RectangleF(r.X, r.Y - 1, r.Width, r.Height + 2), PanelTop, PanelBottom, LinearGradientMode.Vertical))
                     g.FillPath(b, path);
-                if (!CockpitDesign) FillBrushed(g, path, r);   // 4.2: Cockpit ist matt lackiert
+                if (!CockpitDesign && !JapanDesign) FillBrushed(g, path, r);   // 4.2: Cockpit ist matt lackiert, 4.3: Japan glaenzender Lack
                 // Glanzband wie bei Metall (Licht von links), rechts etwas dunkler
                 using (var b = new LinearGradientBrush(new RectangleF(r.X - 1, r.Y, r.Width + 2, r.Height), Color.Black, Color.Black, LinearGradientMode.Horizontal))
                 {

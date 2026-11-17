@@ -69,7 +69,7 @@ namespace Mischpult.UI
         public static readonly string[] LcdStyleNames = { "Passend", "Grünes LCD", "Rote LED", "Nixie", "VFD", "Punktmatrix" };
 
         /// <summary>Tatsaechlich benutzter Stil: "passend" heisst beim Design Vintage Nixie-Roehren.</summary>
-        public static int EffLcd => LcdStyle != 0 ? LcdStyle : Vintage || Brass ? 3 : Carbon ? 2 : SynthDesign ? 4 : RetroDesign ? 5 : 0;   // 4.2: Synthwave VFD, Retro Punktmatrix
+        public static int EffLcd => LcdStyle != 0 ? LcdStyle : Vintage || Brass ? 3 : Carbon ? 2 : SynthDesign ? 4 : RetroDesign ? 5 : SteamDesign ? 3 : 0;   // 4.2: Synthwave VFD, Retro Punktmatrix
 
         /// <summary>Hintergrund und Schrift der Zahlen-Anzeigen (auch fuer die kleinen dB-Kaestchen).</summary>
         public static void LcdColors(out Color bg, out Color fg)

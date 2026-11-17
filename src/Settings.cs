@@ -913,7 +913,7 @@ namespace Mischpult
             if (DuckThreshold >= 0 || DuckThreshold < -80) DuckThreshold = -45f;
             if (DuckHold <= 0 || DuckHold > 10) DuckHold = 0.8f;
             ChannelConfig byName(string n) => Channels.Find(c => string.Equals(c.Name, n, StringComparison.OrdinalIgnoreCase) && !c.IsCatchAll);
-            if (DuckTrigger == null || (DuckTrigger != DuckMicId && Channels.Find(c => c.Id == DuckTrigger) == null))   // 4.2.2: auch das Mikrofon
+            if (DuckTrigger == null || (DuckTrigger != DuckMicId && DuckTrigger != DuckSbId && Channels.Find(c => c.Id == DuckTrigger) == null))   // 4.2.2: auch das Mikrofon
                 DuckTrigger = (byName("CHAT") ?? Channels.Find(c => !c.IsCatchAll) ?? Channels[0]).Id;
             if (DuckTargets == null)
             {
@@ -944,6 +944,7 @@ namespace Mischpult
             Normalize400f();  // 4.0 finale
             Normalize410();   // 4.1
             Normalize420();   // 4.2
+            Normalize430();   // 4.3
         }
 
         public const float EqRange = 12f;

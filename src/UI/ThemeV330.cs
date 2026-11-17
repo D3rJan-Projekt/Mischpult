@@ -393,7 +393,7 @@ namespace Mischpult.UI
 
         // ================================================================ Wand hinter dem Pult
 
-        public static readonly string[] WallNames = { "Keine", "Akustik-Schaumstoff", "Ziegel", "Holzlamellen", "Samtvorhang", "Sichtbeton", "Kacheln" };   // 4.2: 4–6
+        public static readonly string[] WallNames = { "Keine", "Akustik-Schaumstoff", "Ziegel", "Holzlamellen", "Samtvorhang", "Sichtbeton", "Kacheln", "Graffiti", "Bücherregal", "Serverraum" };   // 4.2: 4–6, 4.3: 7–9
 
         /// <summary>Wand in Fenstergroesse (abgedunkelt), als Hintergrund des Pults.</summary>
         public static Bitmap MakeWall(int w, int h, int kind)
@@ -436,6 +436,7 @@ namespace Mischpult.UI
                                 g.FillRectangle(b, br);
                         }
                 }
+                else if (kind >= 7) MakeWall430(g, w, h, kind, rnd);   // 4.3: Graffiti, Buecherregal, Serverraum
                 else if (kind >= 4) MakeWall420(g, w, h, kind, rnd);   // 4.2: Samtvorhang, Sichtbeton, Kacheln
                 else
                 {
@@ -454,6 +455,7 @@ namespace Mischpult.UI
                     }
                 }
                 using (var b = new SolidBrush(Color.FromArgb(120, 0, 0, 0))) g.FillRectangle(b, 0, 0, w, h);   // abgedunkelt: das Pult bleibt im Vordergrund
+                WallLights430(g, kind);   // 4.3: LEDs im Serverraum bleiben hell
             }
             return bmp;
         }
@@ -464,7 +466,7 @@ namespace Mischpult.UI
 
         /// <summary>0 aus, 1 Sterne, 2 Farbverlauf, 3 Buehnennebel.</summary>
         public static int LiveBg;
-        public static readonly string[] LiveBgNames = { "Aus", "Sternenhimmel", "Farbverlauf", "Bühnennebel", "Regen am Fenster", "Schneefall", "Nordlicht", "Unterwasser", "Kaminfeuer", "Matrix-Regen" };   // 3.4.6: Regen, Schnee; 4.2: 6–9
+        public static readonly string[] LiveBgNames = { "Aus", "Sternenhimmel", "Farbverlauf", "Bühnennebel", "Regen am Fenster", "Schneefall", "Nordlicht", "Unterwasser", "Kaminfeuer", "Matrix-Regen", "Gewitter", "Sternenwirbel", "Glühwürmchen" };   // 3.4.6: Regen, Schnee; 4.2: 6–9; 4.3: 10–12
         private static readonly System.Diagnostics.Stopwatch LiveClock = System.Diagnostics.Stopwatch.StartNew();
 
         /// <summary>Bewegtes ueber den Pult-Grund (nur in den freien Flaechen – die Zuege liegen darueber).</summary>
@@ -505,6 +507,7 @@ namespace Mischpult.UI
                     g.FillRectangle(b, area);
             }
             else if (LiveBg == 4 || LiveBg == 5) DrawRainSnow(g, area, origin, t, LiveBg == 5);   // 3.4.6
+            else if (LiveBg >= 10) DrawLiveBg430(g, area, origin, t);   // 4.3
             else if (LiveBg >= 6) DrawLiveBg420(g, area, origin, t);   // 4.2
             else
             {

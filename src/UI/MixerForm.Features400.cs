@@ -177,6 +177,7 @@ namespace Mischpult.UI
             AddHotkeyActionsMore400(list);
             AddHotkeyActionsPro400(list);   // 4.0 finale
             AddHotkeyActionsFinal400(list);
+            AddHotkeyActions430(list);   // 4.3: Ducking halten
         }
 
         private bool ExecuteHotkey400(string action)
@@ -187,6 +188,7 @@ namespace Mischpult.UI
                 case "focus": ToggleFocus(); return true;
             }
             if (ExecuteHotkeyWindows400(action)) return true;
+            if (ExecuteHotkey430(action)) return true;   // 4.3
             if (ExecuteHotkeyPro400(action) || ExecuteHotkeyFinal400(action)) return true;   // 4.0 finale
             return ExecuteHotkeyMore400(action);
         }

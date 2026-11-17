@@ -419,7 +419,7 @@ namespace Mischpult
         }
 
         /// <summary>Hoechste Design-Nummer (4.0: 9 Carbon, 10 Holz &amp; Messing).</summary>
-        public const int MaxStyle = 17;   // 4.0 finale: bis Weltraum; 4.2: Synthwave, Retro-Game, Cockpit
+        public const int MaxStyle = 20;   // 4.0 finale: bis Weltraum; 4.2: Synthwave, Retro-Game, Cockpit; 4.3: Steampunk, Arktis, Japan
         /// <summary>Baender im parametrischen EQ.</summary>
         public const int PeqMax = 8;
 

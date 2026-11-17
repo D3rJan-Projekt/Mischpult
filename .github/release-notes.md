@@ -1,15 +1,31 @@
-**Mischpult 4.2.7** – App-Audio-Mixer für Windows, made by D3r_Jan
+**Mischpult 4.3** – App-Audio-Mixer für Windows, made by D3r_Jan
 
 **Herunterladen:** unten bei „Assets“ auf `Mischpult.exe` klicken, dann starten – das Ein-Klick-Fenster fragt: installieren oder nur ausprobieren. Ein Update geht genauso: neue EXE starten → „Aktualisieren“, deine Einstellungen bleiben.
 
-### Neu in 4.2.7
-- **Installieren in den Programme-Ordner** – beim Installieren wählst du: **Programme-Ordner** (`C:\Programme\Mischpult`, für alle Benutzer – Windows fragt nach Admin-Rechten, auch bei Updates) oder **nur für mich** (ohne Admin-Abfrage, wie bisher).
-- Ist das Mischpult schon „nur für mich“ installiert, bietet das Update-Fenster **„In den Programme-Ordner umziehen“** an. Startmenü, Desktop-Verknüpfung, Autostart und Windows-Eintrag ziehen mit, die Einstellungen bleiben.
+### Neu in 4.3 – alles einzeln schaltbar, zuerst aus
+**Ducking**
+- **DUCKING-Taste zeigt, wer auslöst** – z. B. „MIKRO −15“. Der auslösende Kanal zeigt „LÖST AUS“, die leiseren Kanäle „DUCK“.
+- **Taste zum Halten** – solange gedrückt, ist die Musik leiser.
+- **Soundboard als Auslöser** – im Ducking-Fenster „SOUNDBOARD“ anhaken.
+- **Ducking-Vorlagen** – „Zocken“, „Stream“, „Film“ speichern und per Rechtsklick auf DUCKING wechseln.
+- **Ducking nur, wenn …** ein Spiel läuft und/oder zu bestimmten Uhrzeiten.
+
+**Komfort**
+- **Profil auch für andere Apps** – Szene pro App, nicht nur pro Spiel.
+- **Timer für einzelne Kanäle** – Rechtsklick auf den Kanal → Timer.
+- **Windows-Töne stumm beim Zocken.**
+- **Kopfhörer-Akku in der Kopfleiste** (Bluetooth).
+
+**Optik**
+- Designs **Steampunk**, **Arktis**, **Japan**
+- Bewegte Hintergründe **Gewitter** (blitzt zum Bass), **Sternenwirbel**, **Glühwürmchen**
+- Wände **Graffiti**, **Bücherregal**, **Serverraum**
+- **Plattenspieler** als Deko – das Etikett ist das Album-Cover
 
 ### Zuletzt neu
+- **4.2.7** – Installieren wahlweise in den Programme-Ordner
 - **4.2.6** – „Auf GitHub“ und „Fehler melden“ im Pult, EXE wird von GitHub gebaut
 - **4.2.5** – Updates automatisch installieren
-- **4.2.4** – weniger Fehlalarme beim Virenschutz
 
 **Windows warnt?** Die EXE ist nicht digital signiert. Bei „Der Computer wurde durch Windows geschützt“: *Weitere Informationen → Trotzdem ausführen*. Meldet Defender einen Virus, ist das ein Fehlalarm – siehe README.
 

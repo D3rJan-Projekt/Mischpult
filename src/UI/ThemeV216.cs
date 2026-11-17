@@ -24,9 +24,10 @@ namespace Mischpult.UI
             switch (design)
             {
                 case StyleVintage: case StyleHifi: return StyleLight;
-                case StyleGold: case StyleCarbon: case StyleBrass: case StyleConsole: case StyleIndustrial: case StyleCockpit: return StyleStudio;   // 4.0, 4.2
+                case StyleGold: case StyleCarbon: case StyleBrass: case StyleConsole: case StyleIndustrial: case StyleCockpit: case StyleSteam: case StyleJapan: return StyleStudio;   // 4.0, 4.2, 4.3
                 case StyleGlass: case StyleSpace: case StyleSynth: return StyleModern;   // 4.0 finale, 4.2
                 case StyleRetro: return StyleClassic;   // 4.2
+                case StyleArctic: return StyleLight;    // 4.3
                 case StyleBroadcast: return StyleModern;
                 default: return Math.Max(0, Math.Min(StyleLight, design));
             }
@@ -35,9 +36,9 @@ namespace Mischpult.UI
         /// <summary>Oberflaeche der Zuege: gewaehlt oder passend zum Design (Retro-Hi-Fi: gebuerstetes Alu).</summary>
         public static int EffMaterial => PanelMaterial != 0 ? PanelMaterial : Hifi || IndustrialDesign ? 2 : Carbon ? 1 : Brass ? 3 : 0;
         /// <summary>Knoepfe: gewaehlt oder passend (Retro-Hi-Fi Chrom, Schwarz-Gold Gold, Broadcast Gummi). 5 = Gold.</summary>
-        public static int EffKnob => KnobStyle != 0 ? KnobStyle : Hifi || SynthDesign ? 2 : Gold || Brass ? 5 : Broadcast || RetroDesign || CockpitDesign ? 3 : Carbon || BigConsole || IndustrialDesign ? 1 : 0;
+        public static int EffKnob => KnobStyle != 0 ? KnobStyle : Hifi || SynthDesign || ArcticDesign ? 2 : Gold || Brass || SteamDesign ? 5 : JapanDesign ? 4 : Broadcast || RetroDesign || CockpitDesign ? 3 : Carbon || BigConsole || IndustrialDesign ? 1 : 0;
         /// <summary>Faderkappen: gewaehlt oder passend (Retro-Hi-Fi Chrom, Schwarz-Gold Gold, Broadcast schwarz). 5 = Gold.</summary>
-        public static int EffCap => CapStyle == 5 ? 6 : CapStyle != 0 ? CapStyle : Hifi ? 1 : Gold || Brass ? 5 : Broadcast || Carbon || IndustrialDesign || RetroDesign || CockpitDesign ? 2 : GlassDesign || SpaceDesign || SynthDesign ? 6 : 0;   // 4.0 finale: 6 = Glas
+        public static int EffCap => CapStyle == 5 ? 6 : CapStyle != 0 ? CapStyle : Hifi ? 1 : Gold || Brass || SteamDesign || JapanDesign ? 5 : ArcticDesign ? 6 : Broadcast || Carbon || IndustrialDesign || RetroDesign || CockpitDesign ? 2 : GlassDesign || SpaceDesign || SynthDesign ? 6 : 0;   // 4.0 finale: 6 = Glas
 
         private static readonly Color GoldLight = C(0xf3, 0xd9, 0x8b), GoldMid = C(0xd4, 0xa8, 0x4a), GoldDark = C(0x7a, 0x58, 0x1c);
 

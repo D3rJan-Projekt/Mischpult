@@ -10,7 +10,7 @@ namespace Mischpult.UI
     {
         /// <summary>Animierte Deko anbieten (Einstellungen → Aussehen).</summary>
         public static bool MoreDeko;
-        public static readonly string[] DekoNamesAll = { "Kaffeetasse", "Pflanze", "Kopfhörer", "Gummiente", "Diskokugel", "Lava-Lampe", "Schlafende Katze" };
+        public static readonly string[] DekoNamesAll = { "Kaffeetasse", "Pflanze", "Kopfhörer", "Gummiente", "Diskokugel", "Lava-Lampe", "Schlafende Katze", "Plattenspieler" };   // 4.3: Plattenspieler
         public static int DekoCount => MoreDeko ? DekoNamesAll.Length : DekoNames.Length;
         /// <summary>Musik fuer die Deko: Pegel 0..1, Bass 0..1, Takt-Blitz 0..1 (aus dem UI-Takt).</summary>
         public static float DekoLevel, DekoBass, DekoBeat;
@@ -22,6 +22,7 @@ namespace Mischpult.UI
             {
                 case 4: DrawDiscoBall(g, c, s, t); break;
                 case 5: DrawLavaLamp(g, c, s); break;
+                case 7: DrawTurntable(g, c, s); break;   // 4.3
                 default: DrawCat(g, c, s, t); break;
             }
         }

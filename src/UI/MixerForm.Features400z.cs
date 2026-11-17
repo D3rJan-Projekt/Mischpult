@@ -41,6 +41,7 @@ namespace Mischpult.UI
             s.NeonColor = DemoInt("NEONCOLOR", s.NeonColor);
             if (DemoOn("NEONPULSE")) s.NeonPulse = true;
             s.WallpaperStyle = DemoInt("WALLSTYLE", s.WallpaperStyle);
+            if (DemoOn("DEKO3")) { s.DekoOn = true; s.AnimDecoOn = true; s.Deko = new List<DekoConfig> { new DekoConfig { Kind = 7, X = 870, Y = 420 } }; }   // 4.3: Plattenspieler
             if (DemoOn("DEKO2")) { s.DekoOn = true; s.AnimDecoOn = true; s.Deko = new List<DekoConfig> { new DekoConfig { Kind = 4, X = 900, Y = 380 }, new DekoConfig { Kind = 5, X = 1060, Y = 600 }, new DekoConfig { Kind = 6, X = 860, Y = 640 } }; }
         }
 
@@ -450,7 +451,7 @@ namespace Mischpult.UI
             p.Toggle("Musik-Wallpaper", "Das Spektrum der Musik als Windows-Hintergrund – hinter den Desktop-Symbolen, über deinem eigenen Hintergrundbild. Beim Ausschalten kommt der normale Hintergrund zurück.",
                 () => _settings.WallpaperOn, v => { _settings.WallpaperOn = v; SetWallpaper400(v, true); ScheduleSave(); });
             p.Choice("Aussehen des Wallpapers", () => "", MixerSettings.WallpaperStyleNames, () => _settings.WallpaperStyle, i => { _settings.WallpaperStyle = i; if (_wall != null) _wall.Style = i; ScheduleSave(); }).Enabled = () => _settings.WallpaperOn;
-            p.Toggle("Animierte Deko", "Drei neue Deko-Stücke: Diskokugel (Lichtpunkte im Takt), Lava-Lampe (schneller bei lauter Musik), schlafende Katze (Ohren zucken beim Bass). Hinstellen: Rechtsklick in eine freie Fläche → Deko hierhin (Deko muss an sein).",
+            p.Toggle("Animierte Deko", "Neue Deko-Stücke: Diskokugel (Lichtpunkte im Takt), Lava-Lampe (schneller bei lauter Musik), schlafende Katze (Ohren zucken beim Bass) und ein Plattenspieler – die Platte dreht sich, solange Musik läuft, das Etikett ist das Album-Cover. Hinstellen: Rechtsklick in eine freie Fläche → Deko hierhin (Deko muss an sein).",
                 () => _settings.AnimDecoOn, v => SetFinal400(() => _settings.AnimDecoOn = v));
             p.Toggle("Bewegtes Hintergrundbild (GIF)", "Ist dein Hintergrundbild ein bewegtes GIF, läuft es in den freien Flächen ab.",
                 () => _settings.BgGifOn, v => { _settings.BgGifOn = v; LoadGifBg400(); ScheduleSave(); });

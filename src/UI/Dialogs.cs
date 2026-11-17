@@ -316,14 +316,15 @@ namespace Mischpult.UI
             get
             {
                 var list = new List<string>();
-                bool mic = false;
+                bool mic = false, sb = false;
                 for (int i = 0; i < _trigger.Items.Count; i++)
                 {
                     if (!_trigger.GetItemChecked(i)) continue;
                     string id = ((ChannelItem)_trigger.Items[i]).Id;
-                    if (id == MixerSettings.DuckMicId) mic = true; else list.Add(id);
+                    if (id == MixerSettings.DuckMicId) mic = true; else if (id == MixerSettings.DuckSbId) sb = true; else list.Add(id);
                 }
                 if (mic) list.Add(MixerSettings.DuckMicId);
+                if (sb) list.Add(MixerSettings.DuckSbId);   // 4.3
                 if (list.Count == 0) list.Add(_channels.Count > 0 ? _channels[0].Id : "");
                 return list;
             }
@@ -378,8 +379,9 @@ namespace Mischpult.UI
             var trig = s.DuckTriggerList;
             // 4.2.2: dein Mikrofon ganz oben – dann wird es leiser, wenn du selbst sprichst
             _trigger.Items.Add(new ChannelItem(MixerSettings.DuckMicId, "MIKRO (du sprichst)"), trig.Contains(MixerSettings.DuckMicId));
+            _trigger.Items.Add(new ChannelItem(MixerSettings.DuckSbId, "SOUNDBOARD (Sounds)"), trig.Contains(MixerSettings.DuckSbId));   // 4.3
             foreach (var c in _channels) _trigger.Items.Add(new ChannelItem(c), trig.Contains(c.Id));
-            if (_trigger.CheckedItems.Count == 0 && _trigger.Items.Count > 1) _trigger.SetItemChecked(1, true);
+            if (_trigger.CheckedItems.Count == 0 && _trigger.Items.Count > 2) _trigger.SetItemChecked(2, true);
             Controls.Add(_trigger);
             // 4.2.3: Laempchen rechts neben den Ausloesern
             _lampCol = new LampColumn { List = _trigger, BackColor = Theme.Input, Bounds = new Rectangle(Theme.Px(196), Theme.Px(138), Theme.Px(20), Theme.Px(150)) };

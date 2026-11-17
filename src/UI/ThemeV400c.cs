@@ -18,7 +18,7 @@ namespace Mischpult.UI
         public static bool IndustrialDesign => Design == StyleIndustrial;
         public static bool SpaceDesign => Design == StyleSpace;
         /// <summary>Das Design bringt einen eigenen Hintergrund mit (Weltraum).</summary>
-        public static bool DesignBg => SpaceDesign || SynthDesign;   // 4.2: Synthwave
+        public static bool DesignBg => SpaceDesign || SynthDesign || DesignBg430;   // 4.2: Synthwave, 4.3: Steampunk, Arktis, Japan
 
         private static void Designs400c(int scheme)
         {

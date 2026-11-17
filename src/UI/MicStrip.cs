@@ -29,6 +29,24 @@ namespace Mischpult.UI
 
         public MicStrip(MixerForm mixer) : base(mixer) { }
 
+        // ---- 4.3: das Mikro loest gerade das Ducking aus
+        private bool _duckSource;
+        public void SetDuckSource(bool on)
+        {
+            if (on == _duckSource) return;
+            _duckSource = on;
+            InvalidateChrome();
+        }
+
+        protected override void DrawOverlay(Graphics g)
+        {
+            if (!_duckSource) return;
+            var r = new RectangleF(PanelRect.X + Theme.F(Narrow ? 4 : 6), FaderArea.Y + Theme.F(1), Theme.F(Narrow ? 30 : 48), Theme.F(11));
+            Theme.FillRound(g, ChannelStrip.DuckSourceColor, r, Theme.F(3));
+            using (var b = new SolidBrush(Theme.Darken(ChannelStrip.DuckSourceColor, 0.88f)))
+                Theme.Str(g, Narrow ? "AUSL." : "LÖST AUS", Theme.Ui(8f, FontStyle.Bold), b, r, Theme.Center);
+        }
+
         public override int StripWidth => Theme.Px(118);
         protected override bool MasterCap => false;
         protected override Color AccentColor => Color.FromArgb(MixerSettings.Palette[7]);

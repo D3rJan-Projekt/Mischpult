@@ -240,7 +240,8 @@ namespace Mischpult.UI
         internal static string[] NewsTitles(string installed = null)
         {
             var l = new List<string>();
-            var parts = new List<string[][]> { WhatsNewWindow.Sections42 };
+            var parts = new List<string[][]> { WhatsNewWindow.Sections43 };
+            if (installed == null || Update410.CompareVersion(installed, "4.2") < 0) parts.Add(WhatsNewWindow.Sections42);   // von 4.1: auch alles aus 4.2
             if (installed == null || Update410.CompareVersion(installed, "4.1") < 0) parts.Add(WhatsNewWindow.Sections41);   // von 4.0: auch alles aus 4.1
             foreach (var sec in parts)
                 foreach (var s in sec)
