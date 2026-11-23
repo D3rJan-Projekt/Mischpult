@@ -371,6 +371,7 @@ namespace Mischpult.UI
 
         internal static readonly string[][] Chronicle =
         {
+            new[] { "4.4.1", "Fernbedienung: zuverlässigere Verbindung mit Handy-Browsern, Fenster „Fernbedienung“ zeigt die letzten Verbindungsversuche und den Zustand der Windows-Firewall – mit Knopf „Firewall freigeben“ (nur fürs eigene Heimnetz). Knopf „Am PC testen“, Protokoll fernbedienung.log." },
             new[] { "4.4", "Fernbedienung im Browser: Handy, Tablet oder ein anderer PC im selben WLAN regeln Kanäle, Ausgang, MUTE, einzelne Apps, Szenen und DUCKING – ohne App, Verbinden per QR-Code, nur im Heimnetz und mit Zugangscode." },
             new[] { "4.3", "Ducking zeigt, wer auslöst (Taste und Kanal), Halte-Taste, Soundboard als Auslöser, Ducking-Vorlagen und „nur wenn ein Spiel läuft / zu bestimmten Uhrzeiten“. Profil pro App, Timer pro Kanal, Windows-Töne stumm beim Zocken, Kopfhörer-Akku. Designs Steampunk, Arktis und Japan, Hintergründe Gewitter, Sternenwirbel und Glühwürmchen, Wände Graffiti, Bücherregal und Serverraum, Plattenspieler als Deko." },
             new[] { "4.2.7", "Installieren wahlweise in den Programme-Ordner (für alle Benutzer, Windows fragt nach Admin-Rechten) oder nur für dich wie bisher. Eine vorhandene Installation zieht beim Update auf Wunsch um." },

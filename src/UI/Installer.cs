@@ -181,6 +181,13 @@ namespace Mischpult.UI
                     err = Update410.InstallSelf(has("--desk"), has("--backup"));
                 }
                 else if (has("restore")) err = Update410.RestorePrevious();
+                else if (has("firewall"))   // 4.4.1: Fernbedienung in der Windows-Firewall freigeben (nur eigenes Teilnetz)
+                {
+                    int port = 0;
+                    for (int i = 0; i + 1 < args.Length; i++)
+                        if (args[i].Equals("--port", StringComparison.OrdinalIgnoreCase)) int.TryParse(args[i + 1], out port);
+                    err = port >= 1024 && port <= 65535 ? Firewall440.Allow(Application.ExecutablePath, port) : "Ungültiger Port.";
+                }
                 else err = "Unbekannter Auftrag.";
             }
             catch (Exception ex) { err = ex.Message; }

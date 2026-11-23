@@ -14,7 +14,8 @@ namespace Mischpult.UI
             new[] { "Fernbedienung vom Handy",
                 "Fernbedienung im Browser", "Handy, Tablet oder ein anderer PC im selben WLAN öffnen eine Adresse im Browser – keine App nötig – und regeln Kanäle, Ausgang und MUTE. Verbinden per QR-Code, nur im Heimnetz und nur mit Zugangscode.",
                 "Szenen und DUCKING am Handy", "Szenen antippen und DUCKING an- und ausschalten – mit Anzeige, wer gerade auslöst.",
-                "Lautstärke einzelner Apps am Handy", "Unter jedem Kanal die Apps aufklappen und einzeln regeln, z. B. nur Spotify leiser." },
+                "Lautstärke einzelner Apps am Handy", "Unter jedem Kanal die Apps aufklappen und einzeln regeln, z. B. nur Spotify leiser.",
+                "Firewall und Fehlersuche (4.4.1)", "Das Fenster „Fernbedienung“ zeigt die letzten Verbindungsversuche und ob die Windows-Firewall das Pult durchlässt – mit Knopf „Firewall freigeben“ (nur fürs eigene Heimnetz)." },
         };
 
         /// <summary>Anzahl der 4.4-Neuheiten.</summary>

@@ -69,6 +69,7 @@ Unter **OPTIONEN → Fenster & Verbindungen → „Fernbedienung im Browser“**
 - Funktioniert **nur im eigenen Heimnetz** und **nur mit Zugangscode** (6 Ziffern, nach 5 falschen Versuchen eine Minute gesperrt).
 - Beim ersten Einschalten fragt die Windows-Firewall einmal – dort **„Private Netzwerke“** erlauben.
 - Tipp: Im Handy-Browser **„Zum Startbildschirm hinzufügen“** – dann startet die Fernbedienung wie eine App.
+- **Klappt es nicht?** Im Fenster „Fernbedienung“ (QR-Code zeigen) stehen unten die letzten Verbindungsversuche und ob die Windows-Firewall durchlässt. Blockiert sie, hilft **„Firewall freigeben …“** (nur für diesen Port und nur fürs Heimnetz). Das Handy muss im selben WLAN sein (nicht im Gäste-WLAN), ein VPN auf dem Handy sollte aus sein. Mit **„Am PC testen“** siehst du, ob das Pult selbst antwortet.
 
 ![Fernbedienung](bilder/fernbedienung.png)
 
@@ -180,6 +181,7 @@ dotnet build -c Release -p:FrameworkPathOverride=/usr/lib/mono/4.8-api
 
 | Version | Neu |
 |---|---|
+| **4.4.1** | Fernbedienung zuverlässiger: robustere Verbindung, letzte Verbindungsversuche, Firewall-Prüfung mit „Firewall freigeben“, „Am PC testen“ |
 | **4.4** | Fernbedienung vom Handy: Kanäle, Apps, Ausgang, Szenen und DUCKING im Browser – ohne App, per QR-Code, nur im Heimnetz mit Zugangscode |
 | **4.3** | Ducking zeigt, wer auslöst · Halte-Taste, Soundboard als Auslöser, Vorlagen, „nur wenn …“ · Profil pro App, Kanal-Timer, Windows-Töne stumm beim Zocken, Kopfhörer-Akku · Steampunk, Arktis, Japan · Gewitter, Sternenwirbel, Glühwürmchen · Graffiti, Bücherregal, Serverraum · Plattenspieler |
 | **4.2.7** | Installieren wahlweise in den Programme-Ordner (für alle Benutzer) oder nur für dich |

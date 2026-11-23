@@ -25,6 +25,13 @@ namespace Mischpult.Native
         public volatile string Code;
         /// <summary>Ein Geraet hat sich zum ersten Mal (seit dem Start) mit richtigem Code gemeldet.</summary>
         public event Action<string> NewClient;
+        /// <summary>4.4.1: Protokollzeile (fuer die Datei fernbedienung.log), aus dem Server-Thread.</summary>
+        public event Action<string> Logged;
+
+        /// <summary>4.4.1: die letzten Verbindungsversuche (fuer das Fenster „Fernbedienung“).</summary>
+        public sealed class Entry { public DateTime When; public string Ip, Text; public bool Ok; }
+        private readonly List<Entry> _recent = new List<Entry>();
+        private readonly Dictionary<string, string> _lastText = new Dictionary<string, string>();
 
         public int Port { get; }
         public string Error { get; private set; }
@@ -48,7 +55,9 @@ namespace Mischpult.Native
             try
             {
                 _listener = new TcpListener(IPAddress.Any, Port);
-                try { _listener.ExclusiveAddressUse = true; } catch { }
+                // 4.4.1: kein „exklusiv“ mehr – damit blieb der Port nach einem Neustart bis zu 4 Minuten belegt.
+                // Unter Linux/Mono darf der Port gleich wieder benutzt werden (unter Windows bedeutet das etwas anderes).
+                if (!Win32.IsWindows) try { _listener.Server.SetSocketOption(SocketOptionLevel.Socket, SocketOptionName.ReuseAddress, true); } catch { }
                 _listener.Start(16);
             }
             catch (SocketException ex)
@@ -76,6 +85,29 @@ namespace Mischpult.Native
             try { _listener?.Stop(); } catch { }
         }
 
+        public List<Entry> Recent()
+        {
+            lock (_recent) return _recent.ToList();
+        }
+
+        /// <summary>Ereignis merken (dieselbe Meldung vom selben Geraet nur einmal hintereinander).</summary>
+        private void Note(string ip, string text, bool ok)
+        {
+            lock (_recent)
+            {
+                if (_lastText.TryGetValue(ip, out var last) && last == text)
+                {
+                    var e = _recent.LastOrDefault(x => x.Ip == ip);
+                    if (e != null) e.When = DateTime.Now;
+                    return;
+                }
+                _lastText[ip] = text;
+                _recent.Add(new Entry { When = DateTime.Now, Ip = ip, Text = text, Ok = ok });
+                while (_recent.Count > 12) _recent.RemoveAt(0);
+            }
+            try { Logged?.Invoke(DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss", System.Globalization.CultureInfo.InvariantCulture) + "  " + ip + "  " + text); } catch { }
+        }
+
         /// <summary>Geraete (IP), die sich in der letzten Zeit gemeldet haben.</summary>
         public List<string> ClientsSince(TimeSpan span)
         {
@@ -90,22 +122,82 @@ namespace Mischpult.Native
                 TcpClient c;
                 try { c = _listener.AcceptTcpClient(); }
                 catch { if (_stop) return; Thread.Sleep(200); continue; }
-                if (Interlocked.Increment(ref _conns) > 24)
+                if (Interlocked.Increment(ref _conns) > 32)
                 {
                     Interlocked.Decrement(ref _conns);
                     try { c.Close(); } catch { }
                     continue;
                 }
-                ThreadPool.QueueUserWorkItem(_ =>
+                // 4.4.1: eigener Faden pro Verbindung (nicht der ThreadPool) – Browser halten Verbindungen offen
+                var t = new Thread(() =>
                 {
                     try { Serve(c); }
                     catch { }
-                    finally { Interlocked.Decrement(ref _conns); try { c.Close(); } catch { } }
-                });
+                    finally { Interlocked.Decrement(ref _conns); CloseGently(c); }
+                }, 256 * 1024) { IsBackground = true, Name = "Mischpult-Fernbedienung-Verbindung" };
+                try { t.Start(); } catch { Interlocked.Decrement(ref _conns); CloseGently(c); }
             }
         }
 
+        /// <summary>Sauber schliessen (erst senden beenden), damit der Browser kein „Verbindung zurueckgesetzt“ sieht.</summary>
+        private static void CloseGently(TcpClient c)
+        {
+            try { c.Client.Shutdown(SocketShutdown.Send); } catch { }
+            try
+            {
+                // was noch ankommt, kurz abholen – sonst schickt Windows beim Schliessen ein RST
+                c.Client.ReceiveTimeout = 300;
+                var buf = new byte[1024];
+                for (int i = 0; i < 16 && c.Client.Available > 0; i++) c.Client.Receive(buf);
+            }
+            catch { }
+            try { c.Close(); } catch { }
+        }
+
         // ================================================================ Netz
+
+        private static List<KeyValuePair<uint, uint>> _subnets;
+        private static DateTime _subnetsAt;
+
+        /// <summary>4.4.1: auch Geraete aus demselben Teilnetz wie dieser PC zulassen (falls das Heimnetz ungewoehnliche Adressen nutzt).</summary>
+        public static bool InLocalSubnet(IPAddress ip)
+        {
+            if (ip == null) return false;
+            if (ip.IsIPv4MappedToIPv6) ip = ip.MapToIPv4();
+            if (ip.AddressFamily != AddressFamily.InterNetwork) return false;
+            var list = _subnets;
+            if (list == null || DateTime.UtcNow - _subnetsAt > TimeSpan.FromSeconds(60))
+            {
+                list = new List<KeyValuePair<uint, uint>>();
+                try
+                {
+                    foreach (var ni in NetworkInterface.GetAllNetworkInterfaces())
+                    {
+                        if (ni.OperationalStatus != OperationalStatus.Up || ni.NetworkInterfaceType == NetworkInterfaceType.Loopback) continue;
+                        foreach (var ua in ni.GetIPProperties().UnicastAddresses)
+                        {
+                            if (ua.Address.AddressFamily != AddressFamily.InterNetwork) continue;
+                            IPAddress mask = null;
+                            try { mask = ua.IPv4Mask; } catch { }
+                            if (mask == null) continue;
+                            uint m = U(mask);
+                            if (m == 0 || m == 0xFFFFFFFF) continue;
+                            list.Add(new KeyValuePair<uint, uint>(U(ua.Address) & m, m));
+                        }
+                    }
+                }
+                catch { }
+                _subnets = list; _subnetsAt = DateTime.UtcNow;
+            }
+            uint a = U(ip);
+            return list.Any(kv => (a & kv.Value) == kv.Key);
+        }
+
+        private static uint U(IPAddress ip)
+        {
+            var b = ip.GetAddressBytes();
+            return b.Length == 4 ? (uint)(b[0] << 24 | b[1] << 16 | b[2] << 8 | b[3]) : 0u;
+        }
 
         /// <summary>Nur das eigene Netz: Loopback, 10.x, 172.16–31.x, 192.168.x, 169.254.x (IPv6: Link-lokal und fc00::/7).</summary>
         public static bool IsLocal(IPAddress ip)
@@ -197,26 +289,59 @@ namespace Mischpult.Native
         private void Serve(TcpClient c)
         {
             var ep = c.Client.RemoteEndPoint as IPEndPoint;
-            if (ep == null || !IsLocal(ep.Address)) return;   // nur das eigene Netz
+            if (ep == null) return;
             var a = ep.Address.IsIPv4MappedToIPv6 ? ep.Address.MapToIPv4() : ep.Address;
             string ip = a.ToString();
+            bool local = IsLocal(a) || InLocalSubnet(a);
             c.NoDelay = true;
-            c.ReceiveTimeout = 15000;
             c.SendTimeout = 10000;
             var s = c.GetStream();
             var pend = new List<byte>(2048);
             for (int k = 0; k < 1000 && !_stop; k++)
             {
+                // erste Anfrage: Browser bauen Verbindungen oft vorab auf – laenger warten; danach 30 s Leerlauf
+                c.ReceiveTimeout = !local ? 5000 : k == 0 ? 90000 : 30000;
+                if (k == 0 && IsTls(s, pend)) { Note(ip, "HTTPS-Versuch – die Fernbedienung nutzt http:// (Browser versucht es gleich ohne)", false); return; }
                 var r = ReadRequest(s, pend);
-                if (r == null) return;
+                if (r == null) { if (k == 0 && pend.Count > 0) Note(ip, "Unverständliche Anfrage", false); return; }
+                if (!local)
+                {
+                    Note(ip, "abgelehnt – nicht im Heimnetz", false);
+                    Write(s, Page403(ip), true);
+                    return;
+                }
                 Interlocked.Exchange(ref _lastTicks, DateTime.UtcNow.Ticks);
                 Resp resp;
                 try { resp = Handle(r, ip); }
                 catch { resp = Json(500, "{\"ok\":false,\"err\":\"Fehler im Pult\"}"); }
+                if (r.Path == "/" || r.Path == "/index.html") Note(ip, "Seite geöffnet", true);
+                else if (resp.Status == 401) Note(ip, "falscher Code", false);
+                else if (resp.Status == 429) Note(ip, "gesperrt (zu viele falsche Codes)", false);
+                else if (resp.Status == 403) Note(ip, "abgelehnt – falsche Adresse (" + (r.H("Host") ?? "?") + ")", false);
+                else if (resp.Status == 200 && r.Path == "/api/state") Note(ip, "verbunden", true);
                 Write(s, resp, r.Close);
                 if (r.Close) return;
             }
         }
+
+        /// <summary>Beginnt die Verbindung mit einem TLS-Handschlag (https://)? Liest dafuer das erste Byte.</summary>
+        private static bool IsTls(NetworkStream s, List<byte> pend)
+        {
+            var one = new byte[1];
+            int n;
+            try { n = s.Read(one, 0, 1); } catch { return false; }
+            if (n <= 0) return false;
+            pend.Add(one[0]);
+            return one[0] == 0x16;
+        }
+
+        private static Resp Page403(string ip) => new Resp
+        {
+            Status = 403, Type = "text/html; charset=utf-8", Html = true,
+            Body = Encoding.UTF8.GetBytes("<!doctype html><meta charset=utf-8><meta name=viewport content=\"width=device-width,initial-scale=1\"><title>Mischpult</title>" +
+                "<body style=\"font:16px system-ui;background:#121418;color:#eef1f5;padding:24px\"><h2>Nur im Heimnetz</h2><p>Die Fernbedienung des Mischpults antwortet nur Geräten aus dem eigenen WLAN. " +
+                "Dieses Gerät kommt von " + WebUtility.HtmlEncode(ip) + ".</p><p>Ist das Handy im selben WLAN wie der PC (nicht im Gäste-WLAN) und ist kein VPN an?</p></body>"),
+        };
 
         private static int HeaderEnd(List<byte> b)
         {
