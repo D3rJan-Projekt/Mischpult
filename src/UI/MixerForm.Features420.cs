@@ -23,6 +23,7 @@ namespace Mischpult.UI
             "NewsTogglesOn", "PacksOn", "FileAssocOn", "DeskMirrorOn", "RgbWaveOn", "RgbWaveBeat", "FrameGlowOn", "SplashOn", "CapIconOn", "SoundArtOn",
             "DuckLampsOn", "DuckMinTalkOn", "DuckFadeOn",   // 4.2.3
             "DuckWhoOn", "DuckHoldKeyOn", "DuckPresetsOn", "DuckWhenOn", "AppProfilesOn", "ChanTimerOn", "SysQuietGameOn", "BatteryOn",   // 4.3
+            "RemoteOn",   // 4.4
         };
 
         private void ApplyLook420(MixerSettings s, bool demo)

@@ -8,6 +8,21 @@ namespace Mischpult.UI
     /// <summary>4.0: "Was ist neu" – nach einem Update einmal zeigen (abschaltbar), sonst ueber die Einstellungen.</summary>
     internal sealed class WhatsNewWindow : Form
     {
+        /// <summary>4.4: Neuheiten (Titel, dann Paare Name/Erklaerung). Namen wie die Schalter, damit rechts ein Schalter steht.</summary>
+        internal static readonly string[][] Sections44 =
+        {
+            new[] { "Fernbedienung vom Handy",
+                "Fernbedienung im Browser", "Handy, Tablet oder ein anderer PC im selben WLAN öffnen eine Adresse im Browser – keine App nötig – und regeln Kanäle, Ausgang und MUTE. Verbinden per QR-Code, nur im Heimnetz und nur mit Zugangscode.",
+                "Szenen und DUCKING am Handy", "Szenen antippen und DUCKING an- und ausschalten – mit Anzeige, wer gerade auslöst.",
+                "Lautstärke einzelner Apps am Handy", "Unter jedem Kanal die Apps aufklappen und einzeln regeln, z. B. nur Spotify leiser." },
+        };
+
+        /// <summary>Anzahl der 4.4-Neuheiten.</summary>
+        internal static int Count44
+        {
+            get { int n = 0; foreach (var s in Sections44) n += (s.Length - 1) / 2; return n; }
+        }
+
         /// <summary>4.3: Neuheiten (Titel, dann Paare Name/Erklaerung). Namen wie die Schalter, damit rechts ein Schalter steht.</summary>
         internal static readonly string[][] Sections43 =
         {
@@ -292,24 +307,27 @@ namespace Mischpult.UI
                     var name = Theme.UiSemi(11.5f);
                     var desc = Theme.Ui(11f);
                     _hits.Clear();
-                    for (int part = 0; part < 4; part++)
+                    for (int part = 0; part < 5; part++)
                     {
-                    // 4.3 oben, darunter 4.2, 4.1 und alles aus 4.0
+                    // 4.4 oben, darunter 4.3, 4.2, 4.1 und alles aus 4.0
                     if (part > 0) y += Theme.F(22);
-                    Theme.Str(g, part == 0 ? "Neu in Mischpult " + Program.Version : part == 1 ? "Aus Version 4.2" : part == 2 ? "Aus Version 4.1" : "Aus Version 4.0", part == 0 ? big : Theme.Ui(17f, FontStyle.Bold), tb, new RectangleF(x, y, w, Theme.F(34)), Theme.Left);
+                    Theme.Str(g, part == 0 ? "Neu in Mischpult " + Program.Version : part == 1 ? "Aus Version 4.3" : part == 2 ? "Aus Version 4.2" : part == 3 ? "Aus Version 4.1" : "Aus Version 4.0", part == 0 ? big : Theme.Ui(17f, FontStyle.Bold), tb, new RectangleF(x, y, w, Theme.F(34)), Theme.Left);
                     y += Theme.F(part == 0 ? 38 : 32);
                     string sub = part == 0
-                        ? Count43 + " neue Sachen: Ducking (wer löst aus, Halte-Taste, Soundboard, Vorlagen, nur wenn …), Komfort (Profil pro App, Kanal-Timer, Windows-Töne, Kopfhörer-Akku) und Optik (Designs, Hintergründe, Wände, Plattenspieler) – jede einzeln an- und ausschaltbar unter OPTIONEN → Automatik („Ducking“ und „4.3 – Komfort“) und Aussehen („4.3 – Optik“). Alles ist zuerst aus." +
-                          (ToggleFor != null ? " Mit dem Schalter rechts schaltest du eine Neuheit gleich hier ein." : "")
+                        ? "Die Fernbedienung: Handy, Tablet oder ein anderer PC regeln das Pult im Browser – ohne App, nur im Heimnetz, mit Zugangscode. Einschalten unter OPTIONEN → Fenster & Verbindungen („Fernbedienung“). Zuerst aus." +
+                          (ToggleFor != null ? " Mit dem Schalter rechts schaltest du sie gleich hier ein." : "")
                         : part == 1
-                        ? Count42 + " Neuheiten aus 4.2 bis 4.2.7: automatische Updates, Programme-Ordner, Ducking-Feinschliff, Optik und Extras – unter OPTIONEN → Allgemein, Automatik („Ducking“) und Aussehen („4.2 – Optik“)."
+                        ? Count43 + " neue Sachen: Ducking (wer löst aus, Halte-Taste, Soundboard, Vorlagen, nur wenn …), Komfort (Profil pro App, Kanal-Timer, Windows-Töne, Kopfhörer-Akku) und Optik (Designs, Hintergründe, Wände, Plattenspieler) – jede einzeln an- und ausschaltbar unter OPTIONEN → Automatik („Ducking“ und „4.3 – Komfort“) und Aussehen („4.3 – Optik“). Alles ist zuerst aus." +
+                          ""
                         : part == 2
+                        ? Count42 + " Neuheiten aus 4.2 bis 4.2.7: automatische Updates, Programme-Ordner, Ducking-Feinschliff, Optik und Extras – unter OPTIONEN → Allgemein, Automatik („Ducking“) und Aussehen („4.2 – Optik“)."
+                        : part == 3
                         ? Count41 + " Funktionen rund ums Installieren, Aktualisieren und Aufräumen – unter OPTIONEN → Allgemein (Abschnitte „4.1“) und Sichern."
                         : Count + " Funktionen aus 4.0 – Schau unter OPTIONEN in die Abschnitte „4.0“.";
                     float sh = g.MeasureString(sub, subF, (int)w).Height;
                     Theme.Str(g, sub, subF, db, new RectangleF(x, y, w, sh + 4), Theme.Wrap);
                     y += sh + Theme.F(14);
-                    foreach (var s in part == 0 ? Sections43 : part == 1 ? Sections42 : part == 2 ? Sections41 : Sections)
+                    foreach (var s in part == 0 ? Sections44 : part == 1 ? Sections43 : part == 2 ? Sections42 : part == 3 ? Sections41 : Sections)
                     {
                         y += Theme.F(8);
                         Theme.Str(g, s[0].ToUpperInvariant(), head, ab, new RectangleF(x, y, w, Theme.F(24)), Theme.Left);

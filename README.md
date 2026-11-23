@@ -57,9 +57,20 @@ Windows hat nur einen kleinen Lautstärkemixer. Das **Mischpult** macht daraus e
 - Bewegte Hintergründe (z. B. Gewitter, das zum Bass blitzt), Wände hinter dem Pult, Deko wie der Plattenspieler mit dem Album-Cover, Pultlampe, RGB-Welle, spiegelnder Tisch – alles einzeln abschaltbar
 
 **Bedienung**
+- **Fernbedienung vom Handy**: Handy, Tablet oder ein anderer PC im selben WLAN regeln das Pult im Browser – ohne App, Verbinden per QR-Code
 - Tastenkürzel, die überall funktionieren – auch im Spiel
 - MIDI-Controller, Xbox-Controller, Mini-Ansicht, Overlay, Desktop-Widget
 - Einstellungsfenster mit Suche (Strg+F) und Übersicht „Was ist eingeschaltet“
+
+## Fernbedienung vom Handy
+
+Unter **OPTIONEN → Fenster & Verbindungen → „Fernbedienung im Browser“** einschalten und den **QR-Code** mit dem Handy scannen – fertig. Im Browser des Handys (oder Tablets, oder eines anderen PCs im selben WLAN) erscheinen alle Kanäle mit Schieber, MUTE und Pegel, dazu die Apps pro Kanal, die Szenen und die DUCKING-Taste mit „wer löst aus“. Eine App braucht es nicht.
+
+- Funktioniert **nur im eigenen Heimnetz** und **nur mit Zugangscode** (6 Ziffern, nach 5 falschen Versuchen eine Minute gesperrt).
+- Beim ersten Einschalten fragt die Windows-Firewall einmal – dort **„Private Netzwerke“** erlauben.
+- Tipp: Im Handy-Browser **„Zum Startbildschirm hinzufügen“** – dann startet die Fernbedienung wie eine App.
+
+![Fernbedienung](bilder/fernbedienung.png)
 
 ## Download und Installation
 
@@ -111,7 +122,7 @@ Der komplette Quellcode liegt hier im Projekt – jeder kann nachsehen, was das 
 - **EQ und Kompressor:** Windows hat keinen EQ pro App. Ist er an, nimmt das Mischpult den Ton der App direkt ab (Windows-Funktion „Prozess-Loopback“), bearbeitet ihn und gibt ihn wieder aus. Diese Kanäle haben dadurch etwa 30–50 ms Verzögerung.
 - Apps im **Exklusivmodus** (ASIO / WASAPI exklusiv) lassen sich von Windows aus nicht regeln.
 - **Einstellungen** liegen unter `Dokumente\Mischpult`. Unter OPTIONEN → Sichern lassen sie sich exportieren oder als **Umzugs-Paket** auf einen neuen PC mitnehmen.
-- **Datenschutz:** Das Mischpult schickt nichts ins Internet. Ausnahmen gibt es nur, wenn du sie selbst einschaltest: „Online nach Updates suchen“ (fragt bei GitHub nach einer neuen Version), OBS (auf deinem PC) und WLED (in deinem Heimnetz).
+- **Datenschutz:** Das Mischpult schickt nichts ins Internet. Ausnahmen gibt es nur, wenn du sie selbst einschaltest: „Online nach Updates suchen“ (fragt bei GitHub nach einer neuen Version), OBS (auf deinem PC), WLED und die Fernbedienung (beide nur in deinem Heimnetz).
 
 ## Bilder
 
@@ -169,6 +180,7 @@ dotnet build -c Release -p:FrameworkPathOverride=/usr/lib/mono/4.8-api
 
 | Version | Neu |
 |---|---|
+| **4.4** | Fernbedienung vom Handy: Kanäle, Apps, Ausgang, Szenen und DUCKING im Browser – ohne App, per QR-Code, nur im Heimnetz mit Zugangscode |
 | **4.3** | Ducking zeigt, wer auslöst · Halte-Taste, Soundboard als Auslöser, Vorlagen, „nur wenn …“ · Profil pro App, Kanal-Timer, Windows-Töne stumm beim Zocken, Kopfhörer-Akku · Steampunk, Arktis, Japan · Gewitter, Sternenwirbel, Glühwürmchen · Graffiti, Bücherregal, Serverraum · Plattenspieler |
 | **4.2.7** | Installieren wahlweise in den Programme-Ordner (für alle Benutzer) oder nur für dich |
 | **4.2.6** | „Auf GitHub“ und „Fehler melden“ direkt im Pult · die EXE baut GitHub jetzt selbst aus dem Quellcode |

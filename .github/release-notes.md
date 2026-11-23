@@ -1,31 +1,18 @@
-**Mischpult 4.3** – App-Audio-Mixer für Windows, made by D3r_Jan
+**Mischpult 4.4** – App-Audio-Mixer für Windows, made by D3r_Jan
 
 **Herunterladen:** unten bei „Assets“ auf `Mischpult.exe` klicken, dann starten – das Ein-Klick-Fenster fragt: installieren oder nur ausprobieren. Ein Update geht genauso: neue EXE starten → „Aktualisieren“, deine Einstellungen bleiben.
 
-### Neu in 4.3 – alles einzeln schaltbar, zuerst aus
-**Ducking**
-- **DUCKING-Taste zeigt, wer auslöst** – z. B. „MIKRO −15“. Der auslösende Kanal zeigt „LÖST AUS“, die leiseren Kanäle „DUCK“.
-- **Taste zum Halten** – solange gedrückt, ist die Musik leiser.
-- **Soundboard als Auslöser** – im Ducking-Fenster „SOUNDBOARD“ anhaken.
-- **Ducking-Vorlagen** – „Zocken“, „Stream“, „Film“ speichern und per Rechtsklick auf DUCKING wechseln.
-- **Ducking nur, wenn …** ein Spiel läuft und/oder zu bestimmten Uhrzeiten.
-
-**Komfort**
-- **Profil auch für andere Apps** – Szene pro App, nicht nur pro Spiel.
-- **Timer für einzelne Kanäle** – Rechtsklick auf den Kanal → Timer.
-- **Windows-Töne stumm beim Zocken.**
-- **Kopfhörer-Akku in der Kopfleiste** (Bluetooth).
-
-**Optik**
-- Designs **Steampunk**, **Arktis**, **Japan**
-- Bewegte Hintergründe **Gewitter** (blitzt zum Bass), **Sternenwirbel**, **Glühwürmchen**
-- Wände **Graffiti**, **Bücherregal**, **Serverraum**
-- **Plattenspieler** als Deko – das Etikett ist das Album-Cover
+### Neu in 4.4 – Fernbedienung vom Handy
+- **Fernbedienung im Browser** (OPTIONEN → Fenster & Verbindungen, zuerst aus): Handy, Tablet oder ein anderer PC im selben WLAN regeln das Pult im Browser – **keine App nötig**.
+- Kanäle und Ausgang mit Schieber, MUTE und Live-Pegel, dazu die Schilder „DUCK“ und „LÖST AUS“.
+- **Einzelne Apps** pro Kanal aufklappen und regeln, **Szenen** antippen, **DUCKING** an/aus mit Anzeige, wer auslöst (beides einzeln abschaltbar).
+- Verbinden per **QR-Code** – scannen, fertig.
+- Sicherheit: nur im eigenen Heimnetz, nur mit 6-stelligem Zugangscode, nach 5 falschen Versuchen eine Minute gesperrt. Beim ersten Einschalten fragt die Windows-Firewall einmal – „Private Netzwerke“ erlauben.
 
 ### Zuletzt neu
+- **4.3** – Ducking zeigt, wer auslöst; Halte-Taste, Soundboard als Auslöser, Vorlagen; Kanal-Timer, Kopfhörer-Akku; Steampunk, Arktis, Japan
 - **4.2.7** – Installieren wahlweise in den Programme-Ordner
-- **4.2.6** – „Auf GitHub“ und „Fehler melden“ im Pult, EXE wird von GitHub gebaut
-- **4.2.5** – Updates automatisch installieren
+- **4.2.6** – „Auf GitHub“ und „Fehler melden“ im Pult
 
 **Windows warnt?** Die EXE ist nicht digital signiert. Bei „Der Computer wurde durch Windows geschützt“: *Weitere Informationen → Trotzdem ausführen*. Meldet Defender einen Virus, ist das ein Fehlalarm – siehe README.
 

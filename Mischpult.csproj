@@ -20,7 +20,7 @@
     <Prefer32Bit>false</Prefer32Bit>
     <DebugType>none</DebugType>
     <GenerateDocumentationFile>false</GenerateDocumentationFile>
-    <Version>4.3</Version>
+    <Version>4.4</Version>
     <Product>Mischpult</Product>
     <Company>D3r_Jan</Company>
     <Authors>D3r_Jan</Authors>
@@ -37,6 +37,7 @@
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="assets\app.ico" LogicalName="Mischpult.app.ico" />
+    <EmbeddedResource Include="assets\remote.html" LogicalName="Mischpult.remote.html" />
   </ItemGroup>
   <ItemGroup>
     <!-- Bauzeit: damit eine neue EXE eine noch laufende alte Version abloesen kann -->

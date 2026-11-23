@@ -2374,6 +2374,7 @@ namespace Mischpult.UI
                 _pacer?.Dispose();
                 _saveTimer.Dispose();
                 _nowPlaying.Stop();
+                StopRemote440();   // 4.4: Fernbedienung
                 _clickPlayer?.Dispose();
                 if (_activity != null) Application.RemoveMessageFilter(_activity);
                 _bgSource?.Dispose();

@@ -41,6 +41,8 @@ namespace Mischpult.UI
         }
 
         public const float MinPos = 0.004f;
+        /// <summary>4.4: Stuetzpunkte der gewaehlten Kurve (fuer die Fernbedienung im Browser).</summary>
+        public static float[] CurvePos => (float[])Pos.Clone();
 
         public static float PosToDb(float p)
         {

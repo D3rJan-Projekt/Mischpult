@@ -206,6 +206,7 @@ namespace Mischpult.UI
             TickDuckWho430(now);
             TickKomfort430(now);
             TickLook430(now, dt);
+            TickRemote440(now);   // 4.4: Fernbedienung im Browser
         }
 
         // ================================================================ Einstellungen (Automatik → Ducking)

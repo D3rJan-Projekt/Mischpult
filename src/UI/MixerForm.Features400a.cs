@@ -508,7 +508,7 @@ namespace Mischpult.UI
             un.Danger = true;
             p.Toggle("Nach einem Update zeigen, was neu ist", "Startet eine neue Version zum ersten Mal, erscheint einmal ein Fenster mit allen Neuheiten.",
                 () => !_settings.WhatsNewOff, v => { _settings.WhatsNewOff = !v; ScheduleSave(); });
-            p.Button("Was ist neu in 4.3", "Die " + WhatsNewWindow.Count43 + " Neuheiten von Version 4.3 – darunter die " + WhatsNewWindow.Count42 + " aus 4.2, " + WhatsNewWindow.Count41 + " aus 4.1 und alle " + WhatsNewWindow.Count + " aus 4.0.", "Anzeigen", r => ShowWhatsNew());
+            p.Button("Was ist neu in 4.4", "Die Fernbedienung vom Handy – darunter die " + WhatsNewWindow.Count43 + " Neuheiten aus 4.3, " + WhatsNewWindow.Count42 + " aus 4.2, " + WhatsNewWindow.Count41 + " aus 4.1 und alle " + WhatsNewWindow.Count + " aus 4.0.", "Anzeigen", r => ShowWhatsNew());
         }
 
         /// <summary>Seite Sichern: Dokumente-Ordner, Cloud, Profile.</summary>

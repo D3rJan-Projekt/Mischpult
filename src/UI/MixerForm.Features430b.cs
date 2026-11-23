@@ -156,6 +156,7 @@ namespace Mischpult.UI
 
         private void DemoShown430()
         {
+            DemoShown440();
             if (DemoOn("CHANTIMER") && _settings.Channels.Count > 3) _chanTimer430[_settings.Channels[3].Id] = DateTime.UtcNow.AddMinutes(12);
             if (DemoOn("DUCKMENU")) DemoLater(ShowDuckMenu430);
             if (DemoOn("DUCKPRESETS"))

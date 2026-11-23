@@ -945,6 +945,7 @@ namespace Mischpult
             Normalize410();   // 4.1
             Normalize420();   // 4.2
             Normalize430();   // 4.3
+            Normalize440();   // 4.4: Fernbedienung
         }
 
         public const float EqRange = 12f;

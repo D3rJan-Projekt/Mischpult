@@ -115,6 +115,7 @@ namespace Mischpult.UI
             AddWindowsFinal400(p);   // 4.0 finale: Szenen-Galerie, EQ-Uebersicht, Befehlssuche, Fehlerbericht
             AddExtras420(p);         // 4.2: Klang-Kunst
             AddExtern400(p);
+            AddRemote440(p);         // 4.4: Fernbedienung im Browser
             pages.Add(p);
 
             // ------------------------------------------------------------ Aussehen
