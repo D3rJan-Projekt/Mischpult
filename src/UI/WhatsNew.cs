@@ -14,7 +14,9 @@ namespace Mischpult.UI
             new[] { "Tablet als Mischpult (4.5)",
                 "Pult-Ansicht fürs Tablet", "Auf dem Tablet sieht die Fernbedienung aus wie das Pult: senkrechte Fader mit Skala und Pegelanzeige, Namensschild in der Kanalfarbe. Oben rechts zwischen „Pult“ und „Liste“ umschalten – am Handy startet die Liste.",
                 "EQ, Balance und SOLO am Handy", "Pro Kanal LO, MID und HI drehen (zweimal tippen = Mitte), EQ-Taste, PAN, SOLO und COMP – wie am PC.",
-                "Apps im Pult", "Auf die App-Symbole eines Kanals tippen – unten erscheinen die Apps und lassen sich einzeln regeln." },
+                "Apps im Pult", "Auf die App-Symbole eines Kanals tippen – unten erscheinen die Apps und lassen sich einzeln regeln.",
+                "Alle Ausgänge am Handy", "Rechts im Pult alle Ausgabegeräte – Lautsprecher, Kopfhörer, HDMI – mit Lautstärke, MUTE und Pegel (4.5.1).",
+                "Fein einstellen", "Taste FEIN: Fader und Drehregler bewegen sich 4× langsamer, EQ in 0,1-dB-Schritten. Wert unter dem Fader antippen = Lautstärke, EQ und PAN in kleinen Schritten (4.5.1)." },
             new[] { "Fernbedienung vom Handy",
                 "Fernbedienung im Browser", "Handy, Tablet oder ein anderer PC im selben WLAN öffnen eine Adresse im Browser – keine App nötig – und regeln Kanäle, Ausgang und MUTE. Verbinden per QR-Code, nur im Heimnetz und nur mit Zugangscode.",
                 "Szenen und DUCKING am Handy", "Szenen antippen und DUCKING an- und ausschalten – mit Anzeige, wer gerade auslöst.",
@@ -319,7 +321,7 @@ namespace Mischpult.UI
                     Theme.Str(g, part == 0 ? "Neu in Mischpult " + Program.Version : part == 1 ? "Aus Version 4.3" : part == 2 ? "Aus Version 4.2" : part == 3 ? "Aus Version 4.1" : "Aus Version 4.0", part == 0 ? big : Theme.Ui(17f, FontStyle.Bold), tb, new RectangleF(x, y, w, Theme.F(34)), Theme.Left);
                     y += Theme.F(part == 0 ? 38 : 32);
                     string sub = part == 0
-                        ? "Die Fernbedienung: Handy, Tablet oder ein anderer PC regeln das Pult im Browser – ohne App, nur im Heimnetz, mit Zugangscode. Neu in 4.5: Auf dem Tablet sieht sie aus wie ein richtiges Mischpult, mit EQ, PAN, SOLO und COMP. Einschalten unter OPTIONEN → Fenster & Verbindungen („Fernbedienung“). Zuerst aus." +
+                        ? "Die Fernbedienung: Handy, Tablet oder ein anderer PC regeln das Pult im Browser – ohne App, nur im Heimnetz, mit Zugangscode. Neu in 4.5: Auf dem Tablet sieht sie aus wie ein richtiges Mischpult, mit EQ, PAN, SOLO und COMP – seit 4.5.1 mit allen Ausgängen und Feineinstellung. Einschalten unter OPTIONEN → Fenster & Verbindungen („Fernbedienung“). Zuerst aus." +
                           (ToggleFor != null ? " Mit dem Schalter rechts schaltest du sie gleich hier ein." : "")
                         : part == 1
                         ? Count43 + " neue Sachen: Ducking (wer löst aus, Halte-Taste, Soundboard, Vorlagen, nur wenn …), Komfort (Profil pro App, Kanal-Timer, Windows-Töne, Kopfhörer-Akku) und Optik (Designs, Hintergründe, Wände, Plattenspieler) – jede einzeln an- und ausschaltbar unter OPTIONEN → Automatik („Ducking“ und „4.3 – Komfort“) und Aussehen („4.3 – Optik“). Alles ist zuerst aus." +

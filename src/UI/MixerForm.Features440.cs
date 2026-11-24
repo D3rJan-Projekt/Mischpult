@@ -283,7 +283,8 @@ namespace Mischpult.UI
             sb.Append("],\"rows\":[");
             var src = _settings.DuckOn ? DuckSources430(_remoteNow) : new List<string>();
             var rows = MiniRows().Where(r => r.Id != "mic").ToList();
-            var ordered = rows.Where(r => r.Id == "master").Concat(rows.Where(r => r.Id.StartsWith("ch:"))).Concat(rows.Where(r => r.Id.StartsWith("grp:"))).Concat(rows.Where(r => r.Id == "stream")).ToList();
+            RemoteOutputs451(rows);   // 4.5.1: alle Ausgaenge
+            var ordered = rows.Where(r => r.Id == "master").Concat(rows.Where(r => r.Id.StartsWith("out:"))).Concat(rows.Where(r => r.Id.StartsWith("ch:"))).Concat(rows.Where(r => r.Id.StartsWith("grp:"))).Concat(rows.Where(r => r.Id == "stream")).ToList();
             bool firstRow = true;
             foreach (var r in ordered)
             {
@@ -298,7 +299,9 @@ namespace Mischpult.UI
                 }
                 sb.Append("{\"id\":").Append(J(r.Id)).Append(",\"name\":").Append(J(r.Name)).Append(",\"color\":").Append(J(Hex(r.Color)))
                   .Append(",\"pos\":").Append(F4(r.Pos)).Append(",\"mute\":").Append(r.Mute ? "true" : "false")
-                  .Append(",\"pk\":").Append(F4(Math.Max(r.PeakL, r.PeakR))).Append(",\"val\":").Append(J(r.Value)).Append(",\"badge\":").Append(J(badge));
+                  .Append(",\"pk\":").Append(F4(Math.Max(r.PeakL, r.PeakR))).Append(",\"val\":").Append(J(r.Value)).Append(",\"badge\":").Append(J(badge))
+                  .Append(",\"pl\":").Append(F4(r.PeakL)).Append(",\"pr\":").Append(F4(r.PeakR));   // 4.5.1: Pegel links/rechts
+                if (r.Sub != null) sb.Append(",\"sub\":").Append(J(r.Sub));
                 if (strip != null) AppendStrip450(sb, strip.Config);   // 4.5: EQ, Balance, SOLO, COMP fuer die Pult-Ansicht
                 if (strip != null && !_settings.RemoteAppsOff)
                 {

@@ -6,6 +6,7 @@ namespace Mischpult
     {
         // ---- 4.5 Fernbedienung als Pult (Tablet): EQ, Balance, SOLO und COMP im Browser regeln
         [DataMember] public bool RemotePultOff;   // aus = am Tablet nur die Liste wie am Handy (kein Umschalter „Pult | Liste“)
-        [DataMember] public bool RemoteEqOff;   // aus = EQ, Balance, SOLO und COMP am Handy/Tablet ausblenden (gilt nur, wenn die Fernbedienung an ist)
+        [DataMember] public bool RemoteEqOff;
+        [DataMember] public bool RemoteOutputsOff;   // 4.5.1: aus = am Handy nur der Standard-Ausgang (nicht alle Ausgaenge)   // aus = EQ, Balance, SOLO und COMP am Handy/Tablet ausblenden (gilt nur, wenn die Fernbedienung an ist)
     }
 }

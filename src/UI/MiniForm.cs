@@ -18,6 +18,7 @@ namespace Mischpult.UI
         public float PreL = -1, PreR = -1;   // vor Fader/Stumm (-1 = wie PeakL/R)
         public string Value;       // z. B. "-6.0 dB" oder "62 %"
         public string Badge;       // z. B. "DUCK", "LEISER", "PTT"
+        public string Sub;         // 4.5.1: Zusatz fuer die Fernbedienung, z. B. "Realtek(R) Audio"
     }
 
     /// <summary>

@@ -98,7 +98,11 @@ body.pultview .chip{padding:9px 14px}
 .strip::before{content:"";position:absolute;left:0;right:0;top:0;height:4px;border-radius:10px 10px 0 0;background:var(--c)}
 .strip:first-child{margin-left:auto}.strip:last-child{margin-right:auto}
 .strip.out{background:linear-gradient(180deg,#36312a,#201d18);border-color:#4c4436}
-.plate{border-radius:6px;padding:7px 4px;text-align:center;font-weight:800;font-size:12px;letter-spacing:.06em;color:#fff;background:var(--c);background:linear-gradient(180deg,color-mix(in srgb,var(--c) 82%,#fff),color-mix(in srgb,var(--c) 72%,#000));text-shadow:0 1px 1px rgba(0,0,0,.45);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;box-shadow:0 2px 6px rgba(0,0,0,.35)}
+.plate{border-radius:6px;padding:7px 4px;position:relative;text-align:center;font-weight:800;font-size:12px;letter-spacing:.06em;color:#fff;background:var(--c);background:linear-gradient(180deg,color-mix(in srgb,var(--c) 82%,#fff),color-mix(in srgb,var(--c) 72%,#000));text-shadow:0 1px 1px rgba(0,0,0,.45);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;box-shadow:0 2px 6px rgba(0,0,0,.35)}
+.plate em{font-style:normal;display:inline-block;min-width:15px;padding:1px 3px;margin-right:5px;border-radius:3px;background:rgba(0,0,0,.35);font:800 10px ui-monospace,Consolas,monospace;vertical-align:1px}
+.strip.o1{margin-left:18px}
+.strip.o1::after{content:"";position:absolute;left:-13px;top:12px;bottom:12px;width:2px;border-radius:1px;background:linear-gradient(transparent,#454b54 20%,#454b54 80%,transparent)}
+.sapps .dev{font:600 10px system-ui,sans-serif;color:var(--dim);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:100%;padding:0 4px}
 .strip.muted .plate{filter:saturate(.25) brightness(.65)}
 .sb{height:16px;text-align:center;line-height:16px}
 .sb span{font:800 9px system-ui,sans-serif;letter-spacing:.06em;padding:2px 5px;border-radius:4px;background:#3d3418;color:var(--amber)}
@@ -114,12 +118,22 @@ body.pultview .chip{padding:9px 14px}
 .row2{display:flex;gap:4px}
 .knobs{display:flex;justify-content:space-between}
 .kn{display:flex;flex-direction:column;align-items:center;gap:2px;flex:1;touch-action:none;user-select:none;-webkit-user-select:none;cursor:ns-resize}
-.kn .ring{width:30px;height:30px;border-radius:50%;padding:3px}
+.kn .kw{position:relative;width:36px;height:36px;display:flex;align-items:center;justify-content:center}
+.kn .kw::before{content:"";position:absolute;inset:0;border-radius:50%;background:var(--ticks);-webkit-mask:radial-gradient(circle,transparent 15px,#000 15.5px);mask:radial-gradient(circle,transparent 15px,#000 15.5px)}
+.kn .ring{width:28px;height:28px;border-radius:50%;padding:3px}
 .kn .cap{width:100%;height:100%;border-radius:50%;background:radial-gradient(circle at 35% 30%,#eef0f2,#a3a9b1 45%,#5b6169 82%);position:relative;box-shadow:0 2px 4px rgba(0,0,0,.6)}
 .kn .cap i{position:absolute;left:50%;top:2px;width:2px;height:calc(50% - 2px);margin-left:-1px;background:#16181c;border-radius:1px;transform-origin:50% 100%}
 .kn label{font:700 9px system-ui,sans-serif;color:var(--faint);letter-spacing:.06em}
 .kn.off{opacity:.4}
-.pan .ring{width:34px;height:34px}
+.pan .kw{width:40px;height:40px}
+.pan .kw::before{-webkit-mask:radial-gradient(circle,transparent 17px,#000 17.5px);mask:radial-gradient(circle,transparent 17px,#000 17.5px)}
+.pan .ring{width:32px;height:32px}
+.narrow .kn .kw{width:31px;height:31px}
+.narrow .kn .kw::before{-webkit-mask:radial-gradient(circle,transparent 13px,#000 13.5px);mask:radial-gradient(circle,transparent 13px,#000 13.5px)}
+.narrow .kn .ring{width:25px;height:25px}
+.narrow .pan .kw{width:38px;height:38px}
+.narrow .pan .kw::before{-webkit-mask:radial-gradient(circle,transparent 16px,#000 16.5px);mask:radial-gradient(circle,transparent 16px,#000 16.5px)}
+.narrow .pan .ring{width:30px;height:30px}
 .ghost{visibility:hidden}
 .fz{flex:1;display:flex;gap:3px;min-height:150px;position:relative;touch-action:none;user-select:none;-webkit-user-select:none}
 .scale{position:relative;width:22px;flex:none}
@@ -127,11 +141,36 @@ body.pultview .chip{padding:9px 14px}
 .track{position:relative;flex:1;cursor:ns-resize}
 .slot{position:absolute;left:50%;top:14px;bottom:14px;width:6px;margin-left:-3px;border-radius:3px;background:#07080a;box-shadow:inset 0 1px 2px rgba(0,0,0,.9),0 0 0 1px #393e46}
 .fill{position:absolute;left:50%;bottom:14px;width:4px;margin-left:-2px;border-radius:2px;background:var(--c);opacity:.85}
-.fcap{position:absolute;left:50%;width:46px;height:26px;margin-left:-23px;margin-top:-13px;border-radius:5px;border:1px solid #5b6169;background:linear-gradient(180deg,#f3f5f7,#c4c9d0 44%,#9aa0a8 56%,#d7dbdf);box-shadow:0 4px 9px rgba(0,0,0,.6)}
+.fcap{position:absolute;left:50%;width:46px;height:28px;margin-left:-23px;margin-top:-14px;border-radius:5px;border:1px solid #5b6169;z-index:2;background:repeating-linear-gradient(180deg,rgba(0,0,0,.13) 0 1px,transparent 1px 3px),linear-gradient(180deg,#f3f5f7,#c4c9d0 44%,#9aa0a8 56%,#d7dbdf);box-shadow:0 4px 9px rgba(0,0,0,.6),inset 0 1px 0 rgba(255,255,255,.7)}
+.tk{position:absolute;left:50%;width:30px;margin-left:-15px;height:1px;background:linear-gradient(90deg,#5d646e 0 9px,transparent 9px 21px,#5d646e 21px)}
+.tk.m{width:22px;margin-left:-11px;background:linear-gradient(90deg,#3f454e 0 5px,transparent 5px 17px,#3f454e 17px)}
+.tk.z{background:linear-gradient(90deg,#9aa1ab 0 9px,transparent 9px 21px,#9aa1ab 21px)}
 .fcap::after{content:"";position:absolute;left:5px;right:5px;top:50%;height:3px;margin-top:-1.5px;background:var(--c);border-radius:2px}
-.vm{width:8px;position:relative;border-radius:3px;overflow:hidden;background:linear-gradient(0deg,#2ecc71 0,#2ecc71 66%,#f1c40f 84%,#ff4d4d 100%);margin:14px 0;flex:none}
-.vm i{position:absolute;left:0;right:0;top:0;height:100%;background:#0b0c0f;transition:height .12s linear}
-.lcd{background:#060708;border:1px solid #2c3036;border-radius:6px;text-align:center;font:700 12px ui-monospace,Consolas,monospace;color:var(--accent);padding:6px 0;white-space:nowrap;overflow:hidden}
+.vm{width:13px;display:flex;gap:2px;margin:14px 0;flex:none;padding:1px;border-radius:3px;background:#050607;box-shadow:0 0 0 1px #2c3036}
+.vm b{flex:1;position:relative;border-radius:1px;overflow:hidden;background:linear-gradient(0deg,#2ecc71 0,#2ecc71 66%,#f1c40f 84%,#ff4d4d 100%)}
+.vm b::after{content:"";position:absolute;inset:0;background:repeating-linear-gradient(0deg,transparent 0 3px,rgba(5,6,7,.9) 3px 4px)}
+.vm b i{position:absolute;left:0;right:0;top:0;height:100%;background:#0b0c0f;transition:height .1s linear}
+.vm b u{position:absolute;left:0;right:0;bottom:0;height:2px;background:#f4f6f8;z-index:2;opacity:0;transition:bottom .1s linear}
+.lcd{background:linear-gradient(180deg,#040505,#0b0d0f);border:1px solid #2c3036;border-radius:6px;text-align:center;font:700 12px ui-monospace,Consolas,monospace;color:var(--accent);text-shadow:0 0 6px rgba(255,179,71,.45);padding:6px 0;white-space:nowrap;overflow:hidden;cursor:pointer;box-shadow:inset 0 1px 3px rgba(0,0,0,.8)}
+.lcd:active{border-color:var(--accent)}
+.card .val{cursor:pointer;border-bottom:1px dotted rgba(255,179,71,.45)}
+.card .sub{font-size:11px;color:var(--faint);margin-top:-2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+#fine{flex:none;border:1px solid #454b54;background:linear-gradient(180deg,#3b4048,#2a2e34);color:var(--dim);font:800 12px system-ui,sans-serif;letter-spacing:.08em;padding:10px 14px;border-radius:10px;margin-left:auto}
+#fine.on{background:linear-gradient(180deg,#ffc977,#f08f1c);color:#2a1700;border-color:#ffd9a0;box-shadow:0 0 10px rgba(255,179,71,.45)}
+body:not(.pultview) #fine{display:none}
+.fn{padding:12px 0 6px;border-top:1px solid var(--edge)}
+.fn:first-child{border-top:0}
+.fn .fh{display:flex;justify-content:space-between;align-items:baseline;gap:10px}
+.fn .fl{font:700 11px system-ui,sans-serif;letter-spacing:.14em;color:var(--faint)}
+.fn .fv{font:700 20px ui-monospace,Consolas,monospace;color:var(--accent)}
+.fn .fb{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;margin-top:8px}
+.fn .fb.c5{grid-template-columns:repeat(5,1fr)}
+.fn .fb button{padding:13px 0;border-radius:10px;border:1px solid var(--edge);background:var(--panel2);color:var(--text);font:700 14px ui-monospace,Consolas,monospace;touch-action:manipulation;user-select:none;-webkit-user-select:none}
+.fn .fb button:active{background:#3a3f47}
+.fn .fb button.z{color:var(--dim);font-size:12px}
+.fn.off{opacity:.45;pointer-events:none}
+#sheet .box.wide{width:min(880px,100%);max-height:88vh}
+@media (min-width:700px){#sheetApps.fine{display:grid;grid-template-columns:1fr 1fr;column-gap:22px}#sheetApps.fine .fn[data-f="pos"]{grid-column:1/-1}#sheetApps.fine .fn:nth-child(3){border-top:1px solid var(--edge)}}
 #sheet{position:fixed;inset:0;background:rgba(0,0,0,.55);z-index:20;display:flex;align-items:flex-end;justify-content:center}
 #sheet[hidden]{display:none}
 #sheet .box{background:var(--panel);border:1px solid var(--edge);border-radius:16px 16px 0 0;width:min(560px,100%);max-height:72vh;overflow:auto;padding:14px 16px calc(18px + env(safe-area-inset-bottom));--c:#888}
@@ -145,7 +184,7 @@ body.pultview .duck{min-width:230px}
 .eqbox{display:flex;flex-direction:column;gap:6px}
 .kn.dim{opacity:.6}
 .kn.dim.off,.kn.off{opacity:.35}
-body.locked .led,body.locked .kn,body.locked .fz{opacity:.45;pointer-events:none}
+body.locked .led,body.locked .kn,body.locked .fz,body.locked .fn{opacity:.45;pointer-events:none}
 </style>
 </head>
 <body>
@@ -170,6 +209,7 @@ body.locked .led,body.locked .kn,body.locked .fz{opacity:.45;pointer-events:none
     <div class="bar">
       <div id="topWrap"><div class="top" id="top"></div></div>
       <div id="scenesWrap" hidden><div class="label">SZENEN</div><div class="scenes" id="scenes"></div></div>
+      <button id="fine" title="Fader und Drehregler bewegen sich 4× langsamer, EQ in 0,1-dB-Schritten">FEIN</button>
     </div>
     <div class="label" id="chLabel">KANÄLE</div>
     <div id="rows"></div>
@@ -202,8 +242,15 @@ body.locked .led,body.locked .kn,body.locked .fz{opacity:.45;pointer-events:none
     for (var i = 1; i < law.length; i++) if (p <= law[i]) { var t = (p - law[i - 1]) / (law[i] - law[i - 1]); return LDB[i - 1] + t * (LDB[i] - LDB[i - 1]); }
     return 0;
   }
+  function pct(id) { return id === 'master' || String(id).indexOf('out:') === 0; }   // Ausgaenge in %
+  function dbToPos(d) {
+    if (d >= 0) return 1;
+    if (!(d > LDB[0])) return 0;
+    for (var i = 1; i < LDB.length; i++) if (d <= LDB[i]) { var t = (d - LDB[i - 1]) / (LDB[i] - LDB[i - 1]); return law[i - 1] + t * (law[i] - law[i - 1]); }
+    return 1;
+  }
   function fmt(id, p) {
-    if (id === 'master') return Math.round(p * 100) + ' %';
+    if (pct(id)) return Math.round(p * 100) + ' %';
     var d = posToDb(p);
     if (d === -Infinity) return '-∞ dB';
     if (d > -0.05) return '0.0 dB';
@@ -249,7 +296,7 @@ body.locked .led,body.locked .kn,body.locked .fz{opacity:.45;pointer-events:none
     api('/api/state').then(function (s) { fails = 0; lastOk = Date.now(); render(s); next(); },
       function (e) { if (e.message === 'auth') return; fails++; next(); });
   }
-  function next() { conn(); timer = setTimeout(poll, fails ? Math.min(3000, 400 * fails) : 250); }
+  function next() { conn(); timer = setTimeout(poll, fails ? Math.min(3000, 400 * fails) : document.body.classList.contains('pultview') ? 160 : 250); }
   function conn() {
     var ok = Date.now() - lastOk < 2500;
     $('#dot').className = 'dot ' + (ok ? 'ok' : 'bad');
@@ -274,7 +321,7 @@ body.locked .led,body.locked .kn,body.locked .fz{opacity:.45;pointer-events:none
   }
 
   function structSig(s) {
-    return JSON.stringify([s.rows.map(function (r) { return [r.id, r.name, r.color, !!r.eq, r.apps ? r.apps.map(function (a) { return [a.k, a.n]; }) : null]; }),
+    return JSON.stringify([s.rows.map(function (r) { return [r.id, r.name, r.color, r.sub || '', !!r.eq, r.apps ? r.apps.map(function (a) { return [a.k, a.n]; }) : null]; }),
       (s.scenes || []).map(function (x) { return [x.id, x.name]; }), !!s.duck, !!s.strips]);
   }
   function render(s) {
@@ -343,12 +390,14 @@ body.locked .led,body.locked .kn,body.locked .fz{opacity:.45;pointer-events:none
   }
 
   function card(r) {
-    var c = el('div', 'card' + (r.id === 'master' ? ' master' : ''));
+    var c = el('div', 'card' + (pct(r.id) ? ' master' : ''));
     c.style.setProperty('--c', r.color);
     c.setAttribute('data-id', r.id);
     c.innerHTML = '<div class="head"><span class="name"></span><span class="badge" hidden></span><span class="val"></span><button class="mute" aria-label="Stumm">MUTE</button></div>' +
       '<input class="fader" type="range" min="0" max="1000" step="1" aria-label="Lautstärke"><div class="meter"><i></i></div>';
     c.querySelector('.name').textContent = r.name;
+    if (r.sub) { var sb = el('div', 'sub'); sb.textContent = r.sub; c.insertBefore(sb, c.querySelector('.fader')); }
+    c.querySelector('.head .val').onclick = function () { openFine(r.id); vib(); };
     bindRange(c.querySelector('.fader'), r.id, function (v) { return { 'do': 'pos', id: r.id, v: v }; },
       function (p) { var row = find(r.id); if (row) row.pos = p; c.querySelector('.head .val').textContent = fmt(r.id, p); });
     c.querySelector('.mute').onclick = function (e) {
@@ -425,6 +474,7 @@ body.locked .led,body.locked .kn,body.locked .fz{opacity:.45;pointer-events:none
       pdraw(r, now);
     });
     updDuck();
+    fineUpd();
     layout();
   }
 
@@ -438,7 +488,7 @@ body.locked .led,body.locked .kn,body.locked .fz{opacity:.45;pointer-events:none
   }
 
   // ================================================================ 4.5 Pult-Ansicht (Tablet)
-  var view = '', pultOk = true, drag = 0, dragT = 0, sheetId = null, toastT = null;
+  var view = '', pultOk = true, drag = 0, dragT = 0, sheetId = null, sheetMode = '', toastT = null, fine = false, holds = {};
   try { view = localStorage.getItem('mp-view') || ''; } catch (e) {}
   if (view !== 'pult' && view !== 'liste') view = (Math.min(innerWidth, innerHeight) >= 600 || innerWidth >= 900) ? 'pult' : 'liste';
   var segs = document.querySelectorAll('#seg button');
@@ -466,18 +516,28 @@ body.locked .led,body.locked .kn,body.locked .fz{opacity:.45;pointer-events:none
   function layout() {
     var p = $('#pult');
     if (view !== 'pult' || p.hidden || $('#main').hidden) return;
-    var n = p.children.length || 1, W = p.clientWidth;
-    var sw = Math.max(104, Math.min(180, Math.floor((W - 4 - (n - 1) * 8) / n)));
-    if (p._sw !== sw) { p._sw = sw; p.style.setProperty('--sw', sw + 'px'); }
+    var n = p.children.length || 1, W = p.clientWidth, extra = p.querySelector('.o1') ? 18 : 0;
+    var sw = Math.max(104, Math.min(180, Math.floor((W - 4 - extra - (n - 1) * 8) / n)));
+    if (p._sw !== sw) { p._sw = sw; p.style.setProperty('--sw', sw + 'px'); p.classList.toggle('narrow', sw < 126); }
     var h = Math.max(470, Math.floor(window.innerHeight - (p.getBoundingClientRect().top + window.scrollY) - 10));
     if (p._h !== h) { p._h = h; p.style.height = h + 'px'; }
   }
 
   function buildPult(s) {
     var p = $('#pult'); p.innerHTML = '';
-    var anyApps = s.rows.some(function (r) { return !!r.apps; });
-    s.rows.forEach(function (r) { p.appendChild(pstrip(r, s, anyApps)); });
-    if (sheetId) { if (find(sheetId) && find(sheetId).apps) openSheet(sheetId); else closeSheet(); }
+    var anyApps = s.rows.some(function (r) { return !!r.apps || !!r.sub; });
+    // wie am PC: links die Kanaele, rechts die Ausgaenge
+    function is(r, k) { return r.id.indexOf(k) === 0; }
+    var chs = s.rows.filter(function (r) { return is(r, 'ch:'); }), grps = s.rows.filter(function (r) { return is(r, 'grp:'); });
+    var outs = s.rows.filter(function (r) { return pct(r.id); });
+    var rest = s.rows.filter(function (r) { return !is(r, 'ch:') && !is(r, 'grp:') && !pct(r.id); });
+    var n = 0;
+    chs.concat(grps).forEach(function (r) { p.appendChild(pstrip(r, s, anyApps, is(r, 'ch:') ? ++n : 0)); });
+    outs.concat(rest).forEach(function (r, i) { var d = pstrip(r, s, anyApps, 0); if (i === 0 && p.children.length) d.classList.add('o1'); p.appendChild(d); });
+    if (sheetId) {
+      var sr = find(sheetId);
+      if (sr && sheetMode === 'fine') openFine(sheetId); else if (sr && sr.apps && sheetMode === 'apps') openSheet(sheetId); else closeSheet();
+    }
     p._sw = 0; p._h = 0;
     layout();
   }
@@ -486,7 +546,7 @@ body.locked .led,body.locked .kn,body.locked .fz{opacity:.45;pointer-events:none
   function panLabel(v) { return v < -0.005 ? 'L ' + Math.round(-v * 100) : v > 0.005 ? 'R ' + Math.round(v * 100) : 'MITTE'; }
   function knobEl(lbl, cls) {
     var k = el('div', 'kn' + (cls ? ' ' + cls : ''));
-    k.innerHTML = '<div class="ring"><div class="cap"><i></i></div></div><label></label>';
+    k.innerHTML = '<div class="kw"><div class="ring"><div class="cap"><i></i></div></div></div><label></label>';
     k.querySelector('label').textContent = lbl;
     k._lbl = lbl;
     return k;
@@ -515,9 +575,11 @@ body.locked .led,body.locked .kn,body.locked .fz{opacity:.45;pointer-events:none
     k.addEventListener('pointermove', function (e) {
       if (e.pointerId !== pid) return;
       if (!moved) { if (Math.abs(y0 - e.clientY) < 5) return; moved = true; lastTap = 0; y0 = e.clientY; return; }
-      var v = v0 + (y0 - e.clientY) / 170 * (o.max - o.min);
-      v = Math.max(o.min, Math.min(o.max, Math.round(v / o.step) * o.step));
-      if (Math.abs(v) < o.step / 2) v = 0;
+      var st = fine && o.fineStep ? o.fineStep : o.step;
+      var v = v0 + (y0 - e.clientY) / 170 * (o.max - o.min) * (fine ? 0.25 : 1);
+      v = Math.max(o.min, Math.min(o.max, Math.round(v / st) * st));
+      v = Math.round(v * 1000) / 1000;
+      if (Math.abs(v) < st / 2) v = 0;
       if (v !== o.get()) { o.set(v); show(); }
     });
     function up(e) { if (e.pointerId !== pid) return; pid = null; drag = Math.max(0, drag - 1); o.busy(1300); later(); }
@@ -526,12 +588,14 @@ body.locked .led,body.locked .kn,body.locked .fz{opacity:.45;pointer-events:none
   }
   function led(d, t, on) { var b = d.querySelector('.led[data-t="' + t + '"]'); if (b) b.classList.toggle('on', !!on); }
 
-  function pstrip(r, s, anyApps) {
+  function pstrip(r, s, anyApps, num) {
     var ch = r.id.indexOf('ch:') === 0, eq = !!(ch && r.eq && s.strips);
-    var d = el('div', 'strip' + (r.id === 'master' ? ' out' : ''));
+    var d = el('div', 'strip' + (pct(r.id) ? ' out' : ''));
     d.style.setProperty('--c', r.color);
     d.setAttribute('data-id', r.id);
-    var pl = el('div', 'plate'); pl.textContent = r.name; pl.title = r.name; d.appendChild(pl);
+    var pl = el('div', 'plate'); pl.title = r.name + (r.sub ? ' – ' + r.sub : '');
+    if (num) { var nb = el('em'); nb.textContent = num; pl.appendChild(nb); }
+    pl.appendChild(document.createTextNode(r.name)); d.appendChild(pl);
     var sb = el('div', 'sb'); sb.innerHTML = '<span hidden></span>'; d.appendChild(sb);
     if (anyApps) {
       var ap = el('div', 'sapps');
@@ -543,7 +607,8 @@ body.locked .led,body.locked .kn,body.locked .fz{opacity:.45;pointer-events:none
         if (r.apps.length > shown) { var mo = el('span', 'more'); mo.textContent = '+' + (r.apps.length - shown); ap.appendChild(mo); }
         ap.title = r.apps.map(function (a) { return a.n; }).join(', ');
         ap.onclick = function () { openSheet(r.id); vib(); };
-      } else if (ch) { var no = el('span', 'none'); no.textContent = 'keine App'; ap.appendChild(no); }
+      } else if (ch && r.apps) { var no = el('span', 'none'); no.textContent = 'keine App'; ap.appendChild(no); }
+      else if (r.sub) { var dv = el('span', 'dev'); dv.textContent = r.sub; ap.appendChild(dv); ap.title = r.sub; ap.style.cursor = 'default'; }
       else ap.classList.add('ghost');
       d.appendChild(ap);
     }
@@ -555,7 +620,7 @@ body.locked .led,body.locked .kn,body.locked .fz{opacity:.45;pointer-events:none
       ['LO', 'MID', 'HI'].forEach(function (n, b) {
         var k = knobEl(n, 'eqk'); ks.appendChild(k);
         if (eq) bindKnob(k, {
-          min: -(s.eqrange || 12), max: s.eqrange || 12, step: 0.5, fmt: dbLabel,
+          min: -(s.eqrange || 12), max: s.eqrange || 12, step: 0.5, fineStep: 0.1, fmt: dbLabel,
           blocked: function () { if (state && !state.eqok) { toast(NOEQ); return true; } return false; },
           get: function () { var x = find(r.id); return x && x.eq ? x.eq[b + 1] : 0; },
           busy: function (ms) { busy['eq:' + r.id + ':' + b] = Date.now() + ms; },
@@ -610,14 +675,20 @@ body.locked .led,body.locked .kn,body.locked .fz{opacity:.45;pointer-events:none
       var c = document.querySelector('.card[data-id="' + esc(r.id) + '"] .mute'); if (c) c.classList.toggle('on', x.mute);
     };
     var fz = el('div', 'fz');
-    var marks = r.id === 'master' ? [[1, '100'], [0.75, '75'], [0.5, '50'], [0.25, '25'], [0, '0']]
+    var pc = pct(r.id);
+    var marks = pc ? [[1, '100'], [0.75, '75'], [0.5, '50'], [0.25, '25'], [0, '0']]
       : [[law[7], '0'], [law[6], '−5'], [law[5], '−10'], [law[4], '−20'], [law[3], '−30'], [law[2], '−40'], [law[1], '−60'], [law[0], '−∞']];
-    var sc = '<div class="scale">';
-    marks.forEach(function (m) { sc += '<span style="top:calc(14px + (100% - 28px) * ' + (1 - m[0]).toFixed(4) + ')">' + m[1] + '</span>'; });
-    fz.innerHTML = sc + '</div><div class="track"><div class="slot"></div><div class="fill"></div><div class="fcap"></div></div><div class="vm"><i></i></div>';
+    var minor = pc ? [0.875, 0.625, 0.375, 0.125] : [-2.5, -7.5, -15, -25, -35, -50].map(dbToPos);
+    function top(p) { return 'top:calc(14px + (100% - 28px) * ' + (1 - p).toFixed(4) + ')'; }
+    var sc = '<div class="scale">', tk = '';
+    marks.forEach(function (m, i) { sc += '<span style="' + top(m[0]) + '">' + m[1] + '</span>'; tk += '<b class="tk' + (i === 0 ? ' z' : '') + '" style="' + top(m[0]) + '"></b>'; });
+    minor.forEach(function (p) { tk += '<b class="tk m" style="' + top(p) + '"></b>'; });
+    fz.innerHTML = sc + '</div><div class="track">' + tk + '<div class="slot"></div><div class="fill"></div><div class="fcap"></div></div>' +
+      '<div class="vm"><b><i></i><u></u></b><b><i></i><u></u></b></div>';
     bindFader(fz, r.id);
     d.appendChild(fz);
-    var lcd = el('div', 'lcd'); d.appendChild(lcd);
+    var lcd = el('div', 'lcd'); lcd.title = 'Antippen: fein einstellen'; d.appendChild(lcd);
+    lcd.onclick = function () { openFine(r.id); vib(); };
     return d;
   }
 
@@ -634,7 +705,7 @@ body.locked .led,body.locked .kn,body.locked .fz{opacity:.45;pointer-events:none
       if (e.pointerId !== pid) return;
       var x = find(id); if (!x) return;
       var H = Math.max(40, tr.clientHeight - 28);
-      var p = Math.max(0, Math.min(1, p0 + (y0 - e.clientY) / H));
+      var p = Math.max(0, Math.min(1, p0 + (y0 - e.clientY) / H * (fine ? 0.25 : 1)));
       if (Math.abs(p - x.pos) < 0.0005) return;
       x.pos = p; busy[id] = Date.now() + 60000;
       send(id, { 'do': 'pos', id: id, v: p.toFixed(4) });
@@ -653,7 +724,13 @@ body.locked .led,body.locked .kn,body.locked .fz{opacity:.45;pointer-events:none
     d.querySelector('.fcap').style.top = 'calc(14px + (100% - 28px) * ' + (1 - p).toFixed(4) + ')';
     d.querySelector('.fill').style.height = 'calc((100% - 28px) * ' + p.toFixed(4) + ')';
     d.querySelector('.lcd').textContent = busy[r.id] > now ? fmt(r.id, p) : r.val;
-    d.querySelector('.vm i').style.height = ((1 - meter(r.mute ? 0 : r.pk)) * 100) + '%';
+    var bars = d.querySelectorAll('.vm b');
+    [typeof r.pl === 'number' ? r.pl : r.pk, typeof r.pr === 'number' ? r.pr : r.pk].forEach(function (v, i) {
+      var lv = meter(r.mute ? 0 : v), h = holds[r.id + i] || (holds[r.id + i] = { v: 0, t: 0 });
+      if (lv >= h.v) { h.v = lv; h.t = now; } else if (now - h.t > 1200) h.v = Math.max(lv, h.v - 0.035);
+      bars[i].firstChild.style.height = ((1 - lv) * 100) + '%';
+      var u = bars[i].lastChild; u.style.bottom = 'calc(' + (h.v * 100).toFixed(1) + '% - 2px)'; u.style.opacity = h.v > 0.02 ? 1 : 0;
+    });
     var bd = d.querySelector('.sb span'); bd.hidden = !r.badge; bd.textContent = r.badge || '';
     led(d, 'mute', r.mute);
     if (r.eq && state.strips) {
@@ -671,7 +748,7 @@ body.locked .led,body.locked .kn,body.locked .fz{opacity:.45;pointer-events:none
   // Apps eines Kanals: Blatt von unten
   function openSheet(id) {
     var r = find(id); if (!r || !r.apps) return;
-    sheetId = id;
+    sheetId = id; sheetMode = 'apps'; $('#sheetApps').className = ''; $('#sheet .box').classList.remove('wide');
     $('#sheetName').textContent = r.name;
     $('#sheet .box').style.setProperty('--c', r.color);
     var box = $('#sheetApps'); box.innerHTML = '';
@@ -680,7 +757,101 @@ body.locked .led,body.locked .kn,body.locked .fz{opacity:.45;pointer-events:none
     $('#sheet').hidden = false;
     update(state);
   }
-  function closeSheet() { sheetId = null; $('#sheet').hidden = true; $('#sheetApps').innerHTML = ''; }
+  function closeSheet() { sheetId = null; sheetMode = ''; $('#sheet').hidden = true; $('#sheetApps').innerHTML = ''; $('#sheetApps').className = ''; $('#sheet .box').classList.remove('wide'); }
+
+  // ---- 4.5.1 Feineinstellung: Wert antippen -> Schritte von 0,1 dB (Ausgaenge 1 %), EQ und PAN
+  function step(btn, fn) {   // Taste halten = wiederholen
+    var t1 = null, t2 = null;
+    function stop() { clearTimeout(t1); clearInterval(t2); t1 = t2 = null; }
+    btn.addEventListener('pointerdown', function (e) {
+      e.preventDefault(); stop(); fn(); vib();
+      t1 = setTimeout(function () { t2 = setInterval(fn, 90); }, 420);
+    });
+    ['pointerup', 'pointercancel', 'pointerleave'].forEach(function (ev) { btn.addEventListener(ev, stop); });
+    btn.addEventListener('contextmenu', function (e) { e.preventDefault(); });
+  }
+  function fineBlock(box, key, label, steps, fn, reset) {
+    var f = el('div', 'fn'); f.setAttribute('data-f', key);
+    f.innerHTML = '<div class="fh"><span class="fl"></span><span class="fv"></span></div><div class="fb' + (reset ? ' c5' : '') + '"></div>';
+    f.querySelector('.fl').textContent = label;
+    var fb = f.querySelector('.fb');
+    steps.forEach(function (st, i) {
+      if (reset && i === steps.length / 2) { var z = el('button', 'z'); z.textContent = reset; step(z, function () { fn(null); }); fb.appendChild(z); }
+      var b = el('button'); b.textContent = st[1]; step(b, function () { fn(st[0]); }); fb.appendChild(b);
+    });
+    box.appendChild(f);
+  }
+  function nudgePos(id, d) {
+    var x = find(id); if (!x || (state && state.locked)) return;
+    var p;
+    if (pct(id)) p = Math.max(0, Math.min(1, Math.round(x.pos * 100 + d) / 100));
+    else {
+      var db = posToDb(x.pos);
+      if (db === -Infinity) { if (d < 0) return; db = -60.0; } else db = Math.round((db + d) * 10) / 10;
+      p = db > -0.05 ? 1 : db <= -89.9 ? 0 : dbToPos(db);
+    }
+    x.pos = p; busy[id] = Date.now() + 1400;
+    send(id, { 'do': 'pos', id: id, v: p.toFixed(4) });
+    pdraw(x, Date.now()); fineUpd();
+  }
+  function nudgeEq(id, b, d) {
+    var x = find(id); if (!x || !x.eq || (state && state.locked)) return;
+    if (state && !state.eqok) { toast(NOEQ); return; }
+    var R = state.eqrange || 12, v = d === null ? 0 : Math.max(-R, Math.min(R, Math.round((x.eq[b + 1] + d) * 10) / 10));
+    x.eq[b + 1] = v; busy['eq:' + id + ':' + b] = Date.now() + 1400;
+    if (v !== 0 && !x.eq[0]) { x.eq[0] = 1; busy['eqon:' + id] = Date.now() + 1500; }
+    send('eq:' + id + ':' + b, { 'do': 'eq', id: id, b: b, v: v.toFixed(1) });
+    pdraw(x, Date.now()); fineUpd();
+  }
+  function nudgePan(id, d) {
+    var x = find(id); if (!x || (state && state.locked)) return;
+    var v = d === null ? 0 : Math.max(-1, Math.min(1, Math.round(((x.pan || 0) + d) * 100) / 100));
+    x.pan = v; busy['pan:' + id] = Date.now() + 1400;
+    send('pan:' + id, { 'do': 'pan', id: id, v: v.toFixed(2) });
+    pdraw(x, Date.now()); fineUpd();
+  }
+  function openFine(id) {
+    var r = find(id); if (!r) return;
+    sheetId = id; sheetMode = 'fine';
+    $('#sheetName').textContent = r.name + ' – fein einstellen';
+    $('#sheet .box').style.setProperty('--c', r.color);
+    var box = $('#sheetApps'); box.innerHTML = ''; box.className = 'fine'; $('#sheet .box').classList.add('wide');
+    if (pct(id)) fineBlock(box, 'pos', 'LAUTSTÄRKE', [[-5, '−5 %'], [-1, '−1 %'], [1, '+1 %'], [5, '+5 %']], function (d) { nudgePos(id, d); });
+    else fineBlock(box, 'pos', 'LAUTSTÄRKE', [[-1, '−1'], [-0.1, '−0,1'], [0.1, '+0,1'], [1, '+1']], function (d) { nudgePos(id, d); });
+    if (r.eq && state.strips) {
+      ['LO', 'MID', 'HI'].forEach(function (n, b) {
+        fineBlock(box, 'eq' + b, 'EQ ' + n, [[-1, '−1'], [-0.1, '−0,1'], [0.1, '+0,1'], [1, '+1']], function (d) { nudgeEq(id, b, d); }, '0');
+      });
+      fineBlock(box, 'pan', 'PAN', [[-0.1, 'L 10'], [-0.01, 'L 1'], [0.01, 'R 1'], [0.1, 'R 10']], function (d) { nudgePan(id, d); }, 'MITTE');
+    }
+    $('#sheet').hidden = false;
+    fineUpd();
+  }
+  function fineUpd() {
+    if (sheetMode !== 'fine' || !sheetId) return;
+    var r = find(sheetId); if (!r) return;
+    function setv(k, t) { var e = document.querySelector('#sheetApps .fn[data-f="' + k + '"] .fv'); if (e) e.textContent = t; }
+    setv('pos', busy[r.id] > Date.now() ? fmt(r.id, r.pos) : r.val);
+    if (r.eq) {
+      for (var b = 0; b < 3; b++) setv('eq' + b, dbLabel(r.eq[b + 1]) + ' dB');
+      setv('pan', panLabel(r.pan || 0));
+      Array.prototype.forEach.call(document.querySelectorAll('#sheetApps .fn[data-f^="eq"]'), function (e) { e.classList.toggle('off', !state.eqok); });
+    }
+  }
+  var fineBtn = $('#fine');
+  function setFine(on) { fine = on; store('mp-fine', on ? '1' : '0'); fineBtn.classList.toggle('on', on); }
+  fineBtn.onclick = function () { setFine(!fine); vib(); toast(fine ? 'FEIN: Fader und Drehregler bewegen sich 4× langsamer, EQ in 0,1-dB-Schritten.' : 'FEIN aus.'); };
+  try { setFine(localStorage.getItem('mp-fine') === '1'); } catch (e) {}
+
+  // Skala um die Drehregler: 11 Striche, der mittlere hell
+  (function () {
+    var parts = [];
+    for (var i = 0; i <= 10; i++) {
+      parts.push((i === 5 ? '#c9ced6' : '#6c7480') + ' ' + (i * 27) + 'deg ' + (i * 27 + 1.8) + 'deg');
+      parts.push('transparent ' + (i * 27 + 1.8) + 'deg ' + ((i + 1) * 27) + 'deg');
+    }
+    document.documentElement.style.setProperty('--ticks', 'conic-gradient(from -135.9deg,' + parts.join(',') + ')');
+  })();
   $('#sheetX').onclick = closeSheet;
   $('#sheet').addEventListener('click', function (e) { if (e.target === $('#sheet')) closeSheet(); });
 
