@@ -446,7 +446,7 @@ namespace Mischpult.UI
         internal static readonly Dictionary<string, string> NewsRows420 = new Dictionary<string, string>
         {
             // 4.5
-            { "Apps im Pult", "Lautstärke einzelner Apps am Handy" }, { "Fein einstellen", "Pult-Ansicht fürs Tablet" },
+            { "Apps im Pult", "Lautstärke einzelner Apps am Handy" }, { "Fein einstellen", "Pult-Ansicht fürs Tablet" }, { "Schmale Kanäle", "Pult-Ansicht fürs Tablet" },
             // 4.3
             { "Plattenspieler", "Animierte Deko" },
             // 4.2

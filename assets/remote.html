@@ -134,6 +134,40 @@ body.pultview .chip{padding:9px 14px}
 .narrow .pan .kw{width:38px;height:38px}
 .narrow .pan .kw::before{-webkit-mask:radial-gradient(circle,transparent 16px,#000 16.5px);mask:radial-gradient(circle,transparent 16px,#000 16.5px)}
 .narrow .pan .ring{width:30px;height:30px}
+/* 4.5.2 schmale Kanaele (S) */
+#pult.thin{gap:6px}
+.thin .strip{padding:8px 5px 6px;gap:5px;border-radius:8px}
+.thin .strip.o1{margin-left:14px}
+.thin .strip.o1::after{left:-10px}
+.thin .plate{font-size:10px;letter-spacing:.02em;padding:6px 3px;border-radius:5px}
+.thin .plate em{min-width:12px;padding:0 2px;margin-right:3px;font-size:9px}
+.thin .sb{height:14px;line-height:14px}
+.thin .sb span{font-size:8px;padding:1px 4px;letter-spacing:.02em}
+.thin .sapps{height:26px;padding:2px}
+.thin .sapps img{width:18px;height:18px;border-radius:4px}
+.thin .sapps .dev,.thin .sapps .none,.thin .sapps .more{font-size:9px;padding:0 2px}
+.thin .led{font-size:9px;letter-spacing:0;padding:6px 0;border-radius:5px}
+.thin .row2{gap:3px}
+.thin .kn label{font-size:8px;letter-spacing:.02em}
+.thin .kn .kw{width:25px;height:25px}
+.thin .kn .kw::before{-webkit-mask:radial-gradient(circle,transparent 10.5px,#000 11px);mask:radial-gradient(circle,transparent 10.5px,#000 11px)}
+.thin .kn .ring{width:20px;height:20px;padding:2px}
+.thin .pan .kw{width:33px;height:33px}
+.thin .pan .kw::before{-webkit-mask:radial-gradient(circle,transparent 14px,#000 14.5px);mask:radial-gradient(circle,transparent 14px,#000 14.5px)}
+.thin .pan .ring{width:26px;height:26px;padding:3px}
+.thin .fz{gap:2px}
+.thin .scale{width:17px}
+.thin .scale span{font-size:8px}
+.thin .fcap{width:34px;margin-left:-17px;height:24px;margin-top:-12px;border-radius:4px}
+.thin .fcap::after{left:4px;right:4px}
+.thin .tk{width:24px;margin-left:-12px;background:linear-gradient(90deg,#5d646e 0 6px,transparent 6px 18px,#5d646e 18px)}
+.thin .tk.m{width:18px;margin-left:-9px;background:linear-gradient(90deg,#3f454e 0 3px,transparent 3px 15px,#3f454e 15px)}
+.thin .tk.z{background:linear-gradient(90deg,#9aa1ab 0 6px,transparent 6px 18px,#9aa1ab 18px)}
+.thin .vm{width:10px;gap:1px}
+.thin .lcd{font-size:10px;padding:5px 0;border-radius:5px}
+#wseg{flex:none}
+#wseg button{padding:7px 11px}
+body:not(.pultview) #wseg{display:none}
 .ghost{visibility:hidden}
 .fz{flex:1;display:flex;gap:3px;min-height:150px;position:relative;touch-action:none;user-select:none;-webkit-user-select:none}
 .scale{position:relative;width:22px;flex:none}
@@ -210,6 +244,7 @@ body.locked .led,body.locked .kn,body.locked .fz,body.locked .fn{opacity:.45;poi
       <div id="topWrap"><div class="top" id="top"></div></div>
       <div id="scenesWrap" hidden><div class="label">SZENEN</div><div class="scenes" id="scenes"></div></div>
       <button id="fine" title="Fader und Drehregler bewegen sich 4× langsamer, EQ in 0,1-dB-Schritten">FEIN</button>
+      <div class="seg" id="wseg" title="Breite der Kanäle: schmal, mittel, breit"><button data-w="1">S</button><button data-w="2">M</button><button data-w="3">L</button></div>
     </div>
     <div class="label" id="chLabel">KANÄLE</div>
     <div id="rows"></div>
@@ -488,7 +523,7 @@ body.locked .led,body.locked .kn,body.locked .fz,body.locked .fn{opacity:.45;poi
   }
 
   // ================================================================ 4.5 Pult-Ansicht (Tablet)
-  var view = '', pultOk = true, drag = 0, dragT = 0, sheetId = null, sheetMode = '', toastT = null, fine = false, holds = {};
+  var view = '', pultOk = true, drag = 0, dragT = 0, sheetId = null, sheetMode = '', toastT = null, fine = false, holds = {}, widthMode = 1;
   try { view = localStorage.getItem('mp-view') || ''; } catch (e) {}
   if (view !== 'pult' && view !== 'liste') view = (Math.min(innerWidth, innerHeight) >= 600 || innerWidth >= 900) ? 'pult' : 'liste';
   var segs = document.querySelectorAll('#seg button');
@@ -517,8 +552,9 @@ body.locked .led,body.locked .kn,body.locked .fz,body.locked .fn{opacity:.45;poi
     var p = $('#pult');
     if (view !== 'pult' || p.hidden || $('#main').hidden) return;
     var n = p.children.length || 1, W = p.clientWidth, extra = p.querySelector('.o1') ? 18 : 0;
-    var sw = Math.max(104, Math.min(180, Math.floor((W - 4 - extra - (n - 1) * 8) / n)));
-    if (p._sw !== sw) { p._sw = sw; p.style.setProperty('--sw', sw + 'px'); p.classList.toggle('narrow', sw < 126); }
+    // 4.5.2: S = schmal (Standard), M = mittel, L = so breit, dass alles den Bildschirm fuellt
+    var sw = widthMode === 3 ? Math.max(104, Math.min(180, Math.floor((W - 4 - extra - (n - 1) * 8) / n))) : widthMode === 2 ? 116 : 90;
+    if (p._sw !== sw) { p._sw = sw; p.style.setProperty('--sw', sw + 'px'); p.classList.toggle('narrow', sw < 126); p.classList.toggle('thin', sw < 100); }
     var h = Math.max(470, Math.floor(window.innerHeight - (p.getBoundingClientRect().top + window.scrollY) - 10));
     if (p._h !== h) { p._h = h; p.style.height = h + 'px'; }
   }
@@ -838,6 +874,15 @@ body.locked .led,body.locked .kn,body.locked .fz,body.locked .fn{opacity:.45;poi
       Array.prototype.forEach.call(document.querySelectorAll('#sheetApps .fn[data-f^="eq"]'), function (e) { e.classList.toggle('off', !state.eqok); });
     }
   }
+  var wsegs = document.querySelectorAll('#wseg button');
+  function setWidth(w) {
+    widthMode = w === 2 || w === 3 ? w : 1; store('mp-width', String(widthMode));
+    Array.prototype.forEach.call(wsegs, function (b) { b.classList.toggle('on', +b.getAttribute('data-w') === widthMode); });
+    $('#pult')._sw = 0; layout();
+  }
+  Array.prototype.forEach.call(wsegs, function (b) { b.onclick = function () { if (+b.getAttribute('data-w') !== widthMode) { setWidth(+b.getAttribute('data-w')); vib(); } }; });
+  try { widthMode = +localStorage.getItem('mp-width') || 1; } catch (e) {}
+  setWidth(widthMode);
   var fineBtn = $('#fine');
   function setFine(on) { fine = on; store('mp-fine', on ? '1' : '0'); fineBtn.classList.toggle('on', on); }
   fineBtn.onclick = function () { setFine(!fine); vib(); toast(fine ? 'FEIN: Fader und Drehregler bewegen sich 4× langsamer, EQ in 0,1-dB-Schritten.' : 'FEIN aus.'); };

@@ -371,6 +371,7 @@ namespace Mischpult.UI
 
         internal static readonly string[][] Chronicle =
         {
+            new[] { "4.5.2", "Fernbedienung: schmale Kanäle im Pult (Standard) – oben rechts S, M, L für die Breite. Schmal passen mehr Kanäle auf den Bildschirm." },
             new[] { "4.5.1", "Fernbedienung: alle Ausgänge (Lautsprecher, Kopfhörer, HDMI …) mit Lautstärke, MUTE und Pegel. Taste FEIN (Fader und Drehregler 4× langsamer, EQ in 0,1-dB-Schritten), Wert antippen = fein einstellen in 0,1-dB-Schritten. Pult feiner gezeichnet: Stereo-LED-Pegel mit Spitzenwert, Skalenstriche, Kanalnummern." },
             new[] { "4.5", "Fernbedienung als Pult fürs Tablet: senkrechte Fader mit Skala und Pegelanzeige, pro Kanal EQ (LO, MID, HI) mit EQ-Taste, PAN, SOLO und COMP, Apps per Tipp auf die Symbole. Umschalter „Pult | Liste“, am Handy bleibt die Liste. Beides unter der Fernbedienung abschaltbar." },
             new[] { "4.4.1", "Fernbedienung: zuverlässigere Verbindung mit Handy-Browsern, Fenster „Fernbedienung“ zeigt die letzten Verbindungsversuche und den Zustand der Windows-Firewall – mit Knopf „Firewall freigeben“ (nur fürs eigene Heimnetz). Knopf „Am PC testen“, Protokoll fernbedienung.log." },

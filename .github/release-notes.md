@@ -1,6 +1,10 @@
-**Mischpult 4.5.1** – App-Audio-Mixer für Windows, made by D3r_Jan
+**Mischpult 4.5.2** – App-Audio-Mixer für Windows, made by D3r_Jan
 
 **Herunterladen:** unten bei „Assets“ auf `Mischpult.exe` klicken, dann starten – das Ein-Klick-Fenster fragt: installieren oder nur ausprobieren. Ein Update geht genauso: neue EXE starten → „Aktualisieren“, deine Einstellungen bleiben.
+
+### Neu in 4.5.2 – schmale Kanäle
+- Im Pult auf dem Tablet sind die Kanäle jetzt **schmal** wie an einem echten Mischpult – so passen mehr auf den Bildschirm.
+- Oben rechts neben FEIN die Breite wählen: **S** (schmal, Standard), **M** (mittel), **L** (füllt den Bildschirm). Das Tablet merkt sich die Wahl.
 
 ### Neu in 4.5.1 – alle Ausgänge und feiner einstellen
 - **Alle Ausgänge** in der Fernbedienung: Lautsprecher, Kopfhörer, HDMI, virtuelle Kabel – mit Lautstärke, MUTE und Pegel. Der Standard-Ausgang trägt „STANDARD“. Im Pult rechts wie am PC. Schalter „Alle Ausgänge am Handy“.
