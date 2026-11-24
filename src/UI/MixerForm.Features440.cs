@@ -299,6 +299,7 @@ namespace Mischpult.UI
                 sb.Append("{\"id\":").Append(J(r.Id)).Append(",\"name\":").Append(J(r.Name)).Append(",\"color\":").Append(J(Hex(r.Color)))
                   .Append(",\"pos\":").Append(F4(r.Pos)).Append(",\"mute\":").Append(r.Mute ? "true" : "false")
                   .Append(",\"pk\":").Append(F4(Math.Max(r.PeakL, r.PeakR))).Append(",\"val\":").Append(J(r.Value)).Append(",\"badge\":").Append(J(badge));
+                if (strip != null) AppendStrip450(sb, strip.Config);   // 4.5: EQ, Balance, SOLO, COMP fuer die Pult-Ansicht
                 if (strip != null && !_settings.RemoteAppsOff)
                 {
                     sb.Append(",\"apps\":[");
@@ -317,6 +318,7 @@ namespace Mischpult.UI
                 sb.Append('}');
             }
             sb.Append(']');
+            AppendGlobal450(sb);
             if (!_settings.RemoteScenesOff)
             {
                 sb.Append(",\"scenes\":[");
@@ -344,10 +346,14 @@ namespace Mischpult.UI
             if (_remoteLocked) return "{\"ok\":false,\"err\":\"locked\"}";
             a.TryGetValue("id", out string id);
             a.TryGetValue("k", out string key);
-            float v = float.NaN;
+            float v = float.NaN, raw = float.NaN;
             if (a.TryGetValue("v", out string vs) && float.TryParse(vs, NumberStyles.Float, CultureInfo.InvariantCulture, out float pv) && !float.IsNaN(pv) && !float.IsInfinity(pv))
+            {
+                raw = pv;
                 v = Math.Max(0f, Math.Min(1f, pv));
-            Action act = null;
+            }
+            Action act = RemoteCommand450(name, id, raw, a);   // 4.5: EQ, Balance, SOLO, COMP
+            if (act == null)
             switch (name)
             {
                 case "pos": if (RemoteRowId(id) && !float.IsNaN(v)) act = () => MiniSetLevel(id, v); break;
@@ -443,6 +449,7 @@ namespace Mischpult.UI
                 () => !_settings.RemoteScenesOff, v => { _settings.RemoteScenesOff = !v; ScheduleSave(); }).Visible = () => _settings.RemoteOn;
             p.Toggle("Lautstärke einzelner Apps am Handy", "Unter jedem Kanal lassen sich die Apps aufklappen und einzeln lauter oder leiser stellen.",
                 () => !_settings.RemoteAppsOff, v => { _settings.RemoteAppsOff = !v; ScheduleSave(); }).Visible = () => _settings.RemoteOn;
+            AddRemote450(p);   // 4.5: EQ, Balance, SOLO und COMP am Tablet
         }
 
         private static string FormatCode440(string c) => MixerSettings.ValidRemoteCode(c) ? c.Substring(0, 3) + " " + c.Substring(3) : "–";

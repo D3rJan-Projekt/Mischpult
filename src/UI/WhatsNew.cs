@@ -8,9 +8,13 @@ namespace Mischpult.UI
     /// <summary>4.0: "Was ist neu" – nach einem Update einmal zeigen (abschaltbar), sonst ueber die Einstellungen.</summary>
     internal sealed class WhatsNewWindow : Form
     {
-        /// <summary>4.4: Neuheiten (Titel, dann Paare Name/Erklaerung). Namen wie die Schalter, damit rechts ein Schalter steht.</summary>
+        /// <summary>4.4/4.5: Neuheiten (Titel, dann Paare Name/Erklaerung). Namen wie die Schalter, damit rechts ein Schalter steht.</summary>
         internal static readonly string[][] Sections44 =
         {
+            new[] { "Tablet als Mischpult (4.5)",
+                "Pult-Ansicht fürs Tablet", "Auf dem Tablet sieht die Fernbedienung aus wie das Pult: senkrechte Fader mit Skala und Pegelanzeige, Namensschild in der Kanalfarbe. Oben rechts zwischen „Pult“ und „Liste“ umschalten – am Handy startet die Liste.",
+                "EQ, Balance und SOLO am Handy", "Pro Kanal LO, MID und HI drehen (zweimal tippen = Mitte), EQ-Taste, PAN, SOLO und COMP – wie am PC.",
+                "Apps im Pult", "Auf die App-Symbole eines Kanals tippen – unten erscheinen die Apps und lassen sich einzeln regeln." },
             new[] { "Fernbedienung vom Handy",
                 "Fernbedienung im Browser", "Handy, Tablet oder ein anderer PC im selben WLAN öffnen eine Adresse im Browser – keine App nötig – und regeln Kanäle, Ausgang und MUTE. Verbinden per QR-Code, nur im Heimnetz und nur mit Zugangscode.",
                 "Szenen und DUCKING am Handy", "Szenen antippen und DUCKING an- und ausschalten – mit Anzeige, wer gerade auslöst.",
@@ -18,7 +22,7 @@ namespace Mischpult.UI
                 "Firewall und Fehlersuche (4.4.1)", "Das Fenster „Fernbedienung“ zeigt die letzten Verbindungsversuche und ob die Windows-Firewall das Pult durchlässt – mit Knopf „Firewall freigeben“ (nur fürs eigene Heimnetz)." },
         };
 
-        /// <summary>Anzahl der 4.4-Neuheiten.</summary>
+        /// <summary>Anzahl der 4.4- und 4.5-Neuheiten.</summary>
         internal static int Count44
         {
             get { int n = 0; foreach (var s in Sections44) n += (s.Length - 1) / 2; return n; }
@@ -310,12 +314,12 @@ namespace Mischpult.UI
                     _hits.Clear();
                     for (int part = 0; part < 5; part++)
                     {
-                    // 4.4 oben, darunter 4.3, 4.2, 4.1 und alles aus 4.0
+                    // 4.5 und 4.4 oben, darunter 4.3, 4.2, 4.1 und alles aus 4.0
                     if (part > 0) y += Theme.F(22);
                     Theme.Str(g, part == 0 ? "Neu in Mischpult " + Program.Version : part == 1 ? "Aus Version 4.3" : part == 2 ? "Aus Version 4.2" : part == 3 ? "Aus Version 4.1" : "Aus Version 4.0", part == 0 ? big : Theme.Ui(17f, FontStyle.Bold), tb, new RectangleF(x, y, w, Theme.F(34)), Theme.Left);
                     y += Theme.F(part == 0 ? 38 : 32);
                     string sub = part == 0
-                        ? "Die Fernbedienung: Handy, Tablet oder ein anderer PC regeln das Pult im Browser – ohne App, nur im Heimnetz, mit Zugangscode. Einschalten unter OPTIONEN → Fenster & Verbindungen („Fernbedienung“). Zuerst aus." +
+                        ? "Die Fernbedienung: Handy, Tablet oder ein anderer PC regeln das Pult im Browser – ohne App, nur im Heimnetz, mit Zugangscode. Neu in 4.5: Auf dem Tablet sieht sie aus wie ein richtiges Mischpult, mit EQ, PAN, SOLO und COMP. Einschalten unter OPTIONEN → Fenster & Verbindungen („Fernbedienung“). Zuerst aus." +
                           (ToggleFor != null ? " Mit dem Schalter rechts schaltest du sie gleich hier ein." : "")
                         : part == 1
                         ? Count43 + " neue Sachen: Ducking (wer löst aus, Halte-Taste, Soundboard, Vorlagen, nur wenn …), Komfort (Profil pro App, Kanal-Timer, Windows-Töne, Kopfhörer-Akku) und Optik (Designs, Hintergründe, Wände, Plattenspieler) – jede einzeln an- und ausschaltbar unter OPTIONEN → Automatik („Ducking“ und „4.3 – Komfort“) und Aussehen („4.3 – Optik“). Alles ist zuerst aus." +

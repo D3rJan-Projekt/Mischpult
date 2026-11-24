@@ -57,7 +57,7 @@ Windows hat nur einen kleinen Lautstärkemixer. Das **Mischpult** macht daraus e
 - Bewegte Hintergründe (z. B. Gewitter, das zum Bass blitzt), Wände hinter dem Pult, Deko wie der Plattenspieler mit dem Album-Cover, Pultlampe, RGB-Welle, spiegelnder Tisch – alles einzeln abschaltbar
 
 **Bedienung**
-- **Fernbedienung vom Handy**: Handy, Tablet oder ein anderer PC im selben WLAN regeln das Pult im Browser – ohne App, Verbinden per QR-Code
+- **Fernbedienung vom Handy**: Handy, Tablet oder ein anderer PC im selben WLAN regeln das Pult im Browser – ohne App, Verbinden per QR-Code. Auf dem Tablet sieht sie aus wie ein echtes Mischpult, mit EQ, PAN, SOLO und COMP
 - Tastenkürzel, die überall funktionieren – auch im Spiel
 - MIDI-Controller, Xbox-Controller, Mini-Ansicht, Overlay, Desktop-Widget
 - Einstellungsfenster mit Suche (Strg+F) und Übersicht „Was ist eingeschaltet“
@@ -66,10 +66,14 @@ Windows hat nur einen kleinen Lautstärkemixer. Das **Mischpult** macht daraus e
 
 Unter **OPTIONEN → Fenster & Verbindungen → „Fernbedienung im Browser“** einschalten und den **QR-Code** mit dem Handy scannen – fertig. Im Browser des Handys (oder Tablets, oder eines anderen PCs im selben WLAN) erscheinen alle Kanäle mit Schieber, MUTE und Pegel, dazu die Apps pro Kanal, die Szenen und die DUCKING-Taste mit „wer löst aus“. Eine App braucht es nicht.
 
+**Auf dem Tablet** (neu in 4.5) erscheint die Fernbedienung als **Pult**: senkrechte Fader mit Skala und Pegel, pro Kanal **EQ** (LO, MID, HI – hoch/runter ziehen, zweimal tippen = Mitte) mit EQ-Taste, **PAN**, **SOLO**, **COMP** und **MUTE**. Tipp auf die App-Symbole eines Kanals = Apps einzeln regeln. Oben rechts zwischen **„Pult“** und **„Liste“** umschalten. Abschaltbar unter der Fernbedienung: „Pult-Ansicht fürs Tablet“ und „EQ, Balance und SOLO am Handy“.
+
+![Tablet als Mischpult](bilder/tablet-pult.png)
+
 - Funktioniert **nur im eigenen Heimnetz** und **nur mit Zugangscode** (6 Ziffern, nach 5 falschen Versuchen eine Minute gesperrt).
 - Beim ersten Einschalten fragt die Windows-Firewall einmal – dort **„Private Netzwerke“** erlauben.
 - Tipp: Im Handy-Browser **„Zum Startbildschirm hinzufügen“** – dann startet die Fernbedienung wie eine App.
-- **Klappt es nicht?** Im Fenster „Fernbedienung“ (QR-Code zeigen) stehen unten die letzten Verbindungsversuche und ob die Windows-Firewall durchlässt. Blockiert sie, hilft **„Firewall freigeben …“** (nur für diesen Port und nur fürs Heimnetz). Das Handy muss im selben WLAN sein (nicht im Gäste-WLAN), ein VPN auf dem Handy sollte aus sein. Mit **„Am PC testen“** siehst du, ob das Pult selbst antwortet.
+- **Klappt es nicht?** Im Fenster „Fernbedienung“ (QR-Code zeigen) stehen unten die letzten Verbindungsversuche und ob die Windows-Firewall durchlässt. Blockiert sie, hilft **„Firewall freigeben …“** (nur für diesen Port und nur fürs Heimnetz). Das Handy muss im selben WLAN sein (nicht im Gäste-WLAN), ein VPN auf dem Handy sollte aus sein. Mit **„Am PC testen“** siehst du, ob das Pult selbst antwortet. **Chrome auf Android** braucht ab Android 17 die Berechtigung **„Geräte in der Nähe“** (Einstellungen → Apps → Chrome → Berechtigungen), sonst kommt „ERR_TOO_MANY_RETRIES“ – oder einen anderen Browser nehmen, z. B. Samsung Internet.
 
 ![Fernbedienung](bilder/fernbedienung.png)
 
@@ -181,6 +185,7 @@ dotnet build -c Release -p:FrameworkPathOverride=/usr/lib/mono/4.8-api
 
 | Version | Neu |
 |---|---|
+| **4.5** | Tablet als Mischpult: senkrechte Fader mit Skala und Pegel, pro Kanal EQ (LO, MID, HI) mit EQ-Taste, PAN, SOLO und COMP, Apps per Tipp – Umschalter „Pult \| Liste“, alles abschaltbar |
 | **4.4.1** | Fernbedienung zuverlässiger: robustere Verbindung, letzte Verbindungsversuche, Firewall-Prüfung mit „Firewall freigeben“, „Am PC testen“ |
 | **4.4** | Fernbedienung vom Handy: Kanäle, Apps, Ausgang, Szenen und DUCKING im Browser – ohne App, per QR-Code, nur im Heimnetz mit Zugangscode |
 | **4.3** | Ducking zeigt, wer auslöst · Halte-Taste, Soundboard als Auslöser, Vorlagen, „nur wenn …“ · Profil pro App, Kanal-Timer, Windows-Töne stumm beim Zocken, Kopfhörer-Akku · Steampunk, Arktis, Japan · Gewitter, Sternenwirbel, Glühwürmchen · Graffiti, Bücherregal, Serverraum · Plattenspieler |
