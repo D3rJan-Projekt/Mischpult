@@ -30,6 +30,7 @@ namespace Mischpult.UI
               .Append(",\"streamon\":").Append(_settings.StreamOn ? "true" : "false")
               .Append(",\"scene\":").Append(J(ROff470(_settings.RemoteScenesOff) ? null : _sceneLit346))
               .Append(",\"media\":").Append(ROff470(_settings.RemoteMediaOff) ? "false" : "true");
+            AppendGlobal480(sb);   // 4.8
             var np = !ROff470(_settings.RemoteMediaOff) && !_settings.NowPlayingOff ? _nowPlaying?.Current : null;
             if (np != null && (!string.IsNullOrEmpty(np.Title) || !string.IsNullOrEmpty(np.Artist)))
                 sb.Append(",\"np\":{\"t\":").Append(J(np.Title)).Append(",\"a\":").Append(J(np.Artist)).Append(",\"p\":").Append(np.Playing ? "true" : "false").Append('}');
@@ -71,6 +72,7 @@ namespace Mischpult.UI
 
         private void AddRemote460(SPage p)
         {
+            AddRemote480(p);   // 4.8
             p.Toggle("Studio-Ansicht fürs Tablet", "Die Fernbedienung im Stil großer Digitalpulte: MIX mit allen Kanalzügen, EDIT mit EQ-Kurve zum Ziehen, Dynamik (COMP, AUTO), Apps und Stream-Anteil, eine PEGEL-Übersicht, rechts Ebenen, Szenen, DUCKING und ALLE STUMM. Oben links zwischen „Studio“, „Pult“ und „Liste“ umschalten. Aus = Pult bzw. Liste wie bisher.",
                 () => !_settings.RemoteStudioOff, v => { _settings.RemoteStudioOff = !v; ScheduleSave(); }).Visible = () => _settings.RemoteOn;
             p.Toggle("Musik-Tasten am Handy", "Zurück, Play/Pause und Weiter für die Musik am PC und oben im Display, was gerade läuft.",

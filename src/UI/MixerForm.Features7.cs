@@ -66,7 +66,7 @@ namespace Mischpult.UI
             // Der Verlauf misst immer – das Standardgeraet bzw. (2.16.1) das gewaehlte Geraet.
             bool lufsShown = OutputStrip.LufsOn && Visible && WindowState != FormWindowState.Minimized;
             Backend.SetLoudness(lufsShown || (LoudHistOn && _settings.LoudHistSource == null) || !_settings.DiaryOff || MeasureNeedsLoudness || (_settings.BpmOn && shown)
-                || _settings.PhaseWarnOn || (_settings.ShakeOn && shown) || (_settings.HearTimeOn && _settings.DiaryOff) || NeedsLoudness400);   // 3.5, 4.0   // 2.17: Hoer-Tagebuch misst immer; 3.4.6: True-Peak/Dynamik
+                || _settings.PhaseWarnOn || (_settings.ShakeOn && shown) || (_settings.HearTimeOn && _settings.DiaryOff) || NeedsLoudness400 || NeedsLoudness480);   // 4.8: Lautheit am Handy   // 3.5, 4.0   // 2.17: Hoer-Tagebuch misst immer; 3.4.6: True-Peak/Dynamik
             Backend.SetLoudnessDevices(LoudnessDeviceIds(lufsShown));
             if (lufsShown && shown)
             {

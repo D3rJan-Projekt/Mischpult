@@ -1,14 +1,24 @@
-**Mischpult 4.7** – App-Audio-Mixer für Windows, made by D3r_Jan
+**Mischpult 4.8** – App-Audio-Mixer für Windows, made by D3r_Jan
 
 **Herunterladen:** unten bei „Assets“ auf `Mischpult.exe` klicken, dann starten – das Ein-Klick-Fenster fragt: installieren oder nur ausprobieren. Ein Update geht genauso: neue EXE starten → „Aktualisieren“, deine Einstellungen bleiben.
+
+### Neu in 4.8 – mehr fürs Studio-Pult
+Sechs neue Schalter unter OPTIONEN → Fenster & Verbindungen → Fernbedienung, alle zuerst aus (im Studio-Fenster am PC ist alles dabei):
+- **Aufnahme am Handy** – ● REC am Ausgang: Aufnahme am PC starten und stoppen, mit laufender Zeit.
+- **Spektrum im EQ am Handy** – Taste **RTA**: Hinter der EQ-Kurve läuft live das Spektrum des Kanals mit.
+- **Mute-Gruppen am Handy** – die Mute-Gruppen vom PC als Tasten in der Seitenleiste.
+- **Szenen speichern am Handy** – den jetzigen Stand als neue Szene sichern oder eine Szene überschreiben.
+- **Name und Farbe am Handy** – EDIT → KANAL.
+- **Lautheit am Handy** – LUFS (Momentan, Kurzzeit, Integriert) mit Zielwert in PEGEL.
+- Im Fenster „Fernbedienung“: Hinweis für Chrome auf Android („Geräte in der Nähe“ erlauben).
+
+![Spektrum hinter der EQ-Kurve](https://raw.githubusercontent.com/D3rJan-Projekt/Mischpult/main/bilder/studio-rta.png)
 
 ### Neu in 4.7 – Studio-Fenster am PC
 - Die **Studio-Ansicht** (MIX, EDIT mit EQ-Kurve, PEGEL, Szenen, DUCKING, Musik-Tasten) als **eigenes Fenster hier am PC** – ohne Handy und auch, wenn die Fernbedienung aus ist.
 - Einschalten unter OPTIONEN → Fenster & Verbindungen → **„Studio-Fenster am PC“** (zuerst aus), öffnen per Knopf, Rechtsklick auf OPTIONEN oder übers Taskleisten-Symbol.
 - Läuft als App-Fenster von **Edge** oder **Chrome** ohne Adressleiste (F11 = Vollbild), nur auf diesem PC (127.0.0.1), keine Firewall-Freigabe nötig.
 - Nach einem Neustart des Mischpults verbindet sich ein offenes Fenster von selbst wieder.
-
-![Studio-Fenster am PC](https://raw.githubusercontent.com/D3rJan-Projekt/Mischpult/main/bilder/studio-fenster.png)
 
 ### Neu in 4.6 – das Tablet als Studio-Pult
 Die Fernbedienung hat eine neue Ansicht **„Studio“** im Stil großer Digitalpulte – auf dem Tablet ist sie der Start (oben „Studio | Pult | Liste“).

@@ -371,6 +371,7 @@ namespace Mischpult.UI
 
         internal static readonly string[][] Chronicle =
         {
+            new[] { "4.8", "Mehr fürs Studio-Pult am Handy: Aufnahme starten und stoppen, Spektrum (RTA) hinter der EQ-Kurve, Mute-Gruppen, Szenen speichern und überschreiben, Name und Farbe eines Kanals, Lautheit (LUFS) mit Zielwert – jedes mit eigenem Schalter, zuerst aus. Hinweis für Chrome auf Android im Fenster „Fernbedienung“." },
             new[] { "4.7", "Studio-Fenster am PC: die Studio-Ansicht (MIX, EDIT mit EQ-Kurve, PEGEL, Szenen, DUCKING, Musik-Tasten) als eigenes Fenster hier am PC – ohne Handy und auch, wenn die Fernbedienung aus ist. Nur auf diesem PC, über Edge bzw. Chrome ohne Adressleiste." },
             new[] { "4.6", "Fernbedienung als Studio-Pult fürs Tablet: MIX mit Kanalzügen (Pegel, Balance, MUTE, SOLO) und Master rechts, EDIT mit EQ-Kurve zum Ziehen, Dynamik (COMP, AUTO), Apps und Stream-Anteil, PEGEL-Übersicht, Ebenen (Kanäle, Gruppen, Ausgänge), Szenen, DUCKING, ALLE STUMM und Musik-Tasten mit „Jetzt läuft“." },
             new[] { "4.5.2", "Fernbedienung: schmale Kanäle im Pult (Standard) – oben rechts S, M, L für die Breite. Schmal passen mehr Kanäle auf den Bildschirm." },

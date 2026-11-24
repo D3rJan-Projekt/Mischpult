@@ -20,7 +20,7 @@
     <Prefer32Bit>false</Prefer32Bit>
     <DebugType>none</DebugType>
     <GenerateDocumentationFile>false</GenerateDocumentationFile>
-    <Version>4.7</Version>
+    <Version>4.8</Version>
     <Product>Mischpult</Product>
     <Company>D3r_Jan</Company>
     <Authors>D3r_Jan</Authors>

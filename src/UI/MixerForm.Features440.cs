@@ -35,6 +35,7 @@ namespace Mischpult.UI
         {
             _remoteNow = now;
             TickStudio470(now);   // 4.7: Studio-Fenster am PC
+            Tick480(now);         // 4.8: Spektrum fuers Handy wieder freigeben
             if (now >= _nextRemoteCheck) { _nextRemoteCheck = now + 1.0; SyncRemote440(); }
             if (_settings.RemoteOn && now >= _nextFw440) { _nextFw440 = now + 15.0; CheckFirewall440(); }
             if (_remote == null) return;
@@ -303,7 +304,7 @@ namespace Mischpult.UI
                   .Append(",\"pk\":").Append(F4(Math.Max(r.PeakL, r.PeakR))).Append(",\"val\":").Append(J(r.Value)).Append(",\"badge\":").Append(J(badge))
                   .Append(",\"pl\":").Append(F4(r.PeakL)).Append(",\"pr\":").Append(F4(r.PeakR));   // 4.5.1: Pegel links/rechts
                 if (r.Sub != null) sb.Append(",\"sub\":").Append(J(r.Sub));
-                if (strip != null) { AppendStrip450(sb, strip.Config); AppendStrip460(sb, strip.Config); }   // 4.5/4.6: EQ, Balance, SOLO, COMP, AUTO, Stream
+                if (strip != null) { AppendStrip450(sb, strip.Config); AppendStrip460(sb, strip.Config); AppendStrip480(sb, strip.Config); }   // 4.5/4.6: EQ, Balance, SOLO, COMP, AUTO, Stream
                 if (strip != null && !ROff470(_settings.RemoteAppsOff))
                 {
                     sb.Append(",\"apps\":[");
@@ -530,7 +531,7 @@ namespace Mischpult.UI
         private RectangleF _newR, _copyR, _fwR, _testR;
         private readonly Timer _timer = new Timer { Interval = 1000 };
 
-        public RemoteWindow440() : base("Fernbedienung", 660, 470)
+        public RemoteWindow440() : base("Fernbedienung", 660, 520)
         {
             _timer.Tick += (s, e) => Invalidate();
             _timer.Start();
@@ -607,6 +608,10 @@ namespace Mischpult.UI
                 }
 
             float bh = Theme.F(28);
+            // 4.8: Hinweis fuer Chrome auf Android (ab Android 17 braucht Chrome die Berechtigung „Geräte in der Nähe“)
+            float hy = Math.Max(ly + Theme.F(6), r.Bottom - bh - pad - Theme.F(44));
+            Label(g, "Chrome auf Android zeigt „ERR_TOO_MANY_RETRIES“? In den Handy-Einstellungen → Apps → Chrome → Berechtigungen „Geräte in der Nähe“ erlauben – oder einen anderen Browser nehmen (z. B. Samsung Internet).",
+                new RectangleF(lx, hy, lw, Theme.F(36)), Theme.TextFaint, 9.5f, false, Theme.Wrap);
             _newR = new RectangleF(x, r.Bottom - bh - pad, Theme.F(110), bh);
             _copyR = new RectangleF(_newR.Right + Theme.F(8), _newR.Y, Theme.F(130), bh);
             bool fix = FirewallFixable != null && FirewallFixable();

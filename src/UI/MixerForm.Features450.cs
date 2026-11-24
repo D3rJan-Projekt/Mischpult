@@ -112,6 +112,8 @@ namespace Mischpult.UI
         private Action RemoteCommand450(string name, string id, float raw, Dictionary<string, string> a)
         {
             if ((name == "pos" || name == "mute") && id != null && id.StartsWith("out:")) return RemoteOut451(name, id, raw);   // 4.5.1
+            Action a480 = RemoteCommand480(name, id, raw, a);   // 4.8: Aufnahme, RTA, Mute-Gruppen, Szenen, Name/Farbe
+            if (a480 != null) return a480;
             Action a460 = RemoteCommand460(name, id, raw, a);   // 4.6: AUTO, Stream-Anteil, Musik-Tasten
             if (a460 != null) return a460;
             if (name != "eq" && name != "eqon" && name != "pan" && name != "solo" && name != "comp") return null;

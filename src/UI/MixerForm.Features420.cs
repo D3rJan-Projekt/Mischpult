@@ -24,6 +24,7 @@ namespace Mischpult.UI
             "DuckLampsOn", "DuckMinTalkOn", "DuckFadeOn",   // 4.2.3
             "DuckWhoOn", "DuckHoldKeyOn", "DuckPresetsOn", "DuckWhenOn", "AppProfilesOn", "ChanTimerOn", "SysQuietGameOn", "BatteryOn",   // 4.3
             "RemoteOn",   // 4.4
+            "StudioWinOn", "RemoteRecOn", "RemoteRtaOn", "RemoteMuteGrpOn", "RemoteSceneSaveOn", "RemoteEditOn", "RemoteLufsOn",   // 4.7, 4.8
         };
 
         private void ApplyLook420(MixerSettings s, bool demo)

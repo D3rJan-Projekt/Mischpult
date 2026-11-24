@@ -11,6 +11,14 @@ namespace Mischpult.UI
         /// <summary>4.4/4.5: Neuheiten (Titel, dann Paare Name/Erklaerung). Namen wie die Schalter, damit rechts ein Schalter steht.</summary>
         internal static readonly string[][] Sections44 =
         {
+            new[] { "Mehr fürs Studio-Pult (4.8)",
+                "Aufnahme am Handy", "Am Ausgang eine Aufnahme-Taste: startet und stoppt die Aufnahme am PC, mit laufender Zeit.",
+                "Spektrum im EQ am Handy", "Taste RTA in EDIT → EQ: Hinter der EQ-Kurve läuft live das Spektrum des Kanals mit – so siehst du, wo es dröhnt oder zischt.",
+                "Mute-Gruppen am Handy", "Die Mute-Gruppen vom PC als Tasten in der Seitenleiste – ein Tipp schaltet mehrere Kanäle zusammen stumm.",
+                "Szenen speichern am Handy", "„＋ SPEICHERN“: den jetzigen Stand als neue Szene sichern oder eine Szene überschreiben.",
+                "Name und Farbe am Handy", "EDIT → KANAL: Name und Farbe eines Kanals ändern.",
+                "Lautheit am Handy", "In PEGEL die Lautheit (LUFS) – Momentan, Kurzzeit, Integriert – mit dem Zielwert aus OPTIONEN.",
+                "Hinweis für Chrome", "Im Fenster „Fernbedienung“ steht, was bei „ERR_TOO_MANY_RETRIES“ in Chrome auf Android hilft." },
             new[] { "Studio-Fenster am PC (4.7)",
                 "Studio-Fenster am PC", "Die Studio-Ansicht als eigenes Fenster hier am PC – ohne Handy und auch, wenn die Fernbedienung aus ist. Öffnen per Rechtsklick auf OPTIONEN oder über das Mischpult-Symbol in der Taskleiste." },
             new[] { "Studio-Pult fürs Tablet (4.6)",
@@ -329,7 +337,7 @@ namespace Mischpult.UI
                     Theme.Str(g, part == 0 ? "Neu in Mischpult " + Program.Version : part == 1 ? "Aus Version 4.3" : part == 2 ? "Aus Version 4.2" : part == 3 ? "Aus Version 4.1" : "Aus Version 4.0", part == 0 ? big : Theme.Ui(17f, FontStyle.Bold), tb, new RectangleF(x, y, w, Theme.F(34)), Theme.Left);
                     y += Theme.F(part == 0 ? 38 : 32);
                     string sub = part == 0
-                        ? "Die Fernbedienung: Handy, Tablet oder ein anderer PC regeln das Pult im Browser – ohne App, nur im Heimnetz, mit Zugangscode. Neu in 4.7: die Studio-Ansicht auch als eigenes Fenster am PC. Seit 4.6: die Studio-Ansicht fürs Tablet – wie ein großes Digitalpult mit MIX, EDIT (EQ-Kurve zum Ziehen), PEGEL und Musik-Tasten. Seit 4.5 gibt es außerdem das Pult mit EQ, PAN, SOLO, COMP, allen Ausgängen und Feineinstellung. Einschalten unter OPTIONEN → Fenster & Verbindungen („Fernbedienung“). Zuerst aus." +
+                        ? "Die Fernbedienung: Handy, Tablet oder ein anderer PC regeln das Pult im Browser – ohne App, nur im Heimnetz, mit Zugangscode. Neu in 4.8: Aufnahme, Spektrum im EQ, Mute-Gruppen, Szenen speichern, Name/Farbe und Lautheit im Studio-Pult – jedes einzeln einschaltbar. Seit 4.7: die Studio-Ansicht auch als eigenes Fenster am PC. Seit 4.6: die Studio-Ansicht fürs Tablet – wie ein großes Digitalpult mit MIX, EDIT (EQ-Kurve zum Ziehen), PEGEL und Musik-Tasten. Seit 4.5 gibt es außerdem das Pult mit EQ, PAN, SOLO, COMP, allen Ausgängen und Feineinstellung. Einschalten unter OPTIONEN → Fenster & Verbindungen („Fernbedienung“). Zuerst aus." +
                           (ToggleFor != null ? " Mit dem Schalter rechts schaltest du sie gleich hier ein." : "")
                         : part == 1
                         ? Count43 + " neue Sachen: Ducking (wer löst aus, Halte-Taste, Soundboard, Vorlagen, nur wenn …), Komfort (Profil pro App, Kanal-Timer, Windows-Töne, Kopfhörer-Akku) und Optik (Designs, Hintergründe, Wände, Plattenspieler) – jede einzeln an- und ausschaltbar unter OPTIONEN → Automatik („Ducking“ und „4.3 – Komfort“) und Aussehen („4.3 – Optik“). Alles ist zuerst aus." +

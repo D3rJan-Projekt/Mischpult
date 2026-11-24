@@ -146,6 +146,7 @@ namespace Mischpult.UI
 
         private void DemoShown470()
         {
+            DemoShown480();   // 4.8
             string rc = Environment.GetEnvironmentVariable("MISCHPULT_DEMO_REMOTECODE");
             if (MixerSettings.ValidRemoteCode(rc)) _settings.StudioCode = rc;
             if (DemoOn("STUDIOWIN")) DemoLater(() => { _settings.StudioWinOn = true; StartStudio470(); });

@@ -333,6 +333,41 @@ body.studioview header{padding-bottom:6px}
 .st-ms{display:flex;gap:4px;flex:1;min-height:0;width:100%;justify-content:center}
 .st-ms .st-scl{width:18px}
 .st-ms .st-scl span{font-size:9px}
+.recb.on .lamp{background:var(--red);box-shadow:0 0 12px var(--red)}
+.recb.on .who{color:#ff8a8a}
+.st-k.rec{display:flex;align-items:center;justify-content:center;gap:5px}
+.st-k.rec b{width:9px;height:9px;border-radius:50%;background:#b02020;flex:none}
+.st-k.rec.on{background:linear-gradient(180deg,#ff6b6b,#cf2c2c);color:#fff}
+.st-k.rec.on b{background:#fff;animation:blink 1s steps(2) infinite}
+@keyframes blink{50%{opacity:.2}}
+.st-k.mu.mg:not(.on){background:linear-gradient(180deg,#ffbf7a,#e5801f);color:#2a1700}
+.st-sb.mgb.on{background:linear-gradient(180deg,#ff6b6b,#cf2c2c);border-color:#6a1010}
+.st-sb.add{background:linear-gradient(180deg,#3d4757,#262d38);border-style:dashed;border-color:#5a6a86}
+.chip.add{border-style:dashed;color:var(--dim)}
+.ss-row{display:flex;gap:8px;align-items:center;padding:10px 0;border-top:1px solid var(--edge)}
+.ss-row:first-child{border-top:0}
+.ss-row .nm{flex:1;min-width:0;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.ss-in{flex:1;min-width:0;font:600 16px system-ui,sans-serif;padding:12px;border-radius:10px;border:1px solid var(--edge);background:var(--well);color:var(--text)}
+.ss-in:focus{outline:2px solid var(--accent);outline-offset:1px}
+.ss-b{flex:none;padding:12px 16px;border-radius:10px;border:0;background:var(--accent);color:#1a140a;font:800 13px system-ui,sans-serif;letter-spacing:.04em}
+.ss-b.sec{background:#2b2f36;color:var(--text);border:1px solid var(--edge)}
+.ss-b.warn{background:var(--red);color:#fff}
+.ss-lbl{font:700 11px system-ui,sans-serif;letter-spacing:.14em;color:var(--faint);margin:14px 0 2px}
+.st-chc{display:flex;flex-direction:column;gap:12px;max-width:560px;width:100%;overflow-y:auto}
+.st-chc .ss-row{border-top:0;padding:0}
+.st-pal{display:grid;grid-template-columns:repeat(auto-fill,minmax(70px,1fr));gap:8px}
+.st-sw{height:54px;border-radius:8px;border:2px solid transparent;color:#0b0c0e;font:800 11px system-ui,sans-serif;display:flex;align-items:flex-end;justify-content:center;padding-bottom:5px;box-shadow:inset 0 -18px 0 rgba(0,0,0,.18)}
+.st-sw.on{border-color:#fff;box-shadow:0 0 0 2px #0b0c0e inset,0 0 12px rgba(255,255,255,.35)}
+.st-lufs{flex:none;width:190px;margin-left:auto;background:#101214;border:1px solid #2a2e34;border-radius:8px;padding:12px;display:flex;flex-direction:column;gap:8px;min-height:0}
+.st-lufs h4{margin:0;font:800 11px system-ui,sans-serif;letter-spacing:.14em;color:#8d95a1}
+.lu{display:flex;justify-content:space-between;align-items:baseline;gap:6px}
+.lu span{font:700 10px system-ui,sans-serif;letter-spacing:.08em;color:#8d95a1}
+.lu b{font:700 22px ui-monospace,Consolas,monospace;color:#5fe3ff}
+.lu b.hot{color:#ff6b6b}.lu b.ok{color:#5ff0a2}
+.lu-bar{flex:1;min-height:80px;position:relative;border-radius:4px;background:#050607;border:1px solid #2a2e34;overflow:hidden}
+.lu-bar i{position:absolute;left:0;right:0;bottom:0;background:linear-gradient(0deg,#1e7a8c,#5fe3ff);transition:height .15s linear}
+.lu-bar u{position:absolute;left:-2px;right:-2px;height:2px;background:#ffd84a}
+.lu-t{font:600 11px system-ui,sans-serif;color:#a8afba}
 #seg button[hidden]{display:none}
 </style>
 </head>
@@ -475,12 +510,15 @@ body.studioview header{padding-bottom:6px}
 
   function structSig(s) {
     return JSON.stringify([s.rows.map(function (r) { return [r.id, r.name, r.color, r.sub || '', !!r.eq, r.apps ? r.apps.map(function (a) { return [a.k, a.n]; }) : null]; }),
-      (s.scenes || []).map(function (x) { return [x.id, x.name]; }), !!s.duck, !!s.strips, !!s.studio, !!s.streamon, !!s.media, s.rows.map(function (r) { return !!r.str; })]);
+      (s.scenes || []).map(function (x) { return [x.id, x.name]; }), !!s.duck, !!s.strips, !!s.studio, !!s.streamon, !!s.media, s.rows.map(function (r) { return !!r.str; }),
+      !!s.rec, !!s.rtaok, (s.mg || []).map(function (g) { return g.n; }), !!s.scsave, !!s.edit, !!s.lufson]);
   }
   function render(s) {
     var now = Date.now();
     if (state) {   // gerade selbst geaendert: eigenen Stand behalten, bis das Pult nachgezogen hat
       if (s.duck && state.duck && busy.duck > now) s.duck.on = state.duck.on;
+      if (s.rec && state.rec && busy.rec > now) s.rec.on = state.rec.on;   // 4.8
+      if (s.mg && state.mg) s.mg.forEach(function (g, i) { if (busy['mg' + i] > now && state.mg[i]) g.on = state.mg[i].on; });
       s.rows.forEach(function (r) {
         var o = find(r.id);
         if (!o) return;
@@ -511,7 +549,13 @@ body.studioview header{padding-bottom:6px}
 
   function build(s) {
     var top = $('#top'); top.innerHTML = '';
-    $('#topWrap').hidden = !s.duck;
+    $('#topWrap').hidden = !s.duck && !s.rec;
+    if (s.rec) {   // 4.8
+      var rb = el('button', 'duck recb'); rb.id = 'recb';
+      rb.innerHTML = '<span class="lamp"></span><span class="dl">AUFNAHME</span><span class="who"></span>';
+      rb.onclick = toggleRec;
+      top.appendChild(rb);
+    }
     if (s.duck) {
       var b = el('button', 'duck'); b.id = 'duck';
       b.innerHTML = '<span class="lamp"></span><span class="dl">DUCKING</span><span class="who"></span>';
@@ -519,12 +563,13 @@ body.studioview header{padding-bottom:6px}
       top.appendChild(b);
     }
     var sc = $('#scenes'); sc.innerHTML = '';
-    $('#scenesWrap').hidden = !(s.scenes && s.scenes.length);
+    $('#scenesWrap').hidden = !((s.scenes && s.scenes.length) || s.scsave);
     (s.scenes || []).forEach(function (x) {
       var c = el('button', 'chip'); c.textContent = x.name;
       c.onclick = function () { send('scene', { 'do': 'scene', id: x.id }); c.classList.add('hit'); setTimeout(function () { c.classList.remove('hit'); }, 600); vib(); };
       sc.appendChild(c);
     });
+    if (s.scsave) { var ad = el('button', 'chip add'); ad.textContent = '＋ Speichern'; ad.onclick = function () { openSceneSave(); vib(); }; sc.appendChild(ad); }
     var rows = $('#rows'); rows.innerHTML = '';
     s.rows.forEach(function (r) { rows.appendChild(card(r)); });
     buildPult(s);
@@ -632,6 +677,7 @@ body.studioview header{padding-bottom:6px}
     });
     if (curView === 'studio') supdate(s, now);   // 4.6
     updDuck();
+    updRec();   // 4.8
     fineUpd();
     layout();
   }
@@ -707,7 +753,7 @@ body.studioview header{padding-bottom:6px}
     var n = 0;
     chs.concat(grps).forEach(function (r) { p.appendChild(pstrip(r, s, anyApps, is(r, 'ch:') ? ++n : 0)); });
     outs.concat(rest).forEach(function (r, i) { var d = pstrip(r, s, anyApps, 0); if (i === 0 && p.children.length) d.classList.add('o1'); p.appendChild(d); });
-    if (sheetId) {
+    if (sheetId && sheetMode !== 'scene') {
       var sr = find(sheetId);
       if (sr && sheetMode === 'fine') openFine(sheetId); else if (sr && sr.apps && sheetMode === 'apps') openSheet(sheetId); else closeSheet();
     }
@@ -1086,12 +1132,14 @@ body.studioview header{padding-bottom:6px}
     d.innerHTML = '<div class="st-lv"></div>' +
       '<div class="st-pan' + (hasPan ? '' : ' ghost') + '">' + (hasPan ? '<b></b><i></i>' : '') + '</div>' +
       '<div class="st-row"><button class="st-k mu">MUTE</button>' + (ch ? '<button class="st-k so">SOLO</button>' : '') + '</div>' +
+      (master && state && state.rec ? '<div class="st-row"><button class="st-k rec"><b></b><span>REC</span></button></div>' : '') +
       '<div class="st-fz">' + VM + scaleHtml(r.id) + '<div class="track"><div class="slot"></div><div class="fcap"></div></div></div>' +
       '<div class="st-ft"><span class="cn"></span><span class="bd"></span></div><div class="st-nm"></div>';
     d.querySelector('.cn').textContent = master ? 'L R' : ch ? 'CH ' + num : r.id.indexOf('grp:') === 0 ? 'GR ' + num : r.id === 'stream' ? 'STR' : 'OUT';
     var nm = d.querySelector('.st-nm'); nm.textContent = r.name; nm.title = r.name + (r.sub ? ' – ' + r.sub : '');
     d.querySelector('.st-lv').onclick = function () { openFine(r.id); vib(); };
     d.querySelector('.mu').onclick = function () { toggleMute(r.id); };
+    var rcb = d.querySelector('.st-k.rec'); if (rcb) rcb.onclick = toggleRec;
     if (ch) {
       d.querySelector('.so').onclick = function () { toggleFlag(r.id, 'solo'); };
       nm.onclick = function () {
@@ -1205,11 +1253,24 @@ body.studioview header{padding-bottom:6px}
       var b = el('button', 'st-sb' + (sLayer === l[0] && sTab === 'mix' ? ' on' : '')); b.textContent = l[1];
       b.onclick = function () { setLayer(l[0]); }; sd.appendChild(b);
     });
-    if (s.scenes && s.scenes.length) {
+    if ((s.scenes && s.scenes.length) || s.scsave) {
       var lb = el('div', 'st-lbl'); lb.textContent = 'SZENEN'; sd.appendChild(lb);
-      s.scenes.forEach(function (x) {
+      (s.scenes || []).forEach(function (x) {
         var b = el('button', 'st-sb sc'); b.textContent = x.name; b.setAttribute('data-sc', x.id);
         b.onclick = function () { send('scene', { 'do': 'scene', id: x.id }); state.scene = x.id; vib(); update(state); };
+        sd.appendChild(b);
+      });
+      if (s.scsave) { var ab = el('button', 'st-sb add'); ab.textContent = '＋ SPEICHERN'; ab.onclick = function () { openSceneSave(); vib(); }; sd.appendChild(ab); }
+    }
+    if (s.mg && s.mg.length) {   // 4.8
+      var ml = el('div', 'st-lbl'); ml.textContent = 'MUTE-GRUPPEN'; sd.appendChild(ml);
+      s.mg.forEach(function (g, i) {
+        var b = el('button', 'st-sb mgb'); b.textContent = g.n; b.setAttribute('data-mg', i);
+        b.onclick = function () {
+          var x = state.mg && state.mg[i]; if (!x) return;
+          x.on = !x.on; busy['mg' + i] = Date.now() + 1500;
+          send('mg' + i, { 'do': 'mg', id: i, v: x.on ? 1 : 0 }); vib(); update(state);
+        };
         sd.appendChild(b);
       });
     }
@@ -1254,6 +1315,12 @@ body.studioview header{padding-bottom:6px}
         c.querySelector('.mn').textContent = r.name;
         mt.appendChild(c);
       });
+      if (s.lufson) {   // 4.8
+        var lz = el('div', 'st-lufs');
+        lz.innerHTML = '<h4>LAUTHEIT (LUFS)</h4><div class="lu"><span>MOMENTAN</span><b data-l="m">—</b></div><div class="lu"><span>KURZZEIT</span><b data-l="s">—</b></div>' +
+          '<div class="lu"><span>INTEGRIERT</span><b data-l="i">—</b></div><div class="lu-bar"><i></i><u></u></div><div class="lu-t"></div>';
+        mt.appendChild(lz);
+      }
       mn.appendChild(mt);
     } else if (sTab === 'edit') {
       mn.appendChild(sEdit(s));
@@ -1281,6 +1348,7 @@ body.studioview header{padding-bottom:6px}
     if (r.eq && s.strips) tabs.push(['eq', 'EQ', '#ff5a5a'], ['dyn', 'DYN', '#3ddc84']);
     if (r.apps && r.apps.length) tabs.push(['apps', 'APPS', '#4aa8ff']);
     if (r.str && s.streamon) tabs.push(['str', 'STREAM', '#c77dff']);
+    if (s.edit) tabs.push(['ch', 'KANAL', '#ffb347']);   // 4.8
     if (!tabs.length) { var h2 = el('div', 'st-hint'); h2.textContent = 'Für diesen Kanal gibt es hier nichts weiter einzustellen. Lautstärke, MUTE und SOLO stehen links.'; ep.appendChild(h2); }
     else {
       if (!tabs.some(function (t) { return t[0] === eTab; })) eTab = tabs[0][0];
@@ -1295,6 +1363,7 @@ body.studioview header{padding-bottom:6px}
       if (eTab === 'eq') eqBody(body, r, s);
       else if (eTab === 'dyn') dynBody(body, r);
       else if (eTab === 'apps') appsBody(body, r);
+      else if (eTab === 'ch') chBody(body, r, s);
       else strBody(body, r);
     }
     var ct = el('div', 'st-ctabs');
@@ -1310,8 +1379,15 @@ body.studioview header{padding-bottom:6px}
   function eqBody(body, r, s) {
     var R = s.eqrange || 12;
     var gw = el('div', 'st-gw');
-    gw.innerHTML = '<div class="st-graph"><canvas></canvas></div><div class="st-btns"><button class="st-k g" data-f="eqon">EQ AN</button><button class="st-k">RESET</button><button class="st-k o" data-f="comp">COMP</button></div>';
+    gw.innerHTML = '<div class="st-graph"><canvas></canvas></div><div class="st-btns"><button class="st-k g" data-f="eqon">EQ AN</button><button class="st-k">RESET</button><button class="st-k o" data-f="comp">COMP</button>' + (s.rtaok ? '<button class="st-k b" data-rta="1">RTA</button>' : '') + '</div>';
     body.appendChild(gw);
+    var rb2 = gw.querySelector('[data-rta]');
+    if (rb2) rb2.onclick = function () {
+      rtaOn = !rtaOn; store('mp-rta', rtaOn ? '1' : '0'); rtaSent = 0; sEqKey = ''; vib();
+      if (!rtaOn) send('rta', { 'do': 'rta', id: '' });
+      else if (state && sSel) { var x = find(sSel); if (x && x.eq && !x.eq[0]) toast('Das Spektrum kommt, sobald der EQ des Kanals an ist.'); }
+      update(state);
+    };
     var bs = gw.querySelectorAll('.st-btns .st-k');
     bs[0].onclick = function () { toggleFlag(r.id, 'eqon'); };
     bs[1].onclick = function () { if (state && !state.eqok) { toast(NOEQ); return; } for (var b = 0; b < 3; b++) setEqBand(r.id, b, 0); vib(); update(state); };
@@ -1365,7 +1441,8 @@ body.studioview header{padding-bottom:6px}
   }
   function drawEq(gr, r) {
     var cv = gr.querySelector('canvas'); if (!cv || !r.eq) return;
-    var key = [cv.clientWidth, cv.clientHeight, r.eq.join(','), state.eqok, gr._b].join('|');
+    var rta = rtaOn && state.rta && state.rta.id === r.id && state.rta.b ? state.rta.b : null;
+    var key = [cv.clientWidth, cv.clientHeight, r.eq.join(','), state.eqok, gr._b, rta ? rta.join(',') : '', rtaOn].join('|');
     if (key === sEqKey) return;
     sEqKey = key;
     var dpr = window.devicePixelRatio || 1, G = eqGeom(cv);
@@ -1385,6 +1462,22 @@ body.studioview header{padding-bottom:6px}
       g.strokeStyle = db === 0 ? '#4a5059' : '#2a2f36'; g.beginPath(); g.moveTo(G.l, y); g.lineTo(G.r, y); g.stroke();
       g.fillStyle = '#7d8590'; g.textAlign = 'right'; g.fillText((db > 0 ? '+' : '') + db, G.l - 6, y);
     });
+    // 4.8: Spektrum (RTA) hinter der Kurve, -84 dB unten bis 0 dB oben
+    if (rta) {
+      var n = rta.length, bw = (G.r - G.l) / n, grd = g.createLinearGradient(0, G.t, 0, G.b);
+      grd.addColorStop(0, 'rgba(95,227,255,.55)'); grd.addColorStop(1, 'rgba(95,227,255,.08)');
+      g.fillStyle = grd;
+      for (var i = 0; i < n; i++) {
+        var hv = Math.max(0, Math.min(1, (rta[i] + 84) / 84));
+        if (hv <= 0) continue;
+        var yy = G.b - hv * (G.b - G.t);
+        g.fillRect(G.l + i * bw + 0.5, yy, Math.max(1, bw - 1), G.b - yy);
+      }
+    } else if (rtaOn && state.rtaok) {
+      g.fillStyle = '#7d8590'; g.textAlign = 'right'; g.font = '600 11px system-ui,sans-serif';
+      g.fillText(r.eq[0] ? 'Spektrum kommt …' : 'Spektrum: EQ des Kanals einschalten', G.r - 6, G.t + 12);
+      g.font = '600 10px ui-monospace,Consolas,monospace';
+    }
     // Kurve
     var fl = [];
     if (Math.abs(r.eq[1]) > 0.01) fl.push(bq('l', 120, r.eq[1]));
@@ -1521,6 +1614,7 @@ body.studioview header{padding-bottom:6px}
       paintVm(d.querySelector('.vm'), lv);
       d.querySelector('.mu').classList.toggle('on', !!r.mute);
       var so = d.querySelector('.so'); if (so) so.classList.toggle('on', !!r.solo);
+      d.querySelector('.mu').classList.toggle('mg', !!r.mgm);   // 4.8: von einer Mute-Gruppe stumm
       d.querySelector('.bd').textContent = r.badge || '';
       var pan = d.querySelector('.st-pan i');
       if (pan) {
@@ -1543,6 +1637,7 @@ body.studioview header{padding-bottom:6px}
       var f = b.getAttribute('data-f');
       b.classList.toggle('on', f === 'eqon' ? !!(r.eq && r.eq[0] && state.eqok) : !!r[f]);
     });
+    var rt = ep.querySelector('[data-rta]'); if (rt) rt.classList.toggle('on', rtaOn);
     var gr = ep.querySelector('.st-graph');
     if (gr && r.eq) {
       gr.style.setProperty('--c', r.color);
@@ -1588,6 +1683,22 @@ body.studioview header{padding-bottom:6px}
     }
     var ma = S.querySelector('.st-sb.mall'), rows = s.rows.filter(function (r) { return isCh(r.id); });
     if (ma) ma.classList.toggle('on', rows.length > 0 && rows.every(function (r) { return r.mute; }));
+    Array.prototype.forEach.call(S.querySelectorAll('.st-sb.mgb'), function (b) { var g = s.mg && s.mg[+b.getAttribute('data-mg')]; b.classList.toggle('on', !!(g && g.on)); });
+    if (s.rtaok && rtaOn && sTab === 'edit' && eTab === 'eq' && sSel && Date.now() - rtaSent > 2000) { rtaSent = Date.now(); send('rta', { 'do': 'rta', id: sSel }); }
+    var lu = S.querySelector('.st-lufs');
+    if (lu) {
+      var L = s.lufs || [null, null, null], T = s.lufst || 0;
+      ['m', 's', 'i'].forEach(function (k, i) {
+        var e = lu.querySelector('[data-l="' + k + '"]'); if (!e) return;
+        e.textContent = L[i] === null || L[i] === undefined ? '—' : L[i].toFixed(1);
+        e.classList.toggle('hot', T !== 0 && L[i] !== null && L[i] > T + 1);
+        e.classList.toggle('ok', T !== 0 && L[i] !== null && Math.abs(L[i] - T) <= 1);
+      });
+      var f = function (v) { return Math.max(0, Math.min(1, (v + 40) / 40)); };
+      lu.querySelector('.lu-bar i').style.height = ((L[1] === null || L[1] === undefined ? 0 : f(L[1])) * 100) + '%';
+      var tu = lu.querySelector('.lu-bar u'); tu.style.display = T ? '' : 'none'; tu.style.bottom = (f(T) * 100) + '%';
+      lu.querySelector('.lu-t').textContent = T ? 'Ziel: ' + T + ' LUFS' : 'Ziel: aus (OPTIONEN)';
+    }
     s.rows.forEach(function (r) { sdraw(r, now); });
   }
 
@@ -1608,6 +1719,79 @@ body.studioview header{padding-bottom:6px}
         for (var k = Math.floor((W - n * sw) / sw); k > 0; k--) mx.appendChild(el('div', 'sst blank'));
       }
     }
+  }
+
+
+  // ================================================================ 4.8 Aufnahme, Szenen speichern, Name/Farbe
+  var rtaOn = false, rtaSent = 0;
+  try { rtaOn = localStorage.getItem('mp-rta') === '1'; } catch (e) {}
+  function toggleRec() {
+    if (!state || !state.rec) return;
+    var on = !state.rec.on; state.rec.on = on; busy.rec = Date.now() + 2500;
+    send('rec', { 'do': 'rec', v: on ? 1 : 0 }); vib(); update(state);
+    toast(on ? 'Aufnahme am PC gestartet.' : 'Aufnahme gestoppt – die Datei liegt am PC im Aufnahme-Ordner.');
+  }
+  function updRec() {
+    if (!state || !state.rec) return;
+    var on = !!state.rec.on, t = on && state.rec.t ? 'REC ' + state.rec.t : on ? 'REC' : 'AUS';
+    var b = $('#recb');
+    if (b) { b.classList.toggle('on', on); b.querySelector('.who').textContent = t; }
+    Array.prototype.forEach.call(document.querySelectorAll('#studio .st-k.rec'), function (x) {
+      x.classList.toggle('on', on); x.querySelector('span').textContent = on && state.rec.t ? state.rec.t : 'REC';
+    });
+  }
+  function openSceneSave() {
+    if (!state || !state.scsave) return;
+    sheetId = '#scene'; sheetMode = 'scene';
+    $('#sheetName').textContent = 'Szene speichern';
+    $('#sheet .box').style.setProperty('--c', '#ffb347');
+    $('#sheet .box').classList.remove('wide');
+    var box = $('#sheetApps'); box.innerHTML = ''; box.className = '';
+    var lb = el('div', 'ss-lbl'); lb.textContent = 'NEUE SZENE AUS DEM JETZIGEN STAND'; box.appendChild(lb);
+    var row = el('div', 'ss-row');
+    row.innerHTML = '<input class="ss-in" maxlength="30" placeholder="Name, z. B. Zocken"><button class="ss-b">SPEICHERN</button>';
+    var inp = row.querySelector('input');
+    inp.value = 'Szene ' + (((state.scenes || []).length) + 1);
+    function save() {
+      var n = inp.value.trim(); if (!n) { inp.focus(); return; }
+      send('scsave', { 'do': 'scsave', n: n }); vib(); toast('Szene „' + n + '“ gespeichert.'); closeSheet();
+    }
+    row.querySelector('button').onclick = save;
+    inp.addEventListener('keydown', function (e) { if (e.key === 'Enter') save(); });
+    box.appendChild(row);
+    if (state.scenes && state.scenes.length) {
+      var l2 = el('div', 'ss-lbl'); l2.textContent = 'ODER ÜBERSCHREIBEN'; box.appendChild(l2);
+      state.scenes.forEach(function (x) {
+        var r2 = el('div', 'ss-row'); r2.innerHTML = '<span class="nm"></span><button class="ss-b sec">Überschreiben</button>';
+        r2.querySelector('.nm').textContent = x.name;
+        var b = r2.querySelector('button'), armed = 0;
+        b.onclick = function () {
+          if (Date.now() - armed > 3000) { armed = Date.now(); b.textContent = 'Wirklich?'; b.className = 'ss-b warn'; setTimeout(function () { if (Date.now() - armed >= 3000) { b.textContent = 'Überschreiben'; b.className = 'ss-b sec'; } }, 3100); return; }
+          send('scover', { 'do': 'scover', id: x.id }); vib(); toast('Szene „' + x.name + '“ überschrieben.'); closeSheet();
+        };
+        box.appendChild(r2);
+      });
+    }
+    $('#sheet').hidden = false;
+  }
+  function chBody(body, r, s) {
+    var w = el('div', 'st-chc');
+    w.innerHTML = '<div class="ss-lbl">NAME</div><div class="ss-row"><input class="ss-in" maxlength="24"><button class="ss-b">ÜBERNEHMEN</button></div><div class="ss-lbl">FARBE</div><div class="st-pal"></div>';
+    var inp = w.querySelector('input'); inp.value = r.name;
+    function ok() {
+      var n = inp.value.trim(); if (!n || n === r.name) return;
+      send('chname:' + r.id, { 'do': 'chname', id: r.id, n: n }); vib(); toast('Neuer Name: ' + n);
+    }
+    w.querySelector('.ss-b').onclick = ok;
+    inp.addEventListener('keydown', function (e) { if (e.key === 'Enter') ok(); });
+    var pal = w.querySelector('.st-pal');
+    (s.pal || []).forEach(function (c, i) {
+      var b = el('button', 'st-sw' + (String(r.color).toLowerCase() === String(c).toLowerCase() ? ' on' : ''));
+      b.style.background = c; b.textContent = (s.paln && s.paln[i]) || '';
+      b.onclick = function () { send('chcolor:' + r.id, { 'do': 'chcolor', id: r.id, v: i }); vib(); Array.prototype.forEach.call(pal.children, function (x) { x.classList.toggle('on', x === b); }); };
+      pal.appendChild(b);
+    });
+    body.appendChild(w);
   }
 
   applyView();
