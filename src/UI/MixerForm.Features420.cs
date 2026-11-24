@@ -445,6 +445,8 @@ namespace Mischpult.UI
         /// <summary>Neuheit -> Name des Schalters in den Einstellungen (sonst gleicher Name).</summary>
         internal static readonly Dictionary<string, string> NewsRows420 = new Dictionary<string, string>
         {
+            // 4.6
+            { "EQ-Kurve zum Ziehen", "Studio-Ansicht fürs Tablet" }, { "PEGEL-Übersicht", "Studio-Ansicht fürs Tablet" },
             // 4.5
             { "Apps im Pult", "Lautstärke einzelner Apps am Handy" }, { "Fein einstellen", "Pult-Ansicht fürs Tablet" }, { "Schmale Kanäle", "Pult-Ansicht fürs Tablet" },
             // 4.3

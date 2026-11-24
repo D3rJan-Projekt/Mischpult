@@ -57,7 +57,7 @@ Windows hat nur einen kleinen Lautstärkemixer. Das **Mischpult** macht daraus e
 - Bewegte Hintergründe (z. B. Gewitter, das zum Bass blitzt), Wände hinter dem Pult, Deko wie der Plattenspieler mit dem Album-Cover, Pultlampe, RGB-Welle, spiegelnder Tisch – alles einzeln abschaltbar
 
 **Bedienung**
-- **Fernbedienung vom Handy**: Handy, Tablet oder ein anderer PC im selben WLAN regeln das Pult im Browser – ohne App, Verbinden per QR-Code. Auf dem Tablet sieht sie aus wie ein echtes Mischpult, mit EQ, PAN, SOLO und COMP
+- **Fernbedienung vom Handy**: Handy, Tablet oder ein anderer PC im selben WLAN regeln das Pult im Browser – ohne App, Verbinden per QR-Code. Auf dem Tablet sieht sie aus wie ein großes Digitalpult, mit EQ-Kurve, PAN, SOLO, COMP und Musik-Tasten
 - Tastenkürzel, die überall funktionieren – auch im Spiel
 - MIDI-Controller, Xbox-Controller, Mini-Ansicht, Overlay, Desktop-Widget
 - Einstellungsfenster mit Suche (Strg+F) und Übersicht „Was ist eingeschaltet“
@@ -66,7 +66,13 @@ Windows hat nur einen kleinen Lautstärkemixer. Das **Mischpult** macht daraus e
 
 Unter **OPTIONEN → Fenster & Verbindungen → „Fernbedienung im Browser“** einschalten und den **QR-Code** mit dem Handy scannen – fertig. Im Browser des Handys (oder Tablets, oder eines anderen PCs im selben WLAN) erscheinen alle Kanäle mit Schieber, MUTE und Pegel, dazu die Apps pro Kanal, die Szenen und die DUCKING-Taste mit „wer löst aus“. Eine App braucht es nicht.
 
-**Auf dem Tablet** (neu in 4.5) erscheint die Fernbedienung als **Pult**: senkrechte Fader mit Skala und Pegel, pro Kanal **EQ** (LO, MID, HI – hoch/runter ziehen, zweimal tippen = Mitte) mit EQ-Taste, **PAN**, **SOLO**, **COMP** und **MUTE**. Tipp auf die App-Symbole eines Kanals = Apps einzeln regeln. Oben rechts zwischen **„Pult“** und **„Liste“** umschalten. Rechts im Pult stehen **alle Ausgänge** (Lautsprecher, Kopfhörer, HDMI …) mit Lautstärke, MUTE und Pegel. Oben rechts **S, M, L** für die Breite der Kanäle – S (schmal) ist Standard. Abschaltbar unter der Fernbedienung: „Pult-Ansicht fürs Tablet“, „Alle Ausgänge am Handy“ und „EQ, Balance und SOLO am Handy“.
+**Studio-Ansicht** (neu in 4.6, auf dem Tablet der Start): die Fernbedienung im Stil großer Digitalpulte. **MIX** mit allen Kanalzügen (Wert, Balance, MUTE, SOLO, Stereo-Pegel, Fader) und dem Ausgang rechts, daneben **Ebenen** (Kanäle, Gruppen, Ausgänge), **Szenen**, **DUCKING** und **ALLE STUMM**. **EDIT** (Kanalnamen zweimal antippen): **EQ-Kurve zum Ziehen** (LO, MID, HI), **DYN** (COMP, AUTO), **APPS** und **STREAM**-Anteil. **PEGEL**: alle Pegel groß nebeneinander. Oben die **Musik-Tasten** und was gerade läuft.
+
+![Studio-Ansicht: MIX](bilder/studio-mix.png)
+
+![Studio-Ansicht: EDIT mit EQ-Kurve](bilder/studio-edit.png)
+
+**Pult-Ansicht** (seit 4.5, oben „Pult“) – die Fernbedienung als **Pult**: senkrechte Fader mit Skala und Pegel, pro Kanal **EQ** (LO, MID, HI – hoch/runter ziehen, zweimal tippen = Mitte) mit EQ-Taste, **PAN**, **SOLO**, **COMP** und **MUTE**. Tipp auf die App-Symbole eines Kanals = Apps einzeln regeln. Oben rechts zwischen **„Pult“** und **„Liste“** umschalten. Rechts im Pult stehen **alle Ausgänge** (Lautsprecher, Kopfhörer, HDMI …) mit Lautstärke, MUTE und Pegel. Oben rechts **S, M, L** für die Breite der Kanäle – S (schmal) ist Standard. Abschaltbar unter der Fernbedienung: „Studio-Ansicht fürs Tablet“, „Pult-Ansicht fürs Tablet“, „Alle Ausgänge am Handy“, „Musik-Tasten am Handy“ und „EQ, Balance und SOLO am Handy“.
 
 ![Tablet als Mischpult](bilder/tablet-pult.png)
 
@@ -189,6 +195,7 @@ dotnet build -c Release -p:FrameworkPathOverride=/usr/lib/mono/4.8-api
 
 | Version | Neu |
 |---|---|
+| **4.6** | Studio-Ansicht fürs Tablet: MIX mit Kanalzügen und Master, EDIT mit EQ-Kurve zum Ziehen, DYN (COMP, AUTO), APPS und STREAM-Anteil, PEGEL-Übersicht, Ebenen, Szenen, DUCKING, ALLE STUMM, Musik-Tasten |
 | **4.5.2** | Fernbedienung: schmale Kanäle im Pult (Standard), Breite oben rechts mit S, M, L |
 | **4.5.1** | Fernbedienung: alle Ausgänge mit Lautstärke, MUTE und Pegel · Taste FEIN und Feineinstellung in 0,1-dB-Schritten (Wert antippen) · Stereo-LED-Pegel, Skalenstriche, Kanalnummern |
 | **4.5** | Tablet als Mischpult: senkrechte Fader mit Skala und Pegel, pro Kanal EQ (LO, MID, HI) mit EQ-Taste, PAN, SOLO und COMP, Apps per Tipp – Umschalter „Pult \| Liste“, alles abschaltbar |

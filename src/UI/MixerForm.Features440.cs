@@ -302,7 +302,7 @@ namespace Mischpult.UI
                   .Append(",\"pk\":").Append(F4(Math.Max(r.PeakL, r.PeakR))).Append(",\"val\":").Append(J(r.Value)).Append(",\"badge\":").Append(J(badge))
                   .Append(",\"pl\":").Append(F4(r.PeakL)).Append(",\"pr\":").Append(F4(r.PeakR));   // 4.5.1: Pegel links/rechts
                 if (r.Sub != null) sb.Append(",\"sub\":").Append(J(r.Sub));
-                if (strip != null) AppendStrip450(sb, strip.Config);   // 4.5: EQ, Balance, SOLO, COMP fuer die Pult-Ansicht
+                if (strip != null) { AppendStrip450(sb, strip.Config); AppendStrip460(sb, strip.Config); }   // 4.5/4.6: EQ, Balance, SOLO, COMP, AUTO, Stream
                 if (strip != null && !_settings.RemoteAppsOff)
                 {
                     sb.Append(",\"apps\":[");
@@ -322,6 +322,7 @@ namespace Mischpult.UI
             }
             sb.Append(']');
             AppendGlobal450(sb);
+            AppendGlobal460(sb);
             if (!_settings.RemoteScenesOff)
             {
                 sb.Append(",\"scenes\":[");

@@ -23,7 +23,7 @@ namespace Mischpult.UI
         }
 
         private bool EqOk450 => _snap.EqSupported || _demo;
-        private bool RemoteStrips450 => !_settings.RemoteEqOff && !_settings.RemotePultOff;
+        private bool RemoteStrips450 => !_settings.RemoteEqOff && (!_settings.RemotePultOff || !_settings.RemoteStudioOff);   // 4.6: auch fuer die Studio-Ansicht
 
         private void AppendGlobal450(StringBuilder sb)
         {
@@ -112,6 +112,8 @@ namespace Mischpult.UI
         private Action RemoteCommand450(string name, string id, float raw, Dictionary<string, string> a)
         {
             if ((name == "pos" || name == "mute") && id != null && id.StartsWith("out:")) return RemoteOut451(name, id, raw);   // 4.5.1
+            Action a460 = RemoteCommand460(name, id, raw, a);   // 4.6: AUTO, Stream-Anteil, Musik-Tasten
+            if (a460 != null) return a460;
             if (name != "eq" && name != "eqon" && name != "pan" && name != "solo" && name != "comp") return null;
             if (!RemoteStrips450 || id == null || !id.StartsWith("ch:") || float.IsNaN(raw)) return () => { };
             string cid = id.Substring(3);
@@ -167,12 +169,13 @@ namespace Mischpult.UI
 
         private void AddRemote450(SPage p)
         {
-            p.Toggle("Pult-Ansicht fürs Tablet", "Auf dem Tablet sieht die Fernbedienung aus wie das Pult: senkrechte Fader mit Skala und Pegelanzeige, Namensschild in der Kanalfarbe. Oben rechts zwischen „Pult“ und „Liste“ umschalten – am Handy startet die Liste. Aus = überall nur die Liste.",
+            AddRemote460(p);   // 4.6
+            p.Toggle("Pult-Ansicht fürs Tablet", "Auf dem Tablet sieht die Fernbedienung aus wie das Pult: senkrechte Fader mit Skala und Pegelanzeige, Namensschild in der Kanalfarbe. Oben rechts zwischen „Studio“, „Pult“ und „Liste“ umschalten – am Handy startet die Liste. Aus = keine Pult-Ansicht.",
                 () => !_settings.RemotePultOff, v => { _settings.RemotePultOff = !v; ScheduleSave(); }).Visible = () => _settings.RemoteOn;
             p.Toggle("Alle Ausgänge am Handy", "Neben dem Standard-Ausgang auch die anderen Ausgabegeräte (z. B. Kopfhörer, HDMI) mit Lautstärke, MUTE und Pegel – ausgeblendete Ausgänge bleiben weg. Aus = nur der Standard-Ausgang.",
                 () => !_settings.RemoteOutputsOff, v => { _settings.RemoteOutputsOff = !v; ScheduleSave(); }).Visible = () => _settings.RemoteOn;
             p.Toggle("EQ, Balance und SOLO am Handy", "In der Pult-Ansicht hat jeder Kanal wie am PC einen 3-Band-EQ (LO, MID, HI) mit EQ-Taste, einen Balance-Regler (PAN), SOLO und COMP. Zweimal auf einen Drehregler tippen = Mitte. Aus = nur Lautstärke und MUTE.",
-                () => !_settings.RemoteEqOff, v => { _settings.RemoteEqOff = !v; ScheduleSave(); }).Visible = () => _settings.RemoteOn && !_settings.RemotePultOff;
+                () => !_settings.RemoteEqOff, v => { _settings.RemoteEqOff = !v; ScheduleSave(); }).Visible = () => _settings.RemoteOn && (!_settings.RemotePultOff || !_settings.RemoteStudioOff);
         }
     }
 }
