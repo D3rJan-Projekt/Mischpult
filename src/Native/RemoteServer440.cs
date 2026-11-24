@@ -33,7 +33,9 @@ namespace Mischpult.Native
         private readonly List<Entry> _recent = new List<Entry>();
         private readonly Dictionary<string, string> _lastText = new Dictionary<string, string>();
 
-        public int Port { get; }
+        public int Port { get; private set; }
+        /// <summary>4.7: nur dieser PC (127.0.0.1) – fuer das Studio-Fenster, ohne Heimnetz und ohne Firewall-Frage.</summary>
+        public bool LoopbackOnly;
         public string Error { get; private set; }
         public DateTime LastRequestUtc => new DateTime(Interlocked.Read(ref _lastTicks), DateTimeKind.Utc);
 
@@ -54,11 +56,12 @@ namespace Mischpult.Native
         {
             try
             {
-                _listener = new TcpListener(IPAddress.Any, Port);
+                _listener = new TcpListener(LoopbackOnly ? IPAddress.Loopback : IPAddress.Any, Port);
                 // 4.4.1: kein „exklusiv“ mehr – damit blieb der Port nach einem Neustart bis zu 4 Minuten belegt.
                 // Unter Linux/Mono darf der Port gleich wieder benutzt werden (unter Windows bedeutet das etwas anderes).
                 if (!Win32.IsWindows) try { _listener.Server.SetSocketOption(SocketOptionLevel.Socket, SocketOptionName.ReuseAddress, true); } catch { }
                 _listener.Start(16);
+                if (Port == 0) Port = ((IPEndPoint)_listener.LocalEndpoint).Port;   // 4.7: freier Port vom System
             }
             catch (SocketException ex)
             {

@@ -13,7 +13,7 @@ namespace Mischpult.UI
     /// </summary>
     internal sealed partial class MixerForm
     {
-        private bool RemoteStudio460 => !_settings.RemoteStudioOff;
+        private bool RemoteStudio460 => !ROff470(_settings.RemoteStudioOff);
 
         /// <summary>Zusaetzliche Kanal-Werte: AUTO und Stream-Anteil ([aus 0/1, dB]).</summary>
         private void AppendStrip460(StringBuilder sb, ChannelConfig c)
@@ -28,9 +28,9 @@ namespace Mischpult.UI
         {
             sb.Append(",\"studio\":").Append(RemoteStudio460 ? "true" : "false")
               .Append(",\"streamon\":").Append(_settings.StreamOn ? "true" : "false")
-              .Append(",\"scene\":").Append(J(_settings.RemoteScenesOff ? null : _sceneLit346))
-              .Append(",\"media\":").Append(_settings.RemoteMediaOff ? "false" : "true");
-            var np = !_settings.RemoteMediaOff && !_settings.NowPlayingOff ? _nowPlaying?.Current : null;
+              .Append(",\"scene\":").Append(J(ROff470(_settings.RemoteScenesOff) ? null : _sceneLit346))
+              .Append(",\"media\":").Append(ROff470(_settings.RemoteMediaOff) ? "false" : "true");
+            var np = !ROff470(_settings.RemoteMediaOff) && !_settings.NowPlayingOff ? _nowPlaying?.Current : null;
             if (np != null && (!string.IsNullOrEmpty(np.Title) || !string.IsNullOrEmpty(np.Artist)))
                 sb.Append(",\"np\":{\"t\":").Append(J(np.Title)).Append(",\"a\":").Append(J(np.Artist)).Append(",\"p\":").Append(np.Playing ? "true" : "false").Append('}');
         }
@@ -40,8 +40,8 @@ namespace Mischpult.UI
         {
             if (name == "media")
             {
-                if (_settings.RemoteMediaOff || !a.TryGetValue("k", out string k) || (k != "play" && k != "next" && k != "prev")) return () => { };
-                return () => { if (!_settings.RemoteMediaOff) SendMedia(k, false); };
+                if (ROff470(_settings.RemoteMediaOff) || !a.TryGetValue("k", out string k) || (k != "play" && k != "next" && k != "prev")) return () => { };
+                return () => { if (!ROff470(_settings.RemoteMediaOff)) SendMedia(k, false); };
             }
             if (name != "auto" && name != "str") return null;
             if (!RemoteStrips450 || id == null || !id.StartsWith("ch:") || float.IsNaN(raw)) return () => { };

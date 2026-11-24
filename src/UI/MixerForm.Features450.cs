@@ -23,11 +23,11 @@ namespace Mischpult.UI
         }
 
         private bool EqOk450 => _snap.EqSupported || _demo;
-        private bool RemoteStrips450 => !_settings.RemoteEqOff && (!_settings.RemotePultOff || !_settings.RemoteStudioOff);   // 4.6: auch fuer die Studio-Ansicht
+        private bool RemoteStrips450 => !ROff470(_settings.RemoteEqOff) && (!ROff470(_settings.RemotePultOff) || !ROff470(_settings.RemoteStudioOff));   // 4.6: auch fuer die Studio-Ansicht
 
         private void AppendGlobal450(StringBuilder sb)
         {
-            sb.Append(",\"pult\":").Append(_settings.RemotePultOff ? "false" : "true")
+            sb.Append(",\"pult\":").Append(ROff470(_settings.RemotePultOff) ? "false" : "true")
               .Append(",\"strips\":").Append(RemoteStrips450 ? "true" : "false")
               .Append(",\"eqok\":").Append(EqOk450 ? "true" : "false")
               .Append(",\"eqrange\":").Append(F4(MixerSettings.EqRange));
@@ -60,7 +60,7 @@ namespace Mischpult.UI
             var master = rows.FirstOrDefault(r => r.Id == "master");
             if (master == null || def == null) return;
             master.Sub = DeviceDetail451(def.FullName, def.Name) ?? def.Name;
-            if (_settings.RemoteOutputsOff) return;
+            if (ROff470(_settings.RemoteOutputsOff)) return;
             var outs = RemoteOutDevices451();
             if (outs.Count == 0) return;
             master.Name = string.IsNullOrEmpty(def.Name) ? "AUSGANG" : def.Name.ToUpperInvariant();
@@ -83,12 +83,12 @@ namespace Mischpult.UI
 
         private Action RemoteOut451(string name, string id, float raw)
         {
-            if (_settings.RemoteOutputsOff || float.IsNaN(raw)) return () => { };
+            if (ROff470(_settings.RemoteOutputsOff) || float.IsNaN(raw)) return () => { };
             float v = Math.Max(0f, Math.Min(1f, raw));
             string did = id.Substring(4);
             return () =>
             {
-                if (_settings.RemoteOutputsOff) return;
+                if (ROff470(_settings.RemoteOutputsOff)) return;
                 var d = RemoteOutDevices451().FirstOrDefault(x => string.Equals(x.Id, did, StringComparison.OrdinalIgnoreCase));
                 if (d == null) return;
                 if (name == "pos")

@@ -72,6 +72,10 @@ Unter **OPTIONEN → Fenster & Verbindungen → „Fernbedienung im Browser“**
 
 ![Studio-Ansicht: EDIT mit EQ-Kurve](bilder/studio-edit.png)
 
+**Studio-Fenster am PC** (neu in 4.7): dieselbe Studio-Ansicht als eigenes Fenster am PC – ohne Handy, auch wenn die Fernbedienung aus ist. Unter **OPTIONEN → Fenster & Verbindungen → „Studio-Fenster am PC“** einschalten, öffnen per Rechtsklick auf OPTIONEN oder übers Taskleisten-Symbol. Läuft als App-Fenster von Edge oder Chrome (ohne Adressleiste, F11 = Vollbild), nur auf diesem PC.
+
+![Studio-Fenster am PC](bilder/studio-fenster.png)
+
 **Pult-Ansicht** (seit 4.5, oben „Pult“) – die Fernbedienung als **Pult**: senkrechte Fader mit Skala und Pegel, pro Kanal **EQ** (LO, MID, HI – hoch/runter ziehen, zweimal tippen = Mitte) mit EQ-Taste, **PAN**, **SOLO**, **COMP** und **MUTE**. Tipp auf die App-Symbole eines Kanals = Apps einzeln regeln. Oben rechts zwischen **„Pult“** und **„Liste“** umschalten. Rechts im Pult stehen **alle Ausgänge** (Lautsprecher, Kopfhörer, HDMI …) mit Lautstärke, MUTE und Pegel. Oben rechts **S, M, L** für die Breite der Kanäle – S (schmal) ist Standard. Abschaltbar unter der Fernbedienung: „Studio-Ansicht fürs Tablet“, „Pult-Ansicht fürs Tablet“, „Alle Ausgänge am Handy“, „Musik-Tasten am Handy“ und „EQ, Balance und SOLO am Handy“.
 
 ![Tablet als Mischpult](bilder/tablet-pult.png)
@@ -195,6 +199,7 @@ dotnet build -c Release -p:FrameworkPathOverride=/usr/lib/mono/4.8-api
 
 | Version | Neu |
 |---|---|
+| **4.7** | Studio-Fenster am PC: die Studio-Ansicht als eigenes Fenster – ohne Handy, auch wenn die Fernbedienung aus ist, nur auf diesem PC |
 | **4.6** | Studio-Ansicht fürs Tablet: MIX mit Kanalzügen und Master, EDIT mit EQ-Kurve zum Ziehen, DYN (COMP, AUTO), APPS und STREAM-Anteil, PEGEL-Übersicht, Ebenen, Szenen, DUCKING, ALLE STUMM, Musik-Tasten |
 | **4.5.2** | Fernbedienung: schmale Kanäle im Pult (Standard), Breite oben rechts mit S, M, L |
 | **4.5.1** | Fernbedienung: alle Ausgänge mit Lautstärke, MUTE und Pegel · Taste FEIN und Feineinstellung in 0,1-dB-Schritten (Wert antippen) · Stereo-LED-Pegel, Skalenstriche, Kanalnummern |

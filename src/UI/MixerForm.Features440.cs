@@ -34,6 +34,7 @@ namespace Mischpult.UI
         private void TickRemote440(double now)
         {
             _remoteNow = now;
+            TickStudio470(now);   // 4.7: Studio-Fenster am PC
             if (now >= _nextRemoteCheck) { _nextRemoteCheck = now + 1.0; SyncRemote440(); }
             if (_settings.RemoteOn && now >= _nextFw440) { _nextFw440 = now + 15.0; CheckFirewall440(); }
             if (_remote == null) return;
@@ -303,7 +304,7 @@ namespace Mischpult.UI
                   .Append(",\"pl\":").Append(F4(r.PeakL)).Append(",\"pr\":").Append(F4(r.PeakR));   // 4.5.1: Pegel links/rechts
                 if (r.Sub != null) sb.Append(",\"sub\":").Append(J(r.Sub));
                 if (strip != null) { AppendStrip450(sb, strip.Config); AppendStrip460(sb, strip.Config); }   // 4.5/4.6: EQ, Balance, SOLO, COMP, AUTO, Stream
-                if (strip != null && !_settings.RemoteAppsOff)
+                if (strip != null && !ROff470(_settings.RemoteAppsOff))
                 {
                     sb.Append(",\"apps\":[");
                     var seen = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
@@ -323,7 +324,7 @@ namespace Mischpult.UI
             sb.Append(']');
             AppendGlobal450(sb);
             AppendGlobal460(sb);
-            if (!_settings.RemoteScenesOff)
+            if (!ROff470(_settings.RemoteScenesOff))
             {
                 sb.Append(",\"scenes\":[");
                 bool firstScene = true;
@@ -364,16 +365,19 @@ namespace Mischpult.UI
                 case "mute": if (RemoteRowId(id) && !float.IsNaN(v)) act = () => RemoteMute440(id, v >= 0.5f); break;
                 case "app": if (!string.IsNullOrEmpty(key) && !float.IsNaN(v)) act = () => RemoteApp440(key, v); break;
                 case "scene": if (!string.IsNullOrEmpty(id)) act = () => RemoteScene440(id); break;
-                case "duck": if (!float.IsNaN(v)) act = () => { if (!_settings.RemoteScenesOff && _settings.DuckOn != (v >= 0.5f)) ToggleDuck(true); }; break;
+                case "duck": if (!float.IsNaN(v)) act = () => { if (!ROff470(_settings.RemoteScenesOff) && _settings.DuckOn != (v >= 0.5f)) ToggleDuck(true); }; break;
             }
             if (act == null) return "{\"ok\":false}";
+            bool local = _rl470;   // 4.7: Befehl aus dem Studio-Fenster am PC
             try
             {
                 BeginInvoke(new Action(() =>
                 {
-                    if (!_settings.RemoteOn || PultLockedNow) return;
+                    if ((local ? !_settings.StudioWinOn : !_settings.RemoteOn) || PultLockedNow) return;
+                    _rl470 = local;
                     try { act(); } catch { }
-                    _nextRemoteState = 0;   // gleich neu melden
+                    finally { _rl470 = false; }
+                    _nextRemoteState = 0; _nextStudioState470 = 0;   // gleich neu melden
                 }));
             }
             catch { return "{\"ok\":false}"; }
@@ -388,14 +392,14 @@ namespace Mischpult.UI
 
         private void RemoteApp440(string key, float v)
         {
-            if (_settings.RemoteAppsOff) return;
+            if (ROff470(_settings.RemoteAppsOff)) return;
             if (!_channelStrips.Any(s => s.Apps.Any(x => string.Equals(x.Key, key, StringComparison.OrdinalIgnoreCase)))) return;   // nur Apps aus den Kanaelen
             SetAppPos(key, v);
         }
 
         private void RemoteScene440(string id)
         {
-            if (_settings.RemoteScenesOff) return;
+            if (ROff470(_settings.RemoteScenesOff)) return;
             var sc = _settings.Scenes.FirstOrDefault(x => x != null && x.Id == id);
             if (sc != null) ApplyScene(sc, "Szene");
         }
@@ -507,6 +511,7 @@ namespace Mischpult.UI
 
         private void DemoShown440()
         {
+            DemoShown470();   // 4.7
             string rc = Environment.GetEnvironmentVariable("MISCHPULT_DEMO_REMOTECODE");
             if (MixerSettings.ValidRemoteCode(rc)) { _settings.RemoteCode = rc; if (_remote != null) _remote.Code = rc; }
             if (DemoOn("REMOTEWIN")) DemoLater(() => { SyncRemote440(); ShowRemoteWindow440(); });

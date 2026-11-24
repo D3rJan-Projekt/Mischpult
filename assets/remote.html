@@ -377,6 +377,8 @@ body.studioview header{padding-bottom:6px}
   var code = '';
   try { code = localStorage.getItem('mp-code') || ''; } catch (e) {}
   var m = location.hash.match(/c=(\d{6})/);
+  var vh = location.hash.match(/v=(studio|pult|liste)/);   // 4.7: Studio-Fenster am PC startet in der Studio-Ansicht
+  if (vh) store('mp-view2', vh[1]);
   if (m) { code = m[1]; store('mp-code', code); try { history.replaceState(null, '', location.pathname); } catch (e) {} }
   var LDB = [-90, -60, -40, -30, -20, -10, -5, 0], law = [0, 0.07, 0.19, 0.33, 0.5, 0.68, 0.84, 1];
   var sig = '', state = null, fails = 0, timer = null, lastOk = 0, busy = {}, q = {};

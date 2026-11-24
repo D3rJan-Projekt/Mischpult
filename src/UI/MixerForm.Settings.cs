@@ -116,6 +116,7 @@ namespace Mischpult.UI
             AddExtras420(p);         // 4.2: Klang-Kunst
             AddExtern400(p);
             AddRemote440(p);         // 4.4: Fernbedienung im Browser
+            AddStudio470(p);         // 4.7: Studio-Fenster am PC
             pages.Add(p);
 
             // ------------------------------------------------------------ Aussehen

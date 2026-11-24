@@ -39,7 +39,7 @@ namespace Mischpult
         /// <summary>4.1: zusaetzliche Argumente beim Neustart (z. B. "--abgesichert").</summary>
         public static string RestartArgs;
         public const string Author = "D3r_Jan";
-        public const string Version = "4.6";
+        public const string Version = "4.7";
         /// <summary>4.1: GitHub-Projekt fuer "online nach Updates suchen" ("Benutzer/Projekt", leer = keins eingebaut).</summary>
         public const string UpdateRepoDefault = "D3rJan-Projekt/Mischpult";
 

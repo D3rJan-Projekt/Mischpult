@@ -1353,6 +1353,7 @@ namespace Mischpult.UI
             menu.Items.Add(new ToolStripMenuItem("Mischpult öffnen", null, (s, e) => RestoreFromTray()) { Font = Theme.Ui(12f, FontStyle.Bold) });
             menu.Items.Add(new ToolStripMenuItem("Einstellungen …", null, (s, e) => BeginInvoke(new Action(() => ShowSettings()))));
             menu.Items.Add(new ToolStripMenuItem("Mini-Ansicht", null, (s, e) => SetMini(!(_mini != null && _mini.Visible))) { Checked = _mini != null && _mini.Visible });
+            if (_settings.StudioWinOn) menu.Items.Add(new ToolStripMenuItem("Studio-Fenster", null, (s, e) => BeginInvoke(new Action(OpenStudio470))));   // 4.7
             menu.Items.Add(new ToolStripSeparator());
 
             var mic = _snap.Mic;
@@ -1470,6 +1471,7 @@ namespace Mischpult.UI
             m.Items.Add(BuildViewMenu());
             m.Items.Add(BuildSleepMenu());
             m.Items.Add(new ToolStripMenuItem("Mini-Ansicht", null, (s, e) => SetMini(!(_mini != null && _mini.Visible))) { Checked = _mini != null && _mini.Visible });
+            if (_settings.StudioWinOn) m.Items.Add(new ToolStripMenuItem("Studio-Fenster", null, (s, e) => BeginInvoke(new Action(OpenStudio470))));   // 4.7
         }
 
         private void CleanupFeatures()
